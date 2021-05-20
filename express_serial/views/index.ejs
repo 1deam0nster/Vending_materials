@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  </head>
+  <body>
+
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            Панель управления
+          </h1>
+          <h2 class="subtitle">
+            Coffe machine
+          </h2>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="columns is-desktop">
+          <div class="column">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">
+                  Сервопривод
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+                    <form action="/servo" method="post">
+                      <div class="field has-addons">
+                      <div class="control">
+                        <input class="input" type="text" placeholder="Первый серводвигатель" name="d">
+                      </div>
+                      <div class="control">
+                        <input type="submit" class="button is-info" value="Отправить">
+                      </div>
+                      </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">
+                  Шаговый двигатель
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+                    <form action="/" method="post">
+                      <div class="control">
+                        <input class="input mb-3" type="text" placeholder="X" name="x"><br>
+                        <input class="input mb-3" type="text" placeholder="Y" name="y"><br>
+                        <input class="input mb-3" type="text" placeholder="Z" name="z"><br>
+                      </div>
+                      
+                      <div class="control">
+                        <input type="submit" class="button is-info" value="Отправить">
+                      </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">
+                  Реле
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+                    <form action="/relay" method="post">
+    
+                  
+                      <div class="control">
+                        <input type="submit" class="button is-info" value="Первое реле">
+                      </div>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="column">
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">
+                  
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+    
+                </div>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+   
+
+
+
+
+  </body>
+</html>
