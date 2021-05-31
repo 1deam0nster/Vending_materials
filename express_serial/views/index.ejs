@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Coffe dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
   </head>
   <body>
@@ -44,6 +44,28 @@
                 </div>
               </div>
             </div>
+            <br/>
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">
+                  Сервопривод 2
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+                    <form action="/servo2" method="post">
+                      <div class="field has-addons">
+                      <div class="control">
+                        <input class="input" type="text" placeholder="Второй серводвигатель" name="d">
+                      </div>
+                      <div class="control">
+                        <input type="submit" class="button is-info" value="Отправить">
+                      </div>
+                      </div>
+                    </form>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="column">
             <div class="card">
@@ -73,7 +95,7 @@
             <div class="card">
               <header class="card-header">
                 <p class="card-header-title">
-                  Реле
+                  Дополнительные команды
                 </p>
               </header>
               <div class="card-content">
@@ -82,9 +104,31 @@
     
                   
                       <div class="control">
-                        <input type="submit" class="button is-info" value="Первое реле">
+                        <input type="submit" class="button is-info" value="G1">
                       </div>
                     </form>
+                </div>
+              </div>
+            </div>
+            <br/>
+            <div class="card">
+              <header class="card-header">
+                <p class="card-header-title">
+                  Реле
+                </p>
+              </header>
+              <div class="card-content">
+                <div class="content">
+                  <form action="/buttons" method="post">
+                    <div class="control">
+                      <input class="input mb-3" type="text" placeholder="N" name="n"><br>
+                      <input class="input mb-3" type="text" placeholder="T" name="t"><br>
+                    </div>
+                    
+                    <div class="control">
+                      <input type="submit" class="button is-info" value="Отправить">
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>

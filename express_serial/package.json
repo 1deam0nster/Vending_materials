@@ -15,7 +15,8 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "serialport": "^9.0.8"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

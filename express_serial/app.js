@@ -8,12 +8,14 @@ var bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var servoRouter = require('./routes/servo');
+var servo2Router = require('./routes/servo2');
 var relayRouter = require('./routes/relay');
+var buttonsRouter = require('./routes/buttons');
 
 const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
 const SerialPort = require('serialport')
 const port = new SerialPort('COM32', {
-    baudRate: 115200
+    baudRate: 9600
   })
 
 
@@ -54,9 +56,20 @@ app.post('/servo', urlencodedParser, function (req, res) {
   })
 })
 
+app.post('/servo2', urlencodedParser, function (req, res) {
+  res.redirect(req.get('referer'));
+  let servo_d = 'S1 D' + req.body.d + '\n';
+  port.write(servo_d.toString(), function(err) {
+    if (err) {
+      return console.log('Error on write: ', err.message)
+    }
+    console.log('S1 D:' + req.body.d);
+  })
+})
+
 app.post('/relay', urlencodedParser, function (req, res) {
   res.redirect(req.get('referer'));
-  let relay_1 = 'L1 \n';
+  let relay_1 = 'G1 \n';
   let relay_2 = 'L2 \n';
   port.write(relay_1.toString(), function(err) {
     if (err) {
@@ -70,6 +83,19 @@ app.post('/relay', urlencodedParser, function (req, res) {
     }
     console.log('L1');
   })
+})
+
+app.post('/buttons', urlencodedParser, function (req, res) {
+  res.redirect(req.get('referer'));
+  // console.log('G0 X:' + req.body.x + ' Y:' + req.body.y + ' Z:' + req.body.z);
+  let gcode = 'r1 n' + req.body.n + ' t' + req.body.t + '\n';
+  port.write(gcode.toString(), function(err) {
+    if (err) {
+      return console.log('Error on write: ', err.message)
+    }
+    console.log('R1 N:' + req.body.n + ' T:' + req.body.t);
+  })
+
 })
 
 // POST /api/users gets JSON bodies
@@ -86,6 +112,8 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/servo', servoRouter)
 app.use('/relay', relayRouter)
+app.use('/servo2', servo2Router)
+app.use('/buttons', buttonsRouter)
 // app.use(function (req, res) {
 //   res.setHeader('Content-Type', 'text/plain')
 //   res.write('you posted:\n')
