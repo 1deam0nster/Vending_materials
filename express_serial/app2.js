@@ -1,6 +1,6 @@
 const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
 const SerialPort = require('serialport')
-const port_d = new SerialPort('/dev/ttyS3', {
+const port_d = new SerialPort('/dev/ttyS1', {
     baudRate: 9600
 })
 

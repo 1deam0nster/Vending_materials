@@ -1,0 +1,4 @@
+2021-07-15 03:18:24,291 - py_cui - INFO | Initialized logger: Function enable_logging in __init__.py:222
+2021-07-15 03:18:24,291 - py_cui - INFO | Setting selected widget to ID Widget0: Function set_selected_widget in __init__.py:994
+2021-07-15 03:18:24,291 - py_cui - INFO | Adding widget Show Message Popup w/ ID Widget0 of type <class 'py_cui.widgets.Button'>: Function add_button in __init__.py:719
+2021-07-15 03:18:24,291 - py_cui - INFO | Adding widget Show Yes No Popup w/ ID Widget1 of type <class 'py_cui.widgets.Button'>: Function add_button in __init__.py:719

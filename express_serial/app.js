@@ -14,7 +14,7 @@ var buttonsRouter = require('./routes/buttons');
 
 const sleep = (waitTimeInMs) => new Promise(resolve => setTimeout(resolve, waitTimeInMs));
 const SerialPort = require('serialport')
-const port = new SerialPort('COM8', {
+const port = new SerialPort('COM12', {
     baudRate: 9600
   })
 
