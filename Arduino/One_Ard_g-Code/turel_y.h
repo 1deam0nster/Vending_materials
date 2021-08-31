@@ -3,7 +3,7 @@ void rotate_tower2() {
   check_turrelfn2();
 }
 
-//крутим турель Х до концевика
+//крутим турель Y до концевика
 void homing_turrel2()
 {
   long initial_homing = -1;
@@ -26,12 +26,40 @@ void homing_turrel2()
   turel_Y.disable();// DISABLE MOTOR Y
 }
 
+//тройная проверка инфракрасного датчика на турели Y
+bool ir_cap_check_y() {
+  bool check_1 = false;
+  bool check_2 = false;
+  bool check_3 = false;
+  bool check_4 = false;
+  bool check_5 = false;
+  bool val = false;
+  delay(50);
+  check_1 = digitalRead(ir_cap_y);
+  delay(100);
+  check_2 = digitalRead(ir_cap_y);
+  delay(100);
+  check_3 = digitalRead(ir_cap_y);
+  delay(100);
+  check_4 = digitalRead(ir_cap_y);
+  delay(100);
+  check_5 = digitalRead(ir_cap_y);
+  delay(50);
+  if (check_1 == true | check_2 == true | check_3 == true | check_4 == true | check_5 == true) {
+    val = true;
+    return (val);
+  } else {
+    val = false;
+    return (val);
+  }
+}
+
 
 
 //преверка есть ли капсула, крутим турель Y
 void check_turrelfn2()
 {
-  int capsule_state = digitalRead(ir_cap_y);
+  bool capsule_state = ir_cap_check_y()
 
   //---------- 1 проверка-----------
   if (capsule_state == true) {
@@ -48,7 +76,7 @@ void check_turrelfn2()
     servo.detach();
     delay(1000);
 
-    capsule_state = digitalRead(ir_cap_y);
+    capsule_state = ir_cap_check_y()
     //----Если приехала пустая ячейка, запускаем еще раз
     //---------- 2 проверка-----------
     if (capsule_state == true) {
@@ -65,7 +93,7 @@ void check_turrelfn2()
       servo.detach();
     }
 
-    capsule_state = digitalRead(ir_cap_y);
+    capsule_state = ir_cap_check_y()
     //----Если приехала пустая ячейка, пишем что пустая турель
     //---------- 3 проверка-----------
     if (capsule_state == true) {
