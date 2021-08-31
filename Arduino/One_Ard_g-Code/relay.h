@@ -72,18 +72,18 @@ void relay()
 
 void open_cofe(){
   digitalWrite(OPEN, LOW);
-  delay(70);
+  delay(100);
   digitalWrite(OPEN, HIGH);
 }
 
 void close_cofe(){
   digitalWrite(CLOSE, LOW);
-  delay(70);
+  delay(100);
   digitalWrite(CLOSE, HIGH);
 }
 
 void start_cofe(){
   digitalWrite(START_COFE, LOW);
-  delay(70);
+  delay(100);
   digitalWrite(START_COFE, HIGH);
 }

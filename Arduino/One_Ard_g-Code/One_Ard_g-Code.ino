@@ -43,7 +43,7 @@ Servo servo_r;
 //-----Реле на кофемашину-----
 #define OPEN 37
 #define START_COFE 35
-#define CLOSE 35
+#define CLOSE 36
 
 //-----Для выдачи стаканчиков -----
 #define RELAY_CUP 16
@@ -161,8 +161,10 @@ void close_cofe();
 void start_cofe();
 //------для объединения комманд
 void get_cap_x();
+void get_cap_y();
 void loud_cap();
 void get_cupple();
+void to_client();
 
 double X;
 double Y;
@@ -170,8 +172,13 @@ double Z;
 double D;
 double N;
 double T;
-commandscallback commands[18] = {{"B1", get_cap_x}, {"B2", loud_cap}, {"B3", get_cupple},{"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, {"T1", rotate_tower}, {"T2", rotate_tower2}, {"C1", dropcap_x}, {"C2", dropcap_y}, {"S1", rotate_cup_to}, {"S2", rotate_cup_back}, {"E0", stepper_e0}, {"E1", stepper_e1}, {"C0", cup}};
-gcode Commands(18, commands);
+commandscallback commands[20] = {
+{"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, 
+{"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, 
+{"T1", rotate_tower}, {"T2", rotate_tower2}, {"C1", dropcap_x}, {"C2", dropcap_y}, {"S1", rotate_cup_to}, {"S2", rotate_cup_back}, 
+{"E0", stepper_e0}, {"E1", stepper_e1}, {"C0", cup}
+};
+gcode Commands(20, commands);
 
 
 void setup() {

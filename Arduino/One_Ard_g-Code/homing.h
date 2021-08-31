@@ -73,7 +73,6 @@ void homing()
     turel_Z.enable();
     turel_Z.move(initial_homing);  // Set the position to move to
     initial_homing++;  // Decrease by 1 for next move if needed
-    delay(5);
   }
 
   initial_homing = 1;
@@ -81,7 +80,6 @@ void homing()
     turel_Z.enable();
     turel_Z.move(initial_homing);  // Set the position to move to
     initial_homing--;  // Decrease by 1 for next move if needed
-    delay(5);
   }
   Serial.println("");
   Serial.println("Z homing OK");
