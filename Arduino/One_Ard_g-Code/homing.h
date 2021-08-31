@@ -8,7 +8,6 @@ void homing()
     nav_Z.enable();
     nav_Z.move(initial_homing);  // Set the position to move to
     initial_homing--;  // Decrease by 1 for next move if needed
-    delay(1);
   }
 
   initial_homing = 1;
@@ -16,7 +15,6 @@ void homing()
     nav_Z.enable();
     nav_Z.move(initial_homing);  // Set the position to move to
     initial_homing++;  // Decrease by 1 for next move if needed
-    delay(1);
   }
 
   nav_Z.disable();// DISABLE MOTOR Z
@@ -28,7 +26,6 @@ void homing()
     nav_X.enable();
     nav_X.move(initial_homing);  // Set the position to move to
     initial_homing--;  // Decrease by 1 for next move if needed
-    delay(1);
   }
 
   initial_homing = 1;
@@ -36,7 +33,6 @@ void homing()
     nav_X.enable();
     nav_X.move(initial_homing);  // Set the position to move to
     initial_homing++;  // Decrease by 1 for next move if needed
-    delay(1);
   }
 
   nav_X.disable();// DISABLE MOTOR X
@@ -49,7 +45,6 @@ void homing()
     nav_Y.enable();
     nav_Y.move(initial_homing);  // Set the position to move to
     initial_homing--;  // Decrease by 1 for next move if needed
-    delay(1);
   }
 
   initial_homing = 1;
@@ -57,7 +52,6 @@ void homing()
     nav_Y.enable();
     nav_Y.move(initial_homing);  // Set the position to move to
     initial_homing++;  // Decrease by 1 for next move if needed
-    delay(1);
   }
 
   nav_Y.disable();// DISABLE MOTOR Y
@@ -92,7 +86,6 @@ void homing()
     stepper_E.enable();
     stepper_E.move(initial_homing);  // Set the position to move to
     initial_homing++;  // Decrease by 1 for next move if needed
-    delay(1);
   }
 
   initial_homing = 1;
@@ -100,7 +93,6 @@ void homing()
     stepper_E.enable();
     stepper_E.move(initial_homing);  // Set the position to move to
     initial_homing--;  // Decrease by 1 for next move if needed
-    delay(1);
   }
 
   Serial.println("");

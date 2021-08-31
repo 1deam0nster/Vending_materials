@@ -3,7 +3,7 @@
 //----------------------------------------------------------------------------------
 void cup() {
   digitalWrite(RELAY_CUP, LOW);
-  delay(1000);
+//  delay(1000);
   cup_fn();
 }
 
@@ -14,7 +14,7 @@ void cup_fn() {
     buttonState = digitalRead(cup_splitter);
     Serial.println(buttonState);
   } while (buttonState == true);
-  delay(7000);
+  delay(6700);
   digitalWrite(RELAY_CUP, HIGH);
   return;
 }

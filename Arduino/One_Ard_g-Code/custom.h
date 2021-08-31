@@ -3,7 +3,7 @@ void get_cap_x()
 { 
   check_turrelfn();
   turel_Z.enable();
-  turel_Z.move(6500);  
+  turel_Z.move(6530);  
   //400 - турель Y
   //6500 - турель X
   //9000 - на выдачу
@@ -21,11 +21,11 @@ void get_cap_y()
   //6500 - турель X
   //9000 - на выдачу
   dropcap_y();
-  turel_Z.move(8770);
+  turel_Z.move(8790);
   turel_Z.disable();
 }
 
-// -----------------Command B2-------------
+// -----------------Command B3-------------
 void loud_cap()
 {
   open_cofe();
@@ -41,28 +41,36 @@ void loud_cap()
   delay(500);
   gotoLocation(30, 122, 0);
   gotoLocation(130, 122, 0);
-  gotoLocation(130, 122, 45);
-  servo.write(110);
+  gotoLocation(130, 122, 30);
+  servo.write(105);
   delay(200);
+  gotoLocation(97, 122, 30);
 //  gotoLocation(95, 122, 10);
-  gotoLocation(95, 122, 20);
+  gotoLocation(97, 122, 20);
   gotoLocation(67, 40, 0);
   //----Вставляем капсулу в машину
-  gotoLocation(67, 40, 65);
+  gotoLocation(67, 40, 70);
   servo.write(85);
   gotoLocation(67, 40, 0);
   close_cofe();//подольше сделать
 }
 
+// -----------------Command B4-------------
 void get_cupple()
 {
-  gotoLocation(12, 2, 65);
+  gotoLocation(10, 2, 67);
+  servo.write(73);
   cup();
-  gotoLocation(12, 95, 24);
+  //delay(00);
+  servo.write(100);
+  gotoLocation(10, 18, 67);
+  gotoLocation(10, 95, 24);
   gotoLocation(65, 95, 24);
-  delay(3000);   
+  gotoLocation(65, 95, 30);
+//  delay(3000);   
 }
 
+// -----------------Command B5-------------
 void to_client()
 {
   gotoLocation(40, 95, 0);
@@ -74,8 +82,10 @@ void to_client()
   }
   
   gotoLocation(70, 110, 0);
+  gotoLocation(70, 120, 0);
+  delay(300);
   servo.write(30);
-  gotoLocation(0, 110, 0);
+  gotoLocation(0, 120, 0);
   steppere_degreed(25000);
   delay(3000);
   steppere_degreed(-25000);
