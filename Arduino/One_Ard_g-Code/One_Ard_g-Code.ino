@@ -219,7 +219,7 @@ void setup() {
   //------Для стаканчиков-----
   pinMode(turrel_pos, INPUT);
   pinMode(turrel_micro_switch, INPUT);
-  pinMode(cup_splitter, INPUT);
+  pinMode(cup_splitter, INPUT_PULLUP);
   pinMode(RELAY_CUP, OUTPUT);
   pinMode(RELAY_TURREL, OUTPUT);
   digitalWrite(RELAY_CUP, HIGH);

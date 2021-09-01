@@ -59,7 +59,7 @@ bool ir_cap_check_y() {
 //преверка есть ли капсула, крутим турель Y
 void check_turrelfn2()
 {
-  bool capsule_state = ir_cap_check_y()
+  bool capsule_state = ir_cap_check_y();
 
   //---------- 1 проверка-----------
   if (capsule_state == true) {
@@ -76,7 +76,7 @@ void check_turrelfn2()
     servo.detach();
     delay(1000);
 
-    capsule_state = ir_cap_check_y()
+    capsule_state = ir_cap_check_y();
     //----Если приехала пустая ячейка, запускаем еще раз
     //---------- 2 проверка-----------
     if (capsule_state == true) {
@@ -93,7 +93,7 @@ void check_turrelfn2()
       servo.detach();
     }
 
-    capsule_state = ir_cap_check_y()
+    capsule_state = ir_cap_check_y();
     //----Если приехала пустая ячейка, пишем что пустая турель
     //---------- 3 проверка-----------
     if (capsule_state == true) {
