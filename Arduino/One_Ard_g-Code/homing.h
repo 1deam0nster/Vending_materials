@@ -3,7 +3,7 @@ void homing()
   long initial_homing = -1;
 
   // Start Homing procedure of Stepper Motor at startup
-  Serial.print("StepperZ is Homing . . . . . . . . . . . ");
+  //Serial.print("StepperZ is Homing . . . . . . . . . . . ");
   while (digitalRead(stop_z)) {  // Make the Stepper move CCW until the switch is activated
     nav_Z.enable();
     nav_Z.move(initial_homing);  // Set the position to move to
@@ -20,7 +20,7 @@ void homing()
   nav_Z.disable();// DISABLE MOTOR Z
 
   // Start Homing procedure of Stepper Motor at startup
-  Serial.print("StepperX is Homing . . . . . . . . . . . ");
+  //Serial.print("StepperX is Homing . . . . . . . . . . . ");
 
   while (digitalRead(stop_x)) {  // Make the Stepper move CCW until the switch is activated
     nav_X.enable();
@@ -40,7 +40,7 @@ void homing()
   //------------------------------
 
   // Start Homing procedure of Stepper Motor at startup
-  Serial.print("StepperY is Homing . . . . . . . . . . . ");
+  //Serial.print("StepperY is Homing . . . . . . . . . . . ");
   while (digitalRead(stop_y)) {  // Make the Stepper move CCW until the switch is activated
     nav_Y.enable();
     nav_Y.move(initial_homing);  // Set the position to move to
@@ -62,7 +62,7 @@ void homing()
 
 
   initial_homing = -1;
-  Serial.print("StepperZ is Homing");
+  //Serial.print("StepperZ is Homing");
   while (digitalRead(home_switch_z)) {  // Make the Stepper move CCW until the switch is activated
     turel_Z.enable();
     turel_Z.move(initial_homing);  // Set the position to move to
@@ -75,13 +75,13 @@ void homing()
     turel_Z.move(initial_homing);  // Set the position to move to
     initial_homing--;  // Decrease by 1 for next move if needed
   }
-  Serial.println("");
-  Serial.println("Z homing OK");
+  //Serial.println("");
+  //Serial.println("Z homing OK");
   turel_Z.disable();// DISABLE MOTOR X
 
 
   initial_homing = -1;
-  Serial.print("StepperE is Homing");
+  //Serial.print("StepperE is Homing");
   while (digitalRead(home_switch_e)) {  // Make the Stepper move CCW until the switch is activated
     stepper_E.enable();
     stepper_E.move(initial_homing);  // Set the position to move to
@@ -95,8 +95,8 @@ void homing()
     initial_homing--;  // Decrease by 1 for next move if needed
   }
 
-  Serial.println("");
-  Serial.println("E homing OK");
+  //Serial.println("");
+  //Serial.println("E homing OK");
   stepper_E.disable();
-
+  Serial.println("G1_OK");
 }

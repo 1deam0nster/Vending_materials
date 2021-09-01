@@ -12,7 +12,7 @@ void cup_fn() {
   do {
     digitalWrite(RELAY_CUP, LOW);
     buttonState = digitalRead(cup_splitter);
-    Serial.println(buttonState);
+//    Serial.println(buttonState);
   } while (buttonState == true);
   delayMicroseconds(5000);
   digitalWrite(RELAY_CUP, HIGH);

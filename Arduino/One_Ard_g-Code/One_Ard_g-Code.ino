@@ -5,8 +5,7 @@
 #include <Servo.h>
 #include <gcode.h>
 
-
-
+//------Переменные для IR датчиков турели------
 bool check_1 = false;
 bool check_2 = false;
 bool check_3 = false;
@@ -17,6 +16,7 @@ bool val = false;
 //------Подключение серв------
 Servo servo;
 Servo servo_r; 
+
 //------Подключение концевиков------
 #define stop_x 20
 #define stop_y 34
@@ -31,15 +31,6 @@ Servo servo_r;
 #define ir_cap_y 26 //концевик капсулы Y
 #define ir_cap_x 25 //концевик капсулы X 27
 
-//------Подключение реле------
-//#define r1 35
-//#define r2 36
-//#define r3 37
-//#define r4 29
-//#define r5 31
-//#define r6 14
-//#define r7 15
-//#define r8 16
 //-----Реле на кофемашину-----
 #define OPEN 37
 #define START_COFE 35
@@ -53,8 +44,6 @@ const int turrel_pos = 19;     // номер входа, подключенны�
 const int turrel_micro_switch = 17;     // номер входа, подключенный к кнопке Turret micro switch
 const int cup_splitter = 18;     // номер входа, подключенный к кнопке Cup splitter
 int motor_val = 3;
-
-
 
 //------Подключение ШД------
 // Motor steps per revolution. Most steppers are 200 steps or 1.8 degrees/step
@@ -134,7 +123,6 @@ BasicStepperDriver turel_Z(MOTOR_STEPS, DIR_Z, STEP_Z);
 //MultiDriver controller2(stepperE);
 
 //------Настройка команд------
-
 //#define NUMCOMMANDS 10
 void homing();
 void moviment();
@@ -159,6 +147,7 @@ void check_turrelfn2();
 void open_cofe();
 void close_cofe();
 void start_cofe();
+
 //------для объединения комманд
 void get_cap_x();
 void get_cap_y();
@@ -172,6 +161,7 @@ double Z;
 double D;
 double N;
 double T;
+
 commandscallback commands[20] = {
 {"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, 
 {"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, 
@@ -259,8 +249,6 @@ void loop() {
   turrelFunction();
 
 }
-
-
 
 #include "turell_cup.h" ;
 #include "cup.h" ;
