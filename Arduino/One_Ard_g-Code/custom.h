@@ -94,9 +94,9 @@ void to_client()
   gotoLocation(0, 120, 0);
 //  steppere_degreed(30000);
   stepper_E.enable();
-  stepper_E.move(31000);
+  stepper_E.move(33000);
   delay(3000);
-  stepper_E.move(-31000);
+  stepper_E.move(-33000);
   stepper_E.disable();
 //  steppere_degreed(-30000);
 //  rotate_cup_back();
@@ -112,9 +112,23 @@ void to_client()
 // -----------------Command B6-------------
 void test()
 {
-  stepper_E.enable();
-  stepper_E.move(32000);
-  delay(3000);
-  stepper_E.move(-32000);
-  stepper_E.disable();
+//  stepper_E.enable();
+//  stepper_E.move(33000);
+//  delay(3000);
+//  stepper_E.move(-33000);
+//  stepper_E.disable();
+  start_cofe();
+  if (tmr.tick()) 
+  start_cofe();
+  delay(15000);
+}
+
+// -----------------Command M0-------------
+void m0()
+{
+  stepper_M0.enable();
+  stepper_M0.move(-1800);
+//  delay(3000);
+//  stepper_M0.move(500);
+  stepper_M0.disable();
 }

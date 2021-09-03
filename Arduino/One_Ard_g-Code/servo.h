@@ -28,3 +28,11 @@ void servofn() {
 
   servo_degrid(newNValue, newDValue);
 }
+
+void servo_sugar(){
+  servo.attach(41);
+  servo.write(90);
+  delay(1000);
+  servo.write(180);
+  servo.detach();
+}

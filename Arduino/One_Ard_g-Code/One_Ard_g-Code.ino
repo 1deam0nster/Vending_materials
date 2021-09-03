@@ -1,10 +1,15 @@
+
+
 #include "A4988.h"
 #include "MultiDriver.h"
 #include "SyncDriver.h"
 #include "BasicStepperDriver.h"
 #include <Servo.h>
 #include <gcode.h>
+#include <TimerMs.h>
 
+
+TimerMs tmr(106800, 1, 1);
 //------Переменные для IR датчиков турели------
 bool check_1 = false;
 bool check_2 = false;
@@ -55,6 +60,7 @@ int motor_val = 3;
 #define MOTOR_Y_RPM 30
 #define MOTOR_Z_RPM 120
 #define MOTOR_E_RPM 120
+#define MOTOR_M0_RPM 120
 #define NAV_MOTOR_X_RPM 120
 #define NAV_MOTOR_Y_RPM 120
 #define NAV_MOTOR_Z_RPM 120
@@ -95,6 +101,11 @@ int motor_val = 3;
 #define NAV_STEP_Z 5
 #define NAV_ENA_Z 3
 
+// M0 motor
+#define DIR_M0 39
+#define STEP_M0 38
+#define ENA_M0 40
+
 // If microstepping is set externally, make sure this matches the selected mode
 // 1=full step, 2=half step, 4 = 1/4, 8 = 1/8 and 16 = 1/6 Microsteps.
 #define MICROSTEPS 8
@@ -111,6 +122,7 @@ A4988 turelX(MOTOR_STEPS, DIR_X, STEP_X, ENA_X);
 A4988 turelY(MOTOR_STEPS, DIR_Y, STEP_Y, ENA_Y);
 DRV8825 turelZ(MOTOR_STEPS, DIR_Z, STEP_Z, ENA_Z);
 DRV8825 stepperE(MOTOR_STEPS, DIR_E, STEP_E, ENA_E);
+A4988 stepperM0(MOTOR_STEPS, DIR_M0, STEP_M0, ENA_M0);
 A4988 nav_X(MOTOR_STEPS, NAV_DIR_X, NAV_STEP_X, NAV_ENA_X);
 A4988 nav_Y(MOTOR_STEPS, NAV_DIR_Y, NAV_STEP_Y, NAV_ENA_Y);
 DRV8825 nav_Z(MOTOR_STEPS, NAV_DIR_Z, NAV_STEP_Z, NAV_ENA_Z);
@@ -120,6 +132,7 @@ DRV8825 nav_Z(MOTOR_STEPS, NAV_DIR_Z, NAV_STEP_Z, NAV_ENA_Z);
 //MultiDriver controller(turel_X, turel_Y, turel_Z);
 MultiDriver controller(nav_X, nav_Y, nav_Z);
 BasicStepperDriver stepper_E(MOTOR_STEPS, DIR_E, STEP_E);
+BasicStepperDriver stepper_M0(MOTOR_STEPS, DIR_M0, STEP_M0);
 BasicStepperDriver turel_X(MOTOR_STEPS, DIR_X, STEP_X);
 BasicStepperDriver turel_Y(MOTOR_STEPS, DIR_Y, STEP_Y);
 BasicStepperDriver turel_Z(MOTOR_STEPS, DIR_Z, STEP_Z);
@@ -153,6 +166,7 @@ void check_turrelfn2();
 void open_cofe();
 void close_cofe();
 void start_cofe();
+void servo_sugar();
 
 //------для объединения комманд
 void get_cap_x();
@@ -161,6 +175,7 @@ void loud_cap();
 void get_cupple();
 void to_client();
 void test();
+void m0();
 
 double X;
 double Y;
@@ -169,16 +184,17 @@ double D;
 double N;
 double T;
 
-commandscallback commands[21] = {
-{"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, {"B6", test},
-{"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, 
+commandscallback commands[23] = {
+{"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, {"B6", test}, {"M0", m0},
+{"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, {"S3", servo_sugar},
 {"T1", rotate_tower}, {"T2", rotate_tower2}, {"C1", dropcap_x}, {"C2", dropcap_y}, {"S1", rotate_cup_to}, {"S2", rotate_cup_back}, 
 {"E0", stepper_e0}, {"E1", stepper_e1}, {"C0", cup}
 };
-gcode Commands(21, commands);
+gcode Commands(23, commands);
 
 
 void setup() {
+  tmr.setPeriodMode();
     //------Pins для концевиков-------
   pinMode(stop_x, INPUT_PULLUP);
   pinMode(stop_y, INPUT_PULLUP);
@@ -229,7 +245,7 @@ void setup() {
   turel_Y.begin(MOTOR_Y_RPM, MICROSTEPS);
   turel_Z.begin(MOTOR_Z_RPM, MICROSTEPS);
   stepper_E.begin(MOTOR_E_RPM, MICROSTEPS);
-  
+  stepper_M0.begin(MOTOR_M0_RPM, MICROSTEPS);
   nav_X.begin(NAV_MOTOR_X_RPM, MICROSTEPS);
   nav_Y.begin(NAV_MOTOR_Y_RPM, MICROSTEPS);
   nav_Z.begin(NAV_MOTOR_Z_RPM, MICROSTEPS);
@@ -239,6 +255,7 @@ void setup() {
   turel_Y.setEnableActiveState(LOW);
   turel_Z.setEnableActiveState(LOW);
   stepper_E.setEnableActiveState(LOW);
+  stepper_M0.setEnableActiveState(LOW);
   nav_X.setEnableActiveState(LOW);
   nav_Y.setEnableActiveState(LOW);
   nav_Z.setEnableActiveState(LOW);
