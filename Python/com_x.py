@@ -9,7 +9,7 @@ ser = serial.Serial('/dev/ttyACM0', 9600)
 #a2.reset_input_buffer() #flush input buffer, discarding all its contents
 #a2.reset_output_buffer() #flush output buffer, aborting current output
 time.sleep(2)
-all_command_write = 0
+all_command_write = False
 time.sleep(2)
 ser.write(b'G1\n')
 time.sleep(5)
@@ -26,13 +26,13 @@ def read():
         ser.write(b'B5\n')
     if data == u'B5-GOOD\r\n':
         ser.write(b'B6\n')
-        all_command_write = 1
+        all_command_write = True
         ser.close()
         return all_command_write
 
 while True:
     try:
-        if all_command_write == 1:
+        if all_command_write == True:
             break
         else:
             read()

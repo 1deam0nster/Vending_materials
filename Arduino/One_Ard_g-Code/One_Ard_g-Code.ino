@@ -101,13 +101,19 @@ int motor_val = 3;
 
 // 2-wire basic config, microstepping is hardwired on the driver
 // Other drivers can be mixed and matched but must be configured individually
+ #include "DRV8825.h"
+// #define MODE0 10
+// #define MODE1 11
+// #define MODE2 12
+// DRV8825 stepper(MOTOR_STEPS, DIR, STEP, SLEEP, MODE0, MODE1, MODE2);
+
 A4988 turelX(MOTOR_STEPS, DIR_X, STEP_X, ENA_X);
 A4988 turelY(MOTOR_STEPS, DIR_Y, STEP_Y, ENA_Y);
-A4988 turelZ(MOTOR_STEPS, DIR_Z, STEP_Z, ENA_Z);
-A4988 stepperE(MOTOR_STEPS, DIR_E, STEP_E, ENA_E);
+DRV8825 turelZ(MOTOR_STEPS, DIR_Z, STEP_Z, ENA_Z);
+DRV8825 stepperE(MOTOR_STEPS, DIR_E, STEP_E, ENA_E);
 A4988 nav_X(MOTOR_STEPS, NAV_DIR_X, NAV_STEP_X, NAV_ENA_X);
 A4988 nav_Y(MOTOR_STEPS, NAV_DIR_Y, NAV_STEP_Y, NAV_ENA_Y);
-A4988 nav_Z(MOTOR_STEPS, NAV_DIR_Z, NAV_STEP_Z, NAV_ENA_Z);
+DRV8825 nav_Z(MOTOR_STEPS, NAV_DIR_Z, NAV_STEP_Z, NAV_ENA_Z);
 // Pick one of the two controllers below
 // each motor moves independently, trajectory is a hockey stick
 
@@ -154,6 +160,7 @@ void get_cap_y();
 void loud_cap();
 void get_cupple();
 void to_client();
+void test();
 
 double X;
 double Y;
@@ -162,13 +169,13 @@ double D;
 double N;
 double T;
 
-commandscallback commands[20] = {
-{"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, 
+commandscallback commands[21] = {
+{"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, {"B6", test},
 {"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, 
 {"T1", rotate_tower}, {"T2", rotate_tower2}, {"C1", dropcap_x}, {"C2", dropcap_y}, {"S1", rotate_cup_to}, {"S2", rotate_cup_back}, 
 {"E0", stepper_e0}, {"E1", stepper_e1}, {"C0", cup}
 };
-gcode Commands(20, commands);
+gcode Commands(21, commands);
 
 
 void setup() {

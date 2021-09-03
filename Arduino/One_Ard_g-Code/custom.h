@@ -1,7 +1,7 @@
 // -----------------Command B1-------------
 void get_cap_x()
 { 
-  check_turrelfn();
+  //check_turrelfn();
   turel_Z.enable();
   turel_Z.move(6530);  
   //400 - турель Y
@@ -15,7 +15,7 @@ void get_cap_x()
 
 void get_cap_y()
 { 
-  check_turrelfn2();
+  //check_turrelfn2();
   turel_Z.enable();
   turel_Z.move(400);  
   //400 - турель Y
@@ -61,15 +61,15 @@ void loud_cap()
 // -----------------Command B4-------------
 void get_cupple()
 {
-  gotoLocation(15, 4, 0);
-  gotoLocation(15, 4, 67);
-  servo.write(73);
+  gotoLocation(10, 4, 0);
+  gotoLocation(10, 4, 67);
+  servo.write(76);
   cup();
   //delay(00);
   servo.write(100);
-  gotoLocation(15, 18, 67);
-  gotoLocation(15, 18, 0);
-  gotoLocation(15, 95, 24);
+  gotoLocation(10, 18, 67);
+  gotoLocation(10, 18, 0);
+  gotoLocation(10, 95, 24);
   gotoLocation(65, 95, 24);
   gotoLocation(65, 95, 30);
 //  delay(3000);  
@@ -92,15 +92,29 @@ void to_client()
   delay(300);
   servo.write(30);
   gotoLocation(0, 120, 0);
-  steppere_degreed(30000);
+//  steppere_degreed(30000);
+  stepper_E.enable();
+  stepper_E.move(31000);
   delay(3000);
-  steppere_degreed(-30000);
+  stepper_E.move(-31000);
+  stepper_E.disable();
+//  steppere_degreed(-30000);
 //  rotate_cup_back();
   for (pos = 180; pos >= 65; pos -= 1) { // goes from 180 degrees to 0 degrees
     servo_r.write(pos);              // tell servo to go to position in variable 'pos'
     delay(15);                       // waits 15ms for the servo to reach the position
   }
-  
-  homing();
   Serial.println("B5-GOOD");
+  homing();
+
+}
+
+// -----------------Command B6-------------
+void test()
+{
+  stepper_E.enable();
+  stepper_E.move(32000);
+  delay(3000);
+  stepper_E.move(-32000);
+  stepper_E.disable();
 }
