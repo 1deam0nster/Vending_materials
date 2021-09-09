@@ -30,9 +30,14 @@ void servofn() {
 }
 
 void servo_sugar(){
-  servo.attach(2);
-  servo.write(180);
+  servo_sug.attach(12);
+  delay(300);
+  servo_sug.write(90);
   delay(1000);
-  servo.write(90);
-  servo.detach();
+  servo_sug.write(180);
+//  delay(1000)
+//  servo.write(180);
+  delay(1000);
+  servo_sug.detach();
+  Serial.println("S3-GOOD");
 }

@@ -112,11 +112,11 @@ void to_client()
     delay(15);                       // waits 15ms for the servo to reach the position
   }
   gotoLocation(0, 0, 0);
-  Serial.println("B5-GOOD");
-  check_turrelfn();
+  
   homing();
   servo.detach();
   servo_r.detach();
+  Serial.println("B5-GOOD");
 }
 
 // -----------------Command B6-------------
@@ -153,11 +153,19 @@ void table()
 }
 
 // -----------------Command M0-------------
-void m0()
+void m6()
 {
-  stepper_M0.enable();
-  stepper_M0.move(-3600);
-  stepper_M0.disable();
+  stepper_M1.enable();
+  stepper_M1.move(-3610);
+  stepper_M1.disable();
+  delay(100);
+}
+
+void m7()
+{
+  stepper_M2.enable();
+  stepper_M2.move(-3610);
+  stepper_M2.disable();
   delay(100);
 }
 

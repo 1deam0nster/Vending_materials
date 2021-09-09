@@ -13,7 +13,9 @@
 TimerMs tmr(106800, 1, 1);
 
 //------Переменная для ШД сахара
-int milk_stepper = 0;
+int milk_stepper_1 = 0;
+int milk_stepper_2 = 0;
+int milk_stepper_3 = 0;
 
 //------Переменные для IR датчиков турели------
 bool check_1 = false;
@@ -26,6 +28,7 @@ bool val = false;
 //------Подключение серв------
 Servo servo;
 Servo servo_r; 
+Servo servo_sug;
 
 //------Подключение концевиков------
 #define stop_x 20
@@ -69,6 +72,8 @@ int motor_val = 3;
 #define MOTOR_Z_RPM 120
 #define MOTOR_E_RPM 120
 #define MOTOR_M0_RPM 120
+#define MOTOR_M1_RPM 120
+#define MOTOR_M2_RPM 120
 #define NAV_MOTOR_X_RPM 120
 #define NAV_MOTOR_Y_RPM 120
 #define NAV_MOTOR_Z_RPM 120
@@ -114,6 +119,16 @@ int motor_val = 3;
 #define STEP_M0 38
 #define ENA_M0 40
 
+// M1 motor
+#define DIR_M1 A6
+#define STEP_M1 A5
+#define ENA_M1 A7
+
+// M2 motor
+#define DIR_M2 A9
+#define STEP_M2 A8
+#define ENA_M2 A1
+
 // If microstepping is set externally, make sure this matches the selected mode
 // 1=full step, 2=half step, 4 = 1/4, 8 = 1/8 and 16 = 1/6 Microsteps.
 #define MICROSTEPS 8
@@ -131,6 +146,9 @@ A4988 turelY(MOTOR_STEPS, DIR_Y, STEP_Y, ENA_Y);
 DRV8825 turelZ(MOTOR_STEPS, DIR_Z, STEP_Z, ENA_Z);
 DRV8825 stepperE(MOTOR_STEPS, DIR_E, STEP_E, ENA_E);
 A4988 stepperM0(MOTOR_STEPS, DIR_M0, STEP_M0, ENA_M0);
+A4988 stepperM1(MOTOR_STEPS, DIR_M1, STEP_M1, ENA_M1);
+A4988 stepperM2(MOTOR_STEPS, DIR_M2, STEP_M2, ENA_M2);
+
 A4988 nav_X(MOTOR_STEPS, NAV_DIR_X, NAV_STEP_X, NAV_ENA_X);
 A4988 nav_Y(MOTOR_STEPS, NAV_DIR_Y, NAV_STEP_Y, NAV_ENA_Y);
 DRV8825 nav_Z(MOTOR_STEPS, NAV_DIR_Z, NAV_STEP_Z, NAV_ENA_Z);
@@ -141,6 +159,8 @@ DRV8825 nav_Z(MOTOR_STEPS, NAV_DIR_Z, NAV_STEP_Z, NAV_ENA_Z);
 MultiDriver controller(nav_X, nav_Y, nav_Z);
 BasicStepperDriver stepper_E(MOTOR_STEPS, DIR_E, STEP_E);
 BasicStepperDriver stepper_M0(MOTOR_STEPS, DIR_M0, STEP_M0);
+BasicStepperDriver stepper_M1(MOTOR_STEPS, DIR_M1, STEP_M1);
+BasicStepperDriver stepper_M2(MOTOR_STEPS, DIR_M2, STEP_M2);
 BasicStepperDriver turel_X(MOTOR_STEPS, DIR_X, STEP_X);
 BasicStepperDriver turel_Y(MOTOR_STEPS, DIR_Y, STEP_Y);
 BasicStepperDriver turel_Z(MOTOR_STEPS, DIR_Z, STEP_Z);
@@ -175,6 +195,8 @@ void open_cofe();
 void close_cofe();
 void start_cofe();
 void servo_sugar();
+void milk_stepper_cmd();
+void milk_stepper_reset_cmd();
 
 //------для объединения комманд
 void get_cap_x();
@@ -185,6 +207,8 @@ void to_client();
 void test();
 void table();
 void m0();
+void m6();
+void m7();
 
 double X;
 double Y;
@@ -193,13 +217,13 @@ double D;
 double N;
 double T;
 
-commandscallback commands[24] = {
-{"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, {"B6", test}, {"T3", table}, {"M0", m0}, 
+commandscallback commands[27] = {
+{"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, {"B6", test}, {"T3", table}, {"M4", milk_stepper_cmd}, {"M5", milk_stepper_reset_cmd}, {"M6", m6}, {"M7", m7},
 {"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, {"S3", servo_sugar},
 {"T1", rotate_tower}, {"T2", rotate_tower2}, {"C1", dropcap_x}, {"C2", dropcap_y}, {"S1", rotate_cup_to}, {"S2", rotate_cup_back}, 
 {"E0", stepper_e0}, {"E1", stepper_e1}, {"C0", cup}
 };
-gcode Commands(24, commands);
+gcode Commands(27, commands);
 
 
 void setup() {
@@ -257,6 +281,8 @@ void setup() {
   turel_Z.begin(MOTOR_Z_RPM, MICROSTEPS);
   stepper_E.begin(MOTOR_E_RPM, MICROSTEPS);
   stepper_M0.begin(MOTOR_M0_RPM, MICROSTEPS);
+  stepper_M1.begin(MOTOR_M1_RPM, MICROSTEPS);
+  stepper_M2.begin(MOTOR_M2_RPM, MICROSTEPS);
   nav_X.begin(NAV_MOTOR_X_RPM, MICROSTEPS);
   nav_Y.begin(NAV_MOTOR_Y_RPM, MICROSTEPS);
   nav_Z.begin(NAV_MOTOR_Z_RPM, MICROSTEPS);
@@ -267,6 +293,8 @@ void setup() {
   turel_Z.setEnableActiveState(LOW);
   stepper_E.setEnableActiveState(LOW);
   stepper_M0.setEnableActiveState(LOW);
+  stepper_M1.setEnableActiveState(LOW);
+  stepper_M2.setEnableActiveState(LOW);
   nav_X.setEnableActiveState(LOW);
   nav_Y.setEnableActiveState(LOW);
   nav_Z.setEnableActiveState(LOW);
@@ -275,7 +303,9 @@ void setup() {
   check_servo_y();
 
     //----Читаем значения переменных с сахаром и сливками
-  EEPROM.get(0, milk_stepper);
+  EEPROM.get(0, milk_stepper_1);
+  EEPROM.get(1, milk_stepper_2);
+  EEPROM.get(2, milk_stepper_3);
 }
 
 void loop() {
@@ -299,3 +329,4 @@ void loop() {
 #include "rotate.h" ;
 #include "steppers.h" ;
 #include "custom.h" ;
+#include "cream.h" ;
