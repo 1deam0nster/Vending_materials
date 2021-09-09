@@ -18,7 +18,8 @@ void homing()
   }
 
   nav_Z.disable();// DISABLE MOTOR Z
-
+  
+  delay(1000);
   // Start Homing procedure of Stepper Motor at startup
   //Serial.print("StepperX is Homing . . . . . . . . . . . ");
 
@@ -36,7 +37,7 @@ void homing()
   }
 
   nav_X.disable();// DISABLE MOTOR X
-
+  delay(1000);
   //------------------------------
 
   // Start Homing procedure of Stepper Motor at startup

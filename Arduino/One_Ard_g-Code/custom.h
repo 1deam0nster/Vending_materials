@@ -1,9 +1,9 @@
 // -----------------Command B1-------------
 void get_cap_x()
-{ 
+{
   //check_turrelfn();
   turel_Z.enable();
-  turel_Z.move(6530);  
+  turel_Z.move(6530);
   //400 - турель Y
   //6500 - турель X
   //9000 - на выдачу
@@ -14,10 +14,10 @@ void get_cap_x()
 }
 
 void get_cap_y()
-{ 
+{
   //check_turrelfn2();
   turel_Z.enable();
-  turel_Z.move(400);  
+  turel_Z.move(400);
   //400 - турель Y
   //6500 - турель X
   //9000 - на выдачу
@@ -47,7 +47,7 @@ void loud_cap()
   servo.write(105);
   delay(200);
   gotoLocation(97, 122, 30);
-//  gotoLocation(95, 122, 10);
+  //  gotoLocation(95, 122, 10);
   gotoLocation(97, 122, 20);
   gotoLocation(67, 40, 0);
   //----Вставляем капсулу в машину
@@ -72,63 +72,104 @@ void get_cupple()
   gotoLocation(10, 95, 24);
   gotoLocation(65, 95, 24);
   gotoLocation(65, 95, 30);
-//  delay(3000);  
-  Serial.println("B4-GOOD"); 
+  //  delay(3000);
+  Serial.println("B4-GOOD");
 }
 
 // -----------------Command B5-------------
 void to_client()
 {
   gotoLocation(40, 95, 0);
-//  rotate_cup_to();
+  //  rotate_cup_to();
   int pos;
   for (pos = 65; pos <= 180; pos += 1) { // goes from 180 degrees to 0 degrees
     servo_r.write(pos);              // tell servo to go to position in variable 'pos'
     delay(15);                       // waits 15ms for the servo to reach the position
   }
-  
+
   gotoLocation(70, 90, 0);
   gotoLocation(70, 120, 0);
   delay(300);
   servo.write(30);
   gotoLocation(0, 120, 0);
-//  steppere_degreed(30000);
-  stepper_E.enable();
-  stepper_E.move(33000);
-  delay(3000);
+
+  cup_table = digitalRead(ir_cup);
+  if (cup_table == HIGH) {
+    stepper_E.enable();
+    stepper_E.move(33000);
+  }
+  cup_table = digitalRead(ir_cup);
+  do {
+    cup_table = digitalRead(ir_cup);
+    Serial.println("Есть стаканчик");
+  } while (cup_table == LOW);
+  delay(7000);
   stepper_E.move(-33000);
   stepper_E.disable();
-//  steppere_degreed(-30000);
-//  rotate_cup_back();
+
   for (pos = 180; pos >= 65; pos -= 1) { // goes from 180 degrees to 0 degrees
     servo_r.write(pos);              // tell servo to go to position in variable 'pos'
     delay(15);                       // waits 15ms for the servo to reach the position
   }
+  gotoLocation(0, 0, 0);
   Serial.println("B5-GOOD");
+  check_turrelfn();
   homing();
-
+  servo.detach();
+  servo_r.detach();
 }
 
 // -----------------Command B6-------------
 void test()
 {
-//  stepper_E.enable();
-//  stepper_E.move(33000);
-//  delay(3000);
-//  stepper_E.move(-33000);
-//  stepper_E.disable();
+  //  stepper_E.enable();
+  //  stepper_E.move(33000);
+  //  delay(3000);
+  //  stepper_E.move(-33000);
+  //  stepper_E.disable();
   start_cofe();
-  if (tmr.tick()) 
-  start_cofe();
+  if (tmr.tick())
+    start_cofe();
   delay(15000);
+}
+
+// -----------------Command T3-------------
+void table()
+{
+  cup_table = digitalRead(ir_cup);
+  if (cup_table == HIGH) {
+    stepper_E.enable();
+    stepper_E.move(33000);
+  }
+  cup_table = digitalRead(ir_cup);
+  do {
+    cup_table = digitalRead(ir_cup);
+    Serial.println("Есть стаканчик");
+  } while (cup_table == LOW);
+  delay(7000);
+  stepper_E.move(-33000);
+  stepper_E.disable();
+  
 }
 
 // -----------------Command M0-------------
 void m0()
 {
   stepper_M0.enable();
-  stepper_M0.move(-1800);
-//  delay(3000);
-//  stepper_M0.move(500);
+  stepper_M0.move(-3600);
   stepper_M0.disable();
+  delay(100);
 }
+
+
+
+//Команды
+//g1
+//b1
+//b3
+//b4
+//b6
+//b5
+//m0
+//S0 n2 D90
+//S0 n2 D180

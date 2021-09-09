@@ -7,9 +7,14 @@
 #include <Servo.h>
 #include <gcode.h>
 #include <TimerMs.h>
+#include <EEPROM.h>
 
 
 TimerMs tmr(106800, 1, 1);
+
+//------Переменная для ШД сахара
+int milk_stepper = 0;
+
 //------Переменные для IR датчиков турели------
 bool check_1 = false;
 bool check_2 = false;
@@ -35,6 +40,9 @@ Servo servo_r;
 
 #define ir_cap_y 26 //концевик капсулы Y
 #define ir_cap_x 25 //концевик капсулы X 27
+
+bool cup_table; 
+#define ir_cup A4
 
 //-----Реле на кофемашину-----
 #define OPEN 37
@@ -175,6 +183,7 @@ void loud_cap();
 void get_cupple();
 void to_client();
 void test();
+void table();
 void m0();
 
 double X;
@@ -184,13 +193,13 @@ double D;
 double N;
 double T;
 
-commandscallback commands[23] = {
-{"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, {"B6", test}, {"M0", m0},
+commandscallback commands[24] = {
+{"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, {"B6", test}, {"T3", table}, {"M0", m0}, 
 {"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, {"S3", servo_sugar},
 {"T1", rotate_tower}, {"T2", rotate_tower2}, {"C1", dropcap_x}, {"C2", dropcap_y}, {"S1", rotate_cup_to}, {"S2", rotate_cup_back}, 
 {"E0", stepper_e0}, {"E1", stepper_e1}, {"C0", cup}
 };
-gcode Commands(23, commands);
+gcode Commands(24, commands);
 
 
 void setup() {
@@ -205,6 +214,8 @@ void setup() {
   
   pinMode(ir_cap_x, INPUT_PULLUP);
   pinMode(ir_cap_y, INPUT_PULLUP);
+
+  pinMode(ir_cup, INPUT_PULLUP);
   //------Pins для реле-------
 //  pinMode(r1, OUTPUT);
 //  digitalWrite(r1, HIGH);
@@ -262,6 +273,9 @@ void setup() {
 
   check_servo_x();
   check_servo_y();
+
+    //----Читаем значения переменных с сахаром и сливками
+  EEPROM.get(0, milk_stepper);
 }
 
 void loop() {

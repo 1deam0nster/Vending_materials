@@ -30,9 +30,9 @@ void servofn() {
 }
 
 void servo_sugar(){
-  servo.attach(41);
-  servo.write(90);
-  delay(1000);
+  servo.attach(2);
   servo.write(180);
+  delay(1000);
+  servo.write(90);
   servo.detach();
 }
