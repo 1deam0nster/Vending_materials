@@ -55,6 +55,7 @@ bool ir_cap_check_x() {
 }
 
 
+
 //преверка есть ли капсула, крутим турель Х
 void check_turrelfn()
 {

@@ -1,5 +1,5 @@
 
-
+#include <Arduino.h>
 #include "A4988.h"
 #include "MultiDriver.h"
 #include "SyncDriver.h"
@@ -148,7 +148,6 @@ DRV8825 stepperE(MOTOR_STEPS, DIR_E, STEP_E, ENA_E);
 A4988 stepperM0(MOTOR_STEPS, DIR_M0, STEP_M0, ENA_M0);
 A4988 stepperM1(MOTOR_STEPS, DIR_M1, STEP_M1, ENA_M1);
 A4988 stepperM2(MOTOR_STEPS, DIR_M2, STEP_M2, ENA_M2);
-
 A4988 nav_X(MOTOR_STEPS, NAV_DIR_X, NAV_STEP_X, NAV_ENA_X);
 A4988 nav_Y(MOTOR_STEPS, NAV_DIR_Y, NAV_STEP_Y, NAV_ENA_Y);
 DRV8825 nav_Z(MOTOR_STEPS, NAV_DIR_Z, NAV_STEP_Z, NAV_ENA_Z);
@@ -164,6 +163,7 @@ BasicStepperDriver stepper_M2(MOTOR_STEPS, DIR_M2, STEP_M2);
 BasicStepperDriver turel_X(MOTOR_STEPS, DIR_X, STEP_X);
 BasicStepperDriver turel_Y(MOTOR_STEPS, DIR_Y, STEP_Y);
 BasicStepperDriver turel_Z(MOTOR_STEPS, DIR_Z, STEP_Z);
+
 //BasicStepperDriver nav_X(MOTOR_STEPS, DIR_X2, STEP_X2);
 //BasicStepperDriver nav_Y(MOTOR_STEPS, DIR_Y2, STEP_Y2);
 //BasicStepperDriver nav_Z(MOTOR_STEPS, DIR_Z2, STEP_Z2);

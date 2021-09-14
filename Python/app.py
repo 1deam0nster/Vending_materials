@@ -34,11 +34,12 @@ def read_t1():
         # убираем на дисплее кнопку
         #call(["python3", "test2.py"])
         EndCom = "\xff\xff\xff"
-        ser.write('b0.txt="Test"'+EndCom)
+        ser.write('b0.txt="Test"')
     if output_a1 == u'Turrel X capsule - false':
         # убираем на дисплее кнопку
         #call(["python3", "test2.py"])
-
+        EndCom = "\xff\xff\xff"
+        ser.write('b0.vis="Test"'+EndCom)
 
 read_t1()
 
@@ -56,7 +57,7 @@ while True:
         if output:
             print(output)
             print(output.decode())
-            if output == u'g1':
+            if output == u'':
                 print("good3")
                 call(["python3", "com_x.py"])
             # Кнопка для приготовления кофе №1

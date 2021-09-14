@@ -43,15 +43,17 @@ void loud_cap()
   delay(500);
   gotoLocation(30, 122, 0);
   gotoLocation(130, 122, 0);
-  gotoLocation(130, 122, 30);
-  servo.write(105);
+  gotoLocation(130, 122, 25);
+  servo.write(110);
   delay(200);
-  gotoLocation(97, 122, 30);
+  gotoLocation(97, 122, 25);
   //  gotoLocation(95, 122, 10);
   gotoLocation(97, 122, 20);
+  delay(500);
   gotoLocation(67, 40, 0);
   //----Вставляем капсулу в машину
   gotoLocation(67, 40, 70);
+  delay(200);
   servo.write(85);
   gotoLocation(67, 40, 0);
   close_cofe();//подольше сделать
@@ -67,8 +69,8 @@ void get_cupple()
   cup();
   //delay(00);
   servo.write(100);
-  gotoLocation(10, 18, 67);
-  gotoLocation(10, 18, 0);
+  gotoLocation(10, 23, 67);
+  gotoLocation(10, 23, 0);
   gotoLocation(10, 95, 24);
   gotoLocation(65, 95, 24);
   gotoLocation(65, 95, 30);
@@ -101,7 +103,7 @@ void to_client()
   cup_table = digitalRead(ir_cup);
   do {
     cup_table = digitalRead(ir_cup);
-    Serial.println("Есть стаканчик");
+    //Serial.println("Есть стаканчик");
   } while (cup_table == LOW);
   delay(7000);
   stepper_E.move(-33000);
@@ -144,7 +146,7 @@ void table()
   cup_table = digitalRead(ir_cup);
   do {
     cup_table = digitalRead(ir_cup);
-    Serial.println("Есть стаканчик");
+//    Serial.println("Есть стаканчик");
   } while (cup_table == LOW);
   delay(7000);
   stepper_E.move(-33000);
@@ -181,3 +183,10 @@ void m7()
 //m0
 //S0 n2 D90
 //S0 n2 D180
+
+
+//1.20 ждать после того как стакан приехал
+//0.25 начало
+//0.28 вкл б4
+//0.45 приехал стакан
+//1.57 выкл

@@ -88,7 +88,7 @@ void milk_stepper_cmd() {
     milk_stepper_2 += 1;
     //  EEPROM.put(0, milk_stepper);
     stepper_M1.enable();
-    stepper_M1.move(-3610);
+    stepper_M1.move(-1805);
     stepper_M1.disable();
 
     EEPROM.put(0, milk_stepper_2);
@@ -104,7 +104,7 @@ void milk_stepper_cmd() {
     milk_stepper_3 += 1;
     //  EEPROM.put(0, milk_stepper);
     stepper_M2.enable();
-    stepper_M2.move(-3600);
+    stepper_M2.move(3600);
     stepper_M2.disable();
 
     EEPROM.put(0, milk_stepper_3);
@@ -128,8 +128,8 @@ void milk_stepper_cmd() {
   }
   if (milk_stepper_3 == 10 or milk_stepper_1 == 10 or milk_stepper_2 == 10 ) {
     // -----------------Print Variable-------------
-    Serial.print("Milk steppers = empty");
-    Serial.println(" ");
+//    Serial.print("Milk steppers = empty");
+//    Serial.println(" ");
   }
   
   
