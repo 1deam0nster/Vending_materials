@@ -32,12 +32,37 @@ void servofn() {
 void servo_sugar(){
   servo_sug.attach(12);
   delay(300);
-  servo_sug.write(90);
+  servo_sug.write(70);
   delay(1000);
-  servo_sug.write(180);
+  servo_sug.write(165);
 //  delay(1000)
 //  servo.write(180);
   delay(1000);
   servo_sug.detach();
+  Serial.println("S3-GOOD");
+}
+
+void servo_cream(){
+  //открываем верхнюю серву
+  servo_cr.attach(A8);
+  delay(300);
+  servo_cr.write(140);
+  delay(1000);
+  servo_cr.write(90);
+  delay(1500);
+  servo_cr.write(140);
+  delay(500);
+  servo_cr.detach();
+  //открываем нижнюю серву
+  delay(1000);
+  servo_cr.attach(A9);
+  delay(300);
+  servo_cr.write(20);
+  delay(1000);
+  servo_cr.write(110);
+  delay(1500);
+  servo_cr.write(20);
+  delay(500);
+  servo_cr.detach();
   Serial.println("S3-GOOD");
 }

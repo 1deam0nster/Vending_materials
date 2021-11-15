@@ -71,12 +71,13 @@ void check_turrelfn()
     homing_turrel();
 
     //----Закрываем верхнюю серву
-    servo.write(50);
+    servo.write(60);
     delay(1000);
     servo.detach();
     delay(1000);
 
     capsule_state = ir_cap_check_x();
+    
     //----Если приехала пустая ячейка, запускаем еще раз
     //---------- 2 проверка-----------
     if (capsule_state == true) {
@@ -88,10 +89,10 @@ void check_turrelfn()
       homing_turrel();
 
       //----Закрываем верхнюю серву
-      servo.write(50);
+      servo.write(60);
       delay(1000);
       servo.detach();
-    }
+    } else {Serial.println("Turrel X capsule - true");}
 
     capsule_state = ir_cap_check_x();
     //----Если приехала пустая ячейка, пишем что пустая турель
@@ -99,7 +100,7 @@ void check_turrelfn()
     if (capsule_state == true) {
       //---Пишем в серийный порт что нету капсул в турели
       Serial.println("Turrel X capsule - false");
-    }
+    } else {Serial.println("Turrel X capsule - true");}
 
   } else {
     Serial.println("Turrel X capsule - true");
@@ -110,7 +111,7 @@ void check_turrelfn()
 void check_servo_x() {
   //----Проверка на нижнюю серву
   servo.attach(9);
-  servo.write(50);
+  servo.write(60);
   delay(1000);
   servo.detach();
 
@@ -118,7 +119,7 @@ void check_servo_x() {
   servo.attach(8);
   servo.write(0);
   delay(500);
-  servo.write(50);
+  servo.write(60);
   delay(1000);
   servo.detach();
 }
@@ -130,7 +131,7 @@ void dropcap_x()
   servo.attach(9);
   servo.write(0);
   delay(1000);
-  servo.write(50);
+  servo.write(60);
   delay(1000);
   servo.detach();
 
@@ -138,7 +139,7 @@ void dropcap_x()
   servo.attach(8);
   servo.write(0);
   delay(1000);
-  servo.write(50);
+  servo.write(60);
   delay(1000);
   servo.detach();
 

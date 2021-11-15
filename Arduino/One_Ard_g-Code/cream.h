@@ -104,7 +104,7 @@ void milk_stepper_cmd() {
     milk_stepper_3 += 1;
     //  EEPROM.put(0, milk_stepper);
     stepper_M2.enable();
-    stepper_M2.move(3600);
+    stepper_M2.move(1805);
     stepper_M2.disable();
 
     EEPROM.put(0, milk_stepper_3);

@@ -1,3 +1,99 @@
+void command_x()
+{
+  get_cap_x();
+  loud_cap();
+  get_cupple();
+  delay(70000);
+//  start_cofe();
+  to_client();
+  Serial.println("X1-GOOD");
+}
+
+void command_x_a()
+{
+  get_cap_x();
+  loud_cap();
+  get_cupple();
+  servo_sugar();
+  delay(70000);
+//  start_cofe();
+  to_client();
+  Serial.println("X2-GOOD");
+}
+
+void command_x_b()
+{
+  get_cap_x();
+  loud_cap();
+  get_cupple();
+  servo_cream();
+  delay(70000);
+//  start_cofe();
+  to_client();
+  Serial.println("X3-GOOD");
+}
+
+void command_x_a_b()
+{
+  get_cap_x();
+  loud_cap();
+  get_cupple();
+  servo_cream();
+  servo_sugar();
+  delay(70000);
+//  start_cofe();
+  to_client();
+  Serial.println("X4-GOOD");
+}
+//------------------Command for y ---------
+void command_y()
+{
+  get_cap_y();
+  loud_cap();
+  get_cupple();
+  delay(70000);
+//  start_cofe();
+  to_client();
+  Serial.println("Y1-GOOD");
+}
+
+void command_y_a()
+{
+  get_cap_y();
+  loud_cap();
+  get_cupple();
+  servo_sugar();
+  delay(70000);
+//  start_cofe();
+  to_client();
+  Serial.println("Y2-GOOD");
+}
+
+void command_y_b()
+{
+  get_cap_y();
+  loud_cap();
+  get_cupple();
+  servo_cream();
+  delay(70000);
+//  start_cofe();
+  to_client();
+  Serial.println("Y3-GOOD");
+}
+
+void command_y_a_b()
+{
+  get_cap_y();
+  loud_cap();
+  get_cupple();
+  servo_cream();
+  servo_sugar();
+  delay(70000);
+//  start_cofe();
+  to_client();
+  Serial.println("Y4-GOOD");
+}
+
 // -----------------Command B1-------------
 void get_cap_x()
 {
@@ -10,7 +106,6 @@ void get_cap_x()
   dropcap_x();
   turel_Z.move(2670);
   turel_Z.disable();
-  Serial.println("B1-GOOD");
 }
 
 void get_cap_y()
@@ -24,7 +119,6 @@ void get_cap_y()
   dropcap_y();
   turel_Z.move(8790);
   turel_Z.disable();
-  Serial.println("B2-GOOD");
 }
 
 // -----------------Command B3-------------
@@ -57,7 +151,7 @@ void loud_cap()
   servo.write(85);
   gotoLocation(67, 40, 0);
   close_cofe();//подольше сделать
-  Serial.println("B3-GOOD");
+  delay(3000);
 }
 
 // -----------------Command B4-------------
@@ -65,23 +159,24 @@ void get_cupple()
 {
   gotoLocation(10, 4, 0);
   gotoLocation(10, 4, 67);
+  start_cofe();
   servo.write(76);
   cup();
   //delay(00);
+  servo.write(76);
+  gotoLocation(10, 30, 67);
   servo.write(100);
-  gotoLocation(10, 23, 67);
-  gotoLocation(10, 23, 0);
-  gotoLocation(10, 95, 24);
-  gotoLocation(65, 95, 24);
-  gotoLocation(65, 95, 30);
+  gotoLocation(10, 30, 0);
+  gotoLocation(10, 100, 24);
+  gotoLocation(65, 100, 24);
+  gotoLocation(65, 100, 30);
   //  delay(3000);
-  Serial.println("B4-GOOD");
 }
 
 // -----------------Command B5-------------
 void to_client()
 {
-  gotoLocation(40, 95, 0);
+  gotoLocation(40, 90, 0);
   //  rotate_cup_to();
   int pos;
   for (pos = 65; pos <= 180; pos += 1) { // goes from 180 degrees to 0 degrees
@@ -118,7 +213,9 @@ void to_client()
   homing();
   servo.detach();
   servo_r.detach();
-  Serial.println("B5-GOOD");
+  open_cofe();
+  delay(3500);
+  close_cofe();
 }
 
 // -----------------Command B6-------------

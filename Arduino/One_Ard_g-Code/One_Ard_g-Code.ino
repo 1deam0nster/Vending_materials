@@ -29,6 +29,7 @@ bool val = false;
 Servo servo;
 Servo servo_r; 
 Servo servo_sug;
+Servo servo_cr;
 
 //------Подключение концевиков------
 #define stop_x 20
@@ -195,10 +196,19 @@ void open_cofe();
 void close_cofe();
 void start_cofe();
 void servo_sugar();
+void servo_cream();
 void milk_stepper_cmd();
 void milk_stepper_reset_cmd();
 
 //------для объединения комманд
+void command_x();
+void command_x_a();
+void command_x_b();
+void command_x_a_b();
+void command_y();
+void command_y_a();
+void command_y_b();
+void command_y_a_b();
 void get_cap_x();
 void get_cap_y();
 void loud_cap();
@@ -217,13 +227,15 @@ double D;
 double N;
 double T;
 
-commandscallback commands[27] = {
+commandscallback commands[36] = {
+{"X1", command_x}, {"X2", command_x_a}, {"X3", command_x_b}, {"X4", command_x_a_b},
+{"Y1", command_y}, {"Y2", command_y_a}, {"Y3", command_y_b}, {"Y4", command_y_a_b},
 {"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, {"B6", test}, {"T3", table}, {"M4", milk_stepper_cmd}, {"M5", milk_stepper_reset_cmd}, {"M6", m6}, {"M7", m7},
-{"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, {"S3", servo_sugar},
+{"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, {"S3", servo_sugar}, {"S4", servo_cream},
 {"T1", rotate_tower}, {"T2", rotate_tower2}, {"C1", dropcap_x}, {"C2", dropcap_y}, {"S1", rotate_cup_to}, {"S2", rotate_cup_back}, 
 {"E0", stepper_e0}, {"E1", stepper_e1}, {"C0", cup}
 };
-gcode Commands(27, commands);
+gcode Commands(36, commands);
 
 
 void setup() {
@@ -299,8 +311,8 @@ void setup() {
   nav_Y.setEnableActiveState(LOW);
   nav_Z.setEnableActiveState(LOW);
 
-  check_servo_x();
-  check_servo_y();
+//  check_servo_x();
+//  check_servo_y();
 
     //----Читаем значения переменных с сахаром и сливками
   EEPROM.get(0, milk_stepper_1);
