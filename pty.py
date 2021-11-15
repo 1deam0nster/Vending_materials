@@ -10,3 +10,4 @@ ser.write('Your text')
 
 # To read from the device
 os.read(master,1000)
+#test vscode
