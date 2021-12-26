@@ -4,7 +4,7 @@ void command_x()
   loud_cap();
   get_cupple();
   delay(70000);
-//  start_cofe();
+  //  check_rotation();
   to_client();
   Serial.println("X1-GOOD");
 }
@@ -16,7 +16,7 @@ void command_x_a()
   get_cupple();
   servo_sugar();
   delay(70000);
-//  start_cofe();
+  //  check_rotation();
   to_client();
   Serial.println("X2-GOOD");
 }
@@ -28,7 +28,7 @@ void command_x_b()
   get_cupple();
   servo_cream();
   delay(70000);
-//  start_cofe();
+  //  check_rotation();
   to_client();
   Serial.println("X3-GOOD");
 }
@@ -41,7 +41,7 @@ void command_x_a_b()
   servo_cream();
   servo_sugar();
   delay(70000);
-//  start_cofe();
+  //  check_rotation();
   to_client();
   Serial.println("X4-GOOD");
 }
@@ -52,7 +52,7 @@ void command_y()
   loud_cap();
   get_cupple();
   delay(70000);
-//  start_cofe();
+  //  check_rotation();
   to_client();
   Serial.println("Y1-GOOD");
 }
@@ -64,7 +64,7 @@ void command_y_a()
   get_cupple();
   servo_sugar();
   delay(70000);
-//  start_cofe();
+  //  check_rotation();
   to_client();
   Serial.println("Y2-GOOD");
 }
@@ -76,7 +76,7 @@ void command_y_b()
   get_cupple();
   servo_cream();
   delay(70000);
-//  start_cofe();
+  //  check_rotation();
   to_client();
   Serial.println("Y3-GOOD");
 }
@@ -89,7 +89,7 @@ void command_y_a_b()
   servo_cream();
   servo_sugar();
   delay(70000);
-//  start_cofe();
+  //  check_rotation();
   to_client();
   Serial.println("Y4-GOOD");
 }
@@ -129,26 +129,30 @@ void loud_cap()
   servo.attach(6);
   servo_r.attach(7);
   //----Открыть клешню
-  servo.write(10);
+  servo.write(0);
   //----Выровнять
   servo_r.write(65);
   delay(50);
   open_cofe();
   delay(500);
-  gotoLocation(30, 122, 0);
-  gotoLocation(130, 122, 0);
-  gotoLocation(130, 122, 25);
+  gotoLocation(70, 120, 0);
+  gotoLocation(133, 120, 0);
+  gotoLocation(133, 120, 30);
   servo.write(110);
   delay(200);
-  gotoLocation(97, 122, 25);
+  gotoLocation(103, 120, 30);
+  servo.write(112);
   //  gotoLocation(95, 122, 10);
-  gotoLocation(97, 122, 20);
+  gotoLocation(95, 120, 10);
   delay(500);
+  gotoLocation(95, 120, 0);
   gotoLocation(67, 40, 0);
+  //  servo_r.write(70);
   //----Вставляем капсулу в машину
+  //  servo_r.write(65);
   gotoLocation(67, 40, 70);
   delay(200);
-  servo.write(85);
+  servo.write(80);
   gotoLocation(67, 40, 0);
   close_cofe();//подольше сделать
   delay(3000);
@@ -157,19 +161,22 @@ void loud_cap()
 // -----------------Command B4-------------
 void get_cupple()
 {
-  gotoLocation(10, 4, 0);
-  gotoLocation(10, 4, 67);
+  servo_r.write(70);
+  gotoLocation(14, 4, 0);
+  gotoLocation(14, 4, 67);
+  delay(500);
   start_cofe();
-  servo.write(76);
+  delay(10);
+  servo.write(90);
   cup();
   //delay(00);
-  servo.write(76);
-  gotoLocation(10, 30, 67);
+  servo.write(90);
+  gotoLocation(14, 30, 60);
   servo.write(100);
-  gotoLocation(10, 30, 0);
-  gotoLocation(10, 100, 24);
+  gotoLocation(14, 30, 0);
+  gotoLocation(14, 100, 24);
   gotoLocation(65, 100, 24);
-  gotoLocation(65, 100, 30);
+  //  gotoLocation(65, 100, 30);
   //  delay(3000);
 }
 
@@ -179,16 +186,21 @@ void to_client()
   gotoLocation(40, 90, 0);
   //  rotate_cup_to();
   int pos;
-  for (pos = 65; pos <= 180; pos += 1) { // goes from 180 degrees to 0 degrees
+  //  for (pos = 65; pos <= 180; pos += 1) { // goes from 180 degrees to 0 degrees
+  //    servo_r.write(pos);              // tell servo to go to position in variable 'pos'
+  //    delay(15);                       // waits 15ms for the servo to reach the position
+  //  }
+  for (pos = 65; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
     servo_r.write(pos);              // tell servo to go to position in variable 'pos'
     delay(15);                       // waits 15ms for the servo to reach the position
   }
 
   gotoLocation(70, 90, 0);
-  gotoLocation(70, 120, 0);
+  gotoLocation(70, 110, 0);
   delay(300);
-  servo.write(30);
-  gotoLocation(0, 120, 0);
+  servo.write(60);
+  delay(500);
+  gotoLocation(0, 110, 0);
 
   cup_table = digitalRead(ir_cup);
   if (cup_table == HIGH) {
@@ -204,12 +216,17 @@ void to_client()
   stepper_E.move(-33000);
   stepper_E.disable();
 
-  for (pos = 180; pos >= 65; pos -= 1) { // goes from 180 degrees to 0 degrees
+  //  for (pos = 180; pos >= 65; pos -= 1) { // goes from 180 degrees to 0 degrees
+  //    servo_r.write(pos);              // tell servo to go to position in variable 'pos'
+  //    delay(15);                       // waits 15ms for the servo to reach the position
+  //  }
+  for (pos = 0; pos <= 65; pos += 1) { // goes from 180 degrees to 0 degrees
     servo_r.write(pos);              // tell servo to go to position in variable 'pos'
     delay(15);                       // waits 15ms for the servo to reach the position
   }
+
   gotoLocation(0, 0, 0);
-  
+
   homing();
   servo.detach();
   servo_r.detach();
@@ -221,15 +238,18 @@ void to_client()
 // -----------------Command B6-------------
 void test()
 {
-  //  stepper_E.enable();
-  //  stepper_E.move(33000);
-  //  delay(3000);
-  //  stepper_E.move(-33000);
-  //  stepper_E.disable();
-  start_cofe();
-  if (tmr.tick())
-    start_cofe();
-  delay(15000);
+  Serial1.print("1");
+  Serial.println("test");
+  if (Serial1.available()) {
+//    int a = Serial1.read();
+//    Serial.println(a);
+
+    incomingByte = Serial1.read(); // read the incoming byte:
+
+    Serial.print(" I received:");
+
+    Serial.println(incomingByte);
+  }
 }
 
 // -----------------Command T3-------------
@@ -243,12 +263,12 @@ void table()
   cup_table = digitalRead(ir_cup);
   do {
     cup_table = digitalRead(ir_cup);
-//    Serial.println("Есть стаканчик");
+    //    Serial.println("Есть стаканчик");
   } while (cup_table == LOW);
   delay(7000);
   stepper_E.move(-33000);
   stepper_E.disable();
-  
+
 }
 
 // -----------------Command M0-------------
@@ -266,6 +286,29 @@ void m7()
   stepper_M2.move(-3610);
   stepper_M2.disable();
   delay(100);
+}
+
+void check_rotation()
+{
+
+  int buttonState = digitalRead(rotationButton);
+  Serial.print("Button state = ");
+  Serial.println(buttonState);
+
+  while (buttonState == 0) {
+    Serial.println(buttonState);
+    buttonState = digitalRead(rotationButton);
+    delay(1000);
+    if (buttonState == 1) {
+      delay(500);
+      buttonState = digitalRead(rotationButton);
+      if (buttonState == 1) {
+        Serial.print("Слава яйцам, а то я аж прихуел немного ");
+        break;
+      }
+    }
+  }
+
 }
 
 

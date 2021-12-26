@@ -6,11 +6,15 @@
 #include "BasicStepperDriver.h"
 #include <Servo.h>
 #include <gcode.h>
-#include <TimerMs.h>
+//#include <TimerMs.h>
 #include <EEPROM.h>
 
 
-TimerMs tmr(106800, 1, 1);
+//TimerMs tmr(106800, 1, 1);
+
+int rotationButton = 41;
+int incomingByte = 0; 
+
 
 //------Переменная для ШД сахара
 int milk_stepper_1 = 0;
@@ -199,6 +203,7 @@ void servo_sugar();
 void servo_cream();
 void milk_stepper_cmd();
 void milk_stepper_reset_cmd();
+void check_rotation();
 
 //------для объединения комманд
 void command_x();
@@ -227,19 +232,21 @@ double D;
 double N;
 double T;
 
-commandscallback commands[36] = {
+commandscallback commands[37] = {
 {"X1", command_x}, {"X2", command_x_a}, {"X3", command_x_b}, {"X4", command_x_a_b},
 {"Y1", command_y}, {"Y2", command_y_a}, {"Y3", command_y_b}, {"Y4", command_y_a_b},
 {"B1", get_cap_x}, {"B2", get_cap_y}, {"B3", loud_cap}, {"B4", get_cupple}, {"B5", to_client}, {"B6", test}, {"T3", table}, {"M4", milk_stepper_cmd}, {"M5", milk_stepper_reset_cmd}, {"M6", m6}, {"M7", m7},
 {"M1", open_cofe}, {"M2", close_cofe}, {"M3", start_cofe}, {"G1", homing}, {"G0", moviment}, {"S0", servofn}, {"S3", servo_sugar}, {"S4", servo_cream},
 {"T1", rotate_tower}, {"T2", rotate_tower2}, {"C1", dropcap_x}, {"C2", dropcap_y}, {"S1", rotate_cup_to}, {"S2", rotate_cup_back}, 
-{"E0", stepper_e0}, {"E1", stepper_e1}, {"C0", cup}
+{"E0", stepper_e0}, {"E1", stepper_e1}, {"C0", cup}, {"P0", check_rotation}
 };
-gcode Commands(36, commands);
+gcode Commands(37, commands);
 
 
 void setup() {
-  tmr.setPeriodMode();
+//  tmr.setPeriodMode();
+  pinMode(rotationButton, INPUT_PULLUP);
+
     //------Pins для концевиков-------
   pinMode(stop_x, INPUT_PULLUP);
   pinMode(stop_y, INPUT_PULLUP);
@@ -287,6 +294,7 @@ void setup() {
   
   //  SerialUSB.begin(115200);
   Serial.begin(9600);
+  Serial1.begin(9600);
 
   turel_X.begin(MOTOR_X_RPM, MICROSTEPS);
   turel_Y.begin(MOTOR_Y_RPM, MICROSTEPS);
@@ -321,7 +329,7 @@ void setup() {
 }
 
 void loop() {
-   Commands.available();
+  Commands.available();
 
   //----------------------------------------------------------------------------------
   //   Крутим турель если нету стаканчика

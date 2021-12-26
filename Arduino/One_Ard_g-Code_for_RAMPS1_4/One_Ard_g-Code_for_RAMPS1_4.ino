@@ -9,6 +9,10 @@
 #include <TimerMs.h>
 #include <EEPROM.h>
 
+
+int analogInput = A0;
+int vin = 0;
+
 //------Переменная для ШД сахара
 int milk_stepper_1 = 0;
 int milk_stepper_2 = 0;
@@ -276,7 +280,10 @@ gcode Commands(27, commands);
 
 void setup() {
 //  tmr.setPeriodMode();
-    //------Pins для концевиков-------
+
+  pinMode(analogInput, INPUT);
+  
+  //------Pins для концевиков-------
   pinMode(stop_x, INPUT_PULLUP);
   pinMode(stop_y, INPUT_PULLUP);
   pinMode(stop_z, INPUT_PULLUP);

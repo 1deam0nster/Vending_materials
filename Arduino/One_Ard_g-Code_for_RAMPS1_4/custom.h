@@ -4,12 +4,19 @@ void get_cap_x()
   //400 - турель Y
   //6500 - турель X
   //9000 - на выдачу
-  gotoLocation(50, 0, 0);
+//  gotoLocation(50, 0, 0);
 //  turel_Z.enable();
 //  turel_Z.move(6530);
 //  dropcap_x();
 //  turel_Z.move(2670);
 //  turel_Z.disable();
+    Serial.println("Test voltage2");
+
+   do {
+      vin = analogRead(analogInput);
+      Serial.println(vin);
+      delay(500);
+   } while (vin>10);
   Serial.println("B1-GOOD");
 }
 
