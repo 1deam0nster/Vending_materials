@@ -3,8 +3,8 @@ void command_x()
   get_cap_x();
   loud_cap();
   get_cupple();
-  delay(70000);
-  //  check_rotation();
+  delay(60000);
+  check_rotation();
   to_client();
   Serial.println("X1-GOOD");
 }
@@ -15,8 +15,8 @@ void command_x_a()
   loud_cap();
   get_cupple();
   servo_sugar();
-  delay(70000);
-  //  check_rotation();
+  delay(60000);
+  check_rotation();
   to_client();
   Serial.println("X2-GOOD");
 }
@@ -27,8 +27,8 @@ void command_x_b()
   loud_cap();
   get_cupple();
   servo_cream();
-  delay(70000);
-  //  check_rotation();
+  delay(60000);
+  check_rotation();
   to_client();
   Serial.println("X3-GOOD");
 }
@@ -40,8 +40,8 @@ void command_x_a_b()
   get_cupple();
   servo_cream();
   servo_sugar();
-  delay(70000);
-  //  check_rotation();
+  delay(60000);
+  check_rotation();
   to_client();
   Serial.println("X4-GOOD");
 }
@@ -51,8 +51,8 @@ void command_y()
   get_cap_y();
   loud_cap();
   get_cupple();
-  delay(70000);
-  //  check_rotation();
+  delay(60000);
+  check_rotation();
   to_client();
   Serial.println("Y1-GOOD");
 }
@@ -63,8 +63,8 @@ void command_y_a()
   loud_cap();
   get_cupple();
   servo_sugar();
-  delay(70000);
-  //  check_rotation();
+  delay(60000);
+  check_rotation();
   to_client();
   Serial.println("Y2-GOOD");
 }
@@ -75,8 +75,8 @@ void command_y_b()
   loud_cap();
   get_cupple();
   servo_cream();
-  delay(70000);
-  //  check_rotation();
+  delay(60000);
+  check_rotation();
   to_client();
   Serial.println("Y3-GOOD");
 }
@@ -88,8 +88,8 @@ void command_y_a_b()
   get_cupple();
   servo_cream();
   servo_sugar();
-  delay(70000);
-  //  check_rotation();
+  delay(60000);
+  check_rotation();
   to_client();
   Serial.println("Y4-GOOD");
 }
@@ -238,18 +238,22 @@ void to_client()
 // -----------------Command B6-------------
 void test()
 {
-  Serial1.print("1");
-  Serial.println("test");
-  if (Serial1.available()) {
-//    int a = Serial1.read();
-//    Serial.println(a);
+//  char indata = 0;
+//  Serial1.println("1");
+//  delay(1000);
+//  Serial.println("start");
+//  while(indata == 0){
+//    Serial.println("read");
+//    indata = Serial1.parseInt();
+//    Serial.println("0");
+//    if(indata == 1){
+//      Serial.println("1");
+//      Serial.println("end");
+//      break;
+//    }
+//  }
 
-    incomingByte = Serial1.read(); // read the incoming byte:
 
-    Serial.print(" I received:");
-
-    Serial.println(incomingByte);
-  }
 }
 
 // -----------------Command T3-------------
@@ -298,9 +302,9 @@ void check_rotation()
   while (buttonState == 0) {
     Serial.println(buttonState);
     buttonState = digitalRead(rotationButton);
-    delay(1000);
+    delay(100);
     if (buttonState == 1) {
-      delay(500);
+      delay(100);
       buttonState = digitalRead(rotationButton);
       if (buttonState == 1) {
         Serial.print("Слава яйцам, а то я аж прихуел немного ");

@@ -46,22 +46,22 @@ void servo_cream(){
   //открываем верхнюю серву
   servo_cr.attach(A8);
   delay(300);
-  servo_cr.write(140);
-  delay(1000);
+//  servo_cr.write(140);
+//  delay(1000);
   servo_cr.write(90);
   delay(1500);
-  servo_cr.write(140);
+  servo_cr.write(150);
   delay(500);
   servo_cr.detach();
   //открываем нижнюю серву
   delay(1000);
   servo_cr.attach(A9);
   delay(300);
-  servo_cr.write(20);
-  delay(1000);
-  servo_cr.write(110);
+//  servo_cr.write(20);
+//  delay(1000);
+  servo_cr.write(120);
   delay(1500);
-  servo_cr.write(20);
+  servo_cr.write(0);
   delay(500);
   servo_cr.detach();
   Serial.println("S3-GOOD");

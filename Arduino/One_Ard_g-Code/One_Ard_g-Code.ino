@@ -11,10 +11,10 @@
 
 
 //TimerMs tmr(106800, 1, 1);
-
-int rotationButton = 41;
-int incomingByte = 0; 
-
+//
+//int rotationButton = 41;
+//int incomingByte = 0; 
+#define rotationButton A7
 
 //------Переменная для ШД сахара
 int milk_stepper_1 = 0;
@@ -61,9 +61,10 @@ bool cup_table;
 #define RELAY_CUP 16
 #define RELAY_TURREL 15
 
-const int turrel_pos = 19;     // номер входа, подключенный к кнопке Turret position
-const int turrel_micro_switch = 17;     // номер входа, подключенный к кнопке Turret micro switch
-const int cup_splitter = 18;     // номер входа, подключенный к кнопке Cup splitter
+const int turrel_micro_switch = 41;     // номер входа, подключенный к кнопке Turret micro switch - 17
+const int cup_splitter = 42;     // номер входа, подключенный к кнопке Cup splitter - 18
+const int turrel_pos = 43;     // номер входа, подключенный к кнопке Turret position - 19
+
 int motor_val = 3;
 
 //------Подключение ШД------
