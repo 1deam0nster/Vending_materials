@@ -173,10 +173,9 @@ void test()
   //  delay(3000);
   //  stepper_E.move(-33000);
   //  stepper_E.disable();
-  start_cofe();
-  if (tmr.tick())
-    start_cofe();
   delay(15000);
+  
+  
 }
 
 // -----------------Command T3-------------

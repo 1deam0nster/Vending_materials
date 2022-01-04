@@ -6,11 +6,7 @@
 #include "BasicStepperDriver.h"
 #include <Servo.h>
 #include <gcode.h>
-#include <TimerMs.h>
-#include <EEPROM.h>
 
-
-TimerMs tmr(106800, 1, 1);
 
 //------Переменная для ШД сахара
 int milk_stepper_1 = 0;
@@ -237,7 +233,7 @@ gcode Commands(35, commands);
 
 
 void setup() {
-  tmr.setPeriodMode();
+//  tmr.setPeriodMode();
     //------Pins для концевиков-------
   pinMode(stop_x, INPUT_PULLUP);
   pinMode(stop_y, INPUT_PULLUP);
@@ -313,9 +309,9 @@ void setup() {
 //  check_servo_y();
 
     //----Читаем значения переменных с сахаром и сливками
-  EEPROM.get(0, milk_stepper_1);
-  EEPROM.get(1, milk_stepper_2);
-  EEPROM.get(2, milk_stepper_3);
+//  EEPROM.get(0, milk_stepper_1);
+//  EEPROM.get(1, milk_stepper_2);
+//  EEPROM.get(2, milk_stepper_3);
 }
 
 void loop() {
