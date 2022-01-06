@@ -1,0 +1,9 @@
+sudo ln /dev/serial/by-id/usb-PAX_d200-if00 /dev/ttyS65 -s
+
+#service stop start
+sudo nano /etc/systemd/system/app.service
+sudo systemctl start\stop app.service
+
+#stop service
+sudo systemctl stop app.service
+
