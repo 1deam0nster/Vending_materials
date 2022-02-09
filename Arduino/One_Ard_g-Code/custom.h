@@ -203,7 +203,7 @@ void to_client()
   gotoLocation(0, 110, 0);
 
   cup_table = digitalRead(ir_cup);
-  if (cup_table == HIGH) {
+  if (cup_table == LOW) {
     stepper_E.enable();
     stepper_E.move(33000);
   }
@@ -211,7 +211,7 @@ void to_client()
   do {
     cup_table = digitalRead(ir_cup);
     //Serial.println("Есть стаканчик");
-  } while (cup_table == LOW);
+  } while (cup_table == HIGH);
   delay(7000);
   stepper_E.move(-33000);
   stepper_E.disable();
@@ -238,21 +238,27 @@ void to_client()
 // -----------------Command B6-------------
 void test()
 {
-//  char indata = 0;
-//  Serial1.println("1");
-//  delay(1000);
-//  Serial.println("start");
-//  while(indata == 0){
-//    Serial.println("read");
-//    indata = Serial1.parseInt();
-//    Serial.println("0");
-//    if(indata == 1){
-//      Serial.println("1");
-//      Serial.println("end");
-//      break;
-//    }
-//  }
+//    stepper_E.enable();
+//    stepper_E.move(33000);
+//  delay(7000);
+//  stepper_E.move(-33000);
+//  stepper_E.disable();
 
+
+  
+  cup_table = digitalRead(ir_cup);
+  if (cup_table == LOW) {
+    stepper_E.enable();
+    stepper_E.move(33000);
+  }
+  cup_table = digitalRead(ir_cup);
+  do {
+    cup_table = digitalRead(ir_cup);
+    //Serial.println("Есть стаканчик");
+  } while (cup_table == HIGH);
+  delay(7000);
+  stepper_E.move(-33000);
+  stepper_E.disable();
 
 }
 
