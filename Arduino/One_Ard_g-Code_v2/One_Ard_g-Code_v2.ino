@@ -79,9 +79,13 @@ int motor_val = 3;
 #define NAV_MOTOR_Z_RPM 120
 
 // X motor
-#define DIR_X 47
-#define STEP_X 48
-#define ENA_X 46
+//#define DIR_X 47
+//#define STEP_X 48
+//#define ENA_X 46
+// X motor
+#define DIR_X A1
+#define STEP_X A0
+#define ENA_X A2
 
 // Y motor
 #define DIR_Y 50
