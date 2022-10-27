@@ -7,19 +7,19 @@ void relay(double n, double t){
   
   if (rel == 1)
     {
-      num_rel = 42;
+      num_rel = 18;
     }
   else if (rel == 2)
     {
-      num_rel = 43;
+      num_rel = 19;
     }
   else if (rel == 3)
     {
-      num_rel = 44;
+      num_rel = 20;
     }
   else if (rel == 4)
     {
-      num_rel = 45;
+      num_rel = 21;
     }
   else if (rel == 5)
     {

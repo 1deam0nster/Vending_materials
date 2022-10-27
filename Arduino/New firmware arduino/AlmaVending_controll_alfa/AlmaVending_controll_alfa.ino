@@ -50,6 +50,11 @@ void setup()
   stepper.begin(RPM, MICROSTEPS);
   // if using enable/disable on ENABLE pin (active LOW) instead of SLEEP uncomment next line
   stepper.setEnableActiveState(LOW);
+
+  pinMode(45, OUTPUT);
+  digitalWrite(45, HIGH);
+  delay(1000);
+  digitalWrite(45, LOW);
   Commands.begin("ok"); //responce => ok, rs or !!
 }
 
