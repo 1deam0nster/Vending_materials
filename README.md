@@ -5,15 +5,13 @@
 
 ## 📖 Оглавление
 
-- [Структура](##-Структура папок)
-- [Features](#-features)
-- [Examples](#-examples)
-- [Browser Support](#-browser-support)
-- [Pull Request Steps](#-pull-request-steps)
-- [Contributing](#-contributing)
-- [TOAST UI Family](#-toast-ui-family)
-- [Used By](#-used-by)
-- [License](#-license)
+- Структура папок
+- Список модулей
+- Установка ПО
+- Список багов
+- Список полезных ссылок
+- Релизы
+- Лицензия
 
 
 ## 📁 Структура папок
