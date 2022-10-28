@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>Название: Melozio</h3>
+    <p>Id: {{ obj['no_1']['id'] }}</p>
+    <p>Name: {{ obj['no_1']['name'] }}</p>
+    <p>Link url: {{ obj['no_1']['img_url'] }}</p>
+    <p>Описание: {{ obj['no_1']['description'] }}</p>
+    <p>Стоимость: {{ obj['no_1']['price'] }}</p>
+    <p>Кол-во: {{ obj['no_1']['value'] }}</p>
+    <p>Команда g-code: {{ obj['no_1']['command'] }}</p>
+    <p>url: {{ obj['no_1']['url'] }}</p>
+    <p>link: <a href="{{ url_for(obj['no_1']['url']) }}">{{ obj['no_1']['url'] }} </a></p>
+    <img src="{{url_for('static', filename='img1.png')}}" alt="Placeholder image">
+
+    <h3>Название: Melozio2</h3>
+    <p>Id: {{ obj['no_2']['id'] }}</p>
+    <p>Name: {{ obj['no_2']['name'] }}</p>
+    <p>Link url: {{ obj['no_2']['img_url'] }}</p>
+    <p>Описание: {{ obj['no_2']['description'] }}</p>
+    <p>Стоимость: {{ obj['no_2']['price'] }}</p>
+    <p>Кол-во: {{ obj['no_2']['value'] }}</p>
+    <p>Команда g-code: {{ obj['no_2']['command'] }}</p>
+    <p>url: {{ obj['no_2']['url'] }}</p>
+    <p>link: <a href="{{ url_for(obj['no_2']['url']) }}">{{ obj['no_2']['url'] }} </a></p>
+    <img src="{{url_for('static', filename='img2.png')}}" alt="Placeholder image">
+
+    <br>
+
+    <!-- {% for o in obj['Melozio'] %}
+    <h4> {{ obj['description'] }} </h4>
+    <p> {{ obj['price'] }}$ </p>
+    {% endfor %} -->
+
+{% endblock %}

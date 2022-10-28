@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Coffe dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
+    <!-- <script type=text/javascript>
+        $(function() {
+          $('a#bye').on('click', function(e) {
+            e.preventDefault()
+            $.getJSON('/start_coffe_x',
+                function(data) {
+              //do nothing
+            });
+            return false;
+          });
+    
+        });
+    </script> -->
+</head>
+
+<body>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Страница с кофе Х
+                </h1>
+                <h2 class="subtitle">
+                    {{ obj['no_1']['description'] }}
+                </h2>
+
+                <div class="field">
+                    <h3>Сахар</h3>
+                    <!-- <div class="control">
+                        <label class="radio">
+                            <input type="radio" name="sugar" id="allot">
+                            Yes
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="sugar">
+                            No
+                        </label>
+                    </div> -->
+                    <div class="select">
+                        <select>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <h3>Сливки</h3>
+                    <div class="control">
+                        <label class="radio2">
+                            <input type="radio" name="question2">
+                            Yes
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="question2">
+                            No
+                        </label>
+                    </div>
+                </div>
+
+                <div class="field is-grouped">
+                    <div class="control">
+                        <a href=# id=bye><button class="button is-link">Купить</button></a>
+                    </div>
+                    <div class="control">
+                        <a href="/"><button class="button is-link is-light">Назад</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
