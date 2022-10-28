@@ -2,3 +2,5 @@
 Arduino/Coffe_GCODE/
 Python/Stuff/async-serial/
 Backup/RPI4_image_alfa.7z
+Python/Python_dev/__pycache__
+Python/Python_dev/serial_commands/__pycache__

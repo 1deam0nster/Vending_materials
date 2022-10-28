@@ -45,13 +45,16 @@ def coffe_1():
             connect()
             print("connect ok")
             open_serial()
-            send(b'x1\n')
+            send(b'S0 N7 D90\n')
+            send(b'S0 N7 D0\n')
             close()           
             print("send ok")
             
-            program = "python aqsi.py"
-            process = subprocess.Popen(["python", "aqsi.py --amount=12"])
+            # Рабочий снипет
+            # program = "python aqsi.py"
+            # process = subprocess.Popen(["python", "aqsi.py --amount=12"])
 
+            # Второй вариант
             # output = os.system('python aqsi.py --amount=24')
             # if output == str(0):
             #     print("Транзакция не прошла")
@@ -83,13 +86,18 @@ def coffe_2():
             connect()
             print("connect ok")
             open_serial()
-            send(b'x1\n')
+            time.sleep(2)
+            send(b'R0 N1 T1000\n')
+            send(b'S0 N7 D80\n')
+            time.sleep(2)
+            send(b'S0 N7 D0\n')
             close()           
             print("send ok")
             
             #AQSI Terminal start pay
-            program = "python aqsi.py"
-            process = subprocess.Popen(["python", "aqsi.py --amount=12"])
+            # program = "python aqsi.py"
+            # process = subprocess.Popen(["python", "aqsi.py --amount=12"])
+            #----------
             # output = os.system('python aqsi.py --amount=24')
             # if output == str(0):
             #     print("Транзакция не прошла")

@@ -3,7 +3,7 @@ import serial
 def connect():
     global ser
     # ser = serial.Serial('/dev/ttyACM0', 9600, timeout=5, writeTimeout=5)
-    ser = serial.Serial('COM10', 9600, timeout=5, writeTimeout=5)
+    ser = serial.Serial('COM4', 9600, timeout=5, writeTimeout=5)
 
 def open_serial():
     if(ser.isOpen() == False):
