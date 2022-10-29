@@ -1,59 +1,159 @@
-from flask import Flask, url_for, render_template, request, json
-import time
-import serial
+# from crypt import methods
+from flask import Flask, url_for, render_template, request, json,  redirect, g
+import time, os, subprocess, math
+from serial_commands.commands import connect, open_serial, close, send, read_command, recv
+import sqlite3 
+from json_bd.bd import read_db
+from FDataBase import FDataBase
+
+# Configuration
+DATABASE = '/db/data.db'
+DEBUG = True
+SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
+USERNAME = 'admin'
+PASSWORD = '123'
 
 app = Flask(__name__)
+app.config.from_object(__name__)
+app.config.update(dict(DATABASE=os.path.join(app.root_path,'db/data.db')))
 
 
-sugar_x = False
-cream_x = False
-sugar_y = False
-cream_y = False
-
-class Serializer:
-
-    def __init__(self):
-        self.ser = serial.Serial('/dev/ttyACM0', 9600, timeout=5, writeTimeout=5)
-
-    def open(self):
-        if(self.ser.isOpen() == False):
-            self.ser.open()
-            print("Serial is open")
-        else:
-            print("Serial already open")
-
-    def close(self):
-        self.ser.close()
-        print("Serial is close")
-
-    def send(self, msg):
-        self.ser.write(msg)
+### SQL Lite DB functions
+#Connect to db
+def connect_db():
+    conn = sqlite3.connect(app.config['DATABASE'])
+    conn.row_factory = sqlite3.Row
+    return conn
     
-    def read_command(self):
-        print("read commands")
-        data = self.ser.readline().decode()
-        print(data)
+#Run SQL
+def create_db():
+    db = connect_db()
+    with app.open_resource('db/sq_db.sqlite', mode='r') as f:
+        db.cursor().executescript(f.read())
+    db.commit()
+    db.close()
 
-    def recv(self):
-        return self.ser.readline()
+#Get db
+def get_db():
+    if not hasattr(g, 'link_db'):
+        g.link_db = connect_db()
+    return g.link_db
 
+#Close connect to db
+@app.teardown_appcontext
+def close_db(error):
+    if hasattr(g, 'link_db'):
+        g.link_db.close()
+    
 
 
 
 
 # Роутинг страниц
+@app.route("/index")
 @app.route('/')
 def index():
-    return render_template('index.html')
+    db = get_db()
+    dbase = FDataBase(db)
+    return render_template('index.html', coffe = dbase.getCoffe())
+
+@app.route("/admin", methods=["POST", "GET"])
+def admin():
+    db = get_db()
+    dbase = FDataBase(db)
+    return render_template('admin.html', coffe = dbase.getCoffe())
+
+@app.route("/admin/edit/<int:id_coffe>", methods=["POST", "GET"])
+def edit_coffe(id_coffe):
+    db = get_db()
+    dbase = FDataBase(db)
+    if request.method == 'POST':
+        id_coffe = request.form['id']
+        res = dbase.updateCoffe(id_coffe, request.form['name'], request.form['description'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
+        return render_template('admin.html', coffe = dbase.getCoffe())
+    id, name, descriptions, short_description, price, value, g_code, img_url, link_url = dbase.getById(id_coffe)
+    return render_template('edit.html', id=id, name=name, descriptions=descriptions, short_description=short_description, price=price, value=value, g_code=g_code, img_url=img_url, link_url=link_url)
 
 
-@app.route('/coffe_y/', methods=['POST', 'GET'])
-def coffe_y():
+# @app.route("/admin/edit/update_coffe", methods=["POST", "GET"])
+# def update_coffe():
+#     db = get_db()
+#     dbase = FDataBase(db)
+#     if request.method == 'POST':
+#         id_coffe = request.form['id']
+#         res = dbase.updateCoffe(id_coffe, request.form['name'], request.form['description'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
+#     return render_template('admin.html', coffe = dbase.getCoffe())
+
+@app.route('/admin/add_coffe', methods=["POST", "GET"])
+def add_coffe():
+    db = get_db()
+    dbase = FDataBase(db)
+
+    if request.method == 'POST':
+        if len(request.form['name']) > 4 and len(request.form['description']) > 1:
+            res = dbase.addCoffe(request.form['id'], request.form['name'], request.form['description'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
+            if not res:
+                print('Ошибка добавления статьи')
+            else:
+                print('Статья добавлена успешно')
+        else:
+            print('Ошибка добавления статьи')
+
+    return render_template('add.html', coffe = dbase.getCoffe(), title="Добавление сортов кофе")
+
+
+
+
+# @app.route('/add_coffe', methods=["POST", "GET"])
+# def add_coffe():
+#     db = get_db()
+#     dbase = FDataBase(db)
+
+#     if request.method == 'POST':
+#         if len(request.form['name']) > 4 and len(request.form['description']) > 1:
+#             res = dbase.addCoffe(request.form['id'], request.form['name'], request.form['description'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
+#             if not res:
+#                 print('Ошибка добавления статьи')
+#             else:
+#                 print('Статья добавлена успешно')
+#         else:
+#             print('Ошибка добавления статьи')
+
+#     return render_template('add.html', coffe = dbase.getCoffe(), title="Добавление сортов кофе")
+
+@app.route("/coffe/<int:id_coffe>")
+def showCoffe(id_coffe):
+    db = get_db()
+    dbase = FDataBase(db)
+    name, description = dbase.getSort(id_coffe)
+    return render_template('coffe.html', name=name, description=description)
+
+
+
+
+
+
+
+
+
+
+
+
+
+@app.route('/index2')
+def index2():
+    obj = read_db()
+    return render_template('index2.html', obj = obj)
+
+@app.route('/coffe_1/', methods=['POST', 'GET'])
+def coffe_1():
+    obj = read_db()
+    # coffe_1 = obj
     if request.method == 'POST':
         #print(request.form.getlist('mycheckbox'))
         postlist = request.form.getlist('mycheckbox')
         print(postlist)
-
+        print(request.args)
 
         if '2' in postlist and len(postlist) == 1:
             print("Сахар")
@@ -64,33 +164,109 @@ def coffe_y():
         if len(postlist) == 0:
             print("Кофе")
             print("connect")
-            # ard.connect()
-            ard.open()
+            connect()
             print("connect ok")
-            ard.send(b'x1\n')            
+            open_serial()
+            send(b'S0 N7 D90\n')
+            send(b'S0 N7 D0\n')
+            close()           
             print("send ok")
-            ard.close()
-        return render_template('pay_y.html')
-    return render_template('coffe_y.html')
+            
+            # Рабочий снипет
+            # program = "python aqsi.py"
+            # process = subprocess.Popen(["python", "aqsi.py --amount=12"])
+
+            # Второй вариант
+            # output = os.system('python aqsi.py --amount=24')
+            # if output == str(0):
+            #     print("Транзакция не прошла")
+            # if output == 1:
+            #     print("Транзакция прошла")
+
+        return render_template('pay_1.html')
+
+    return render_template('coffe_1.html', obj = obj)
+
+@app.route('/coffe_2/', methods=['POST', 'GET'])
+def coffe_2():
+    obj = read_db()
+    if request.method == 'POST':
+        #print(request.form.getlist('mycheckbox'))
+        postlist = request.form.getlist('mycheckbox')
+        print(postlist)
+        print(request.args)
+
+        if '2' in postlist and len(postlist) == 1:
+            print("Сахар")
+        if '1' in postlist and len(postlist) == 1:
+            print("Сливки")
+        if len(postlist) == 2:
+            print("Сливки и сахар")
+        if len(postlist) == 0:
+            print("Кофе")
+            print("connect")
+            connect()
+            print("connect ok")
+            open_serial()
+            time.sleep(2)
+            send(b'R0 N1 T1000\n')
+            send(b'S0 N7 D80\n')
+            time.sleep(2)
+            send(b'S0 N7 D0\n')
+            close()           
+            print("send ok")
+            
+            #AQSI Terminal start pay
+            # program = "python aqsi.py"
+            # process = subprocess.Popen(["python", "aqsi.py --amount=12"])
+            #----------
+            # output = os.system('python aqsi.py --amount=24')
+            # if output == str(0):
+            #     print("Транзакция не прошла")
+            # if output == 1:
+            #     print("Транзакция прошла")
 
 
-@app.route('/coffe_x/')
-def coffe_x():
-    return render_template('coffe_x.html')
+            #Write to json file analitics
+            program = "python test_write.py"
+            process = subprocess.Popen(["python", "test_write.py"])
+        return render_template('pay_2.html')
+
+    return render_template('coffe_2.html', obj = obj)
+
+# @app.route('/coffe_x/')
+# def coffe_x():
+#     return render_template('coffe_x.html')
+
+@app.route('/coffe_3/', methods=['POST', 'GET'])
+def coffe_3():
+    obj = read_db()
+    if request.method == 'POST':
+        print(request.form)
+        # postlist = request.form.getlist('mycheckbox')
+        # print(postlist)
+        # print(request.args)
+    else:
+        return render_template('coffe_3.html', obj = obj)
 
 
-@app.route('/send_coffe_y', methods=['POST'])
-def send_coffe_y():
-    user =  request.form['username']
-    password = request.form['password']
-    print(password)
-    print(user)
-    return json.dumps({'status':'OK','user':user,'pass':password})
+# @app.route('/send_coffe_y', methods=['POST'])
+# def send_coffe_y():
+#     user =  request.form['username']
+#     password = request.form['password']
+#     print(password)
+#     print(user)
+#     return json.dumps({'status':'OK','user':user,'pass':password})
 
+@app.errorhandler(404)
+def pageNotFount(error):
+    return render_template('page404.html', title="Страница не найдена",)
 
+# with app.test_request_context():
+#     print( url_for('index') )
 
 
 if __name__ == '__main__':
-    ard = Serializer()
-    app.debug = True
-    app.run(host='127.0.0.1')
+    # app.debug = True
+    app.run(host='127.0.0.1', debug=True)
+

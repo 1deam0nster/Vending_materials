@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>FlaskBlog</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-
+    <link type="text/css" href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
 </head>
 <body>
   <!-- <section class="hero is-primary">
@@ -17,62 +17,48 @@
       </p>
     </div>
   </section> -->
-  <div class="container mt-5">
-   <div class="columns">
+
+
+  <!-- {% for name in name %}
+
+      {% for column in name %}
+          {% if not loop.first %}{{ column }}<br />{% endif %}
+      {% endfor %}
+  </li>
+  {% endfor %} -->
+
+  <!-- Пример отображения БД -->
+  <!-- {% for n in coffe %}
+  <li><h2>{{ n.name }}</h2><p>id: {{ n.id }}</p></li>
+  {% endfor %} -->
+
+
+  <div class="columns">
+    {% for n in coffe %}
     <div class="column">
-        <a href="/coffe_1">
-            <div class="card">
-                <div class="card-image is-align-items-center">
-                  <h2 class="title is-3 mt-5 has-text-centered">{{ obj['no_1']['name'] }}</h2>
-                  <figure class="image">
-                    <img src="{{url_for('static', filename='img1.png')}}" alt="Placeholder image">
-                  </figure>
-                </div>
-                <div class="card-content has-text-centered">
-                  <div class="media">
-                    <div class="media-content">
-                      <p class="title is-5">{{ obj['no_1']['price'] }} руб.</p>
-                      <!-- <p class="subtitle is-6">Коста-Рика</p> -->
-                    </div>
-                  </div>
-              
-                  <div class="content">
-                    {{ obj['no_1']['description'] }}
-                  </div>
+      <a href="{{ n.link_url }}">
+        <div class="card">
+            <div class="card-image is-align-items-center">
+              <h2 class="title is-3 mt-5 has-text-centered">{{ n.name }}</h2>
+              <figure class="image">
+                <img src="{{ url_for('static', filename=n.img_url )}}" alt="Placeholder image">
+              </figure>
+            </div>
+            <div class="card-content has-text-centered">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-5">{{ n.price }} руб.</p>
                 </div>
               </div>
-           </a>
-    </div>
-
-    <div class="column">
-        <a href="/coffe_2">
-            <div class="card is-align-items-center">
-                <div class="card-image has-text-centered">
-                  <h2 class="title is-3 mt-5">{{ obj['no_2']['name'] }}</h2>
-
-                  <figure class="image">
-                    
-                    <img src="{{url_for('static', filename='img2.png')}}" alt="Placeholder image">
-                  </figure>
-                </div>
-                <div class="card-content has-text-centered">
-                  <div class="media">
-                    <div class="media-content">
-                      <p class="title is-5">{{ obj['no_2']['price'] }} руб.</p>
-                      <!-- <p class="subtitle is-6">Коста-Рика</p> -->
-                    </div>
-                  </div>
-              
-                  <div class="content">
-                    {{ obj['no_2']['description'] }}
-                  </div>
-                </div>
+              <div class="content">
+                {{ n.description }}
               </div>
-        </a>
+            </div>
+          </div>
+       </a>
     </div>
+    {% endfor %}
   </div>
-</div>
-   
-   
+
 </body>
 </html>

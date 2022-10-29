@@ -1,37 +1,31 @@
-<!-- {% extends 'base.html' %}
-
-{% block content %}
-    <h1>{% block title %} Add {% endblock %}</h1>
-
-    <form method="POST" action="/">
-        {{ form.csrf_token }}
-        <p>
-            {{ form.sugar.label }}
-            {{ form.sugar() }}
-        </p>
-
-        {% if form.sugar.errors %}
-            <ul class="errors">
-                {% for error in form.sugar.errors %}
-                    <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        <p>
-            <input type="submit" value="Add">
-        </p>
-    </form>
-
-{% endblock %} -->
-
 {% extends 'base.html' %}
-{% block title %} Posts {% endblock %}
-{% block body %}
-        <div class="main-container">
-                         <h1>First post</h1>
-                         <div> posted on: 5th of june</div>
-                         <div>this is  the first blog post</div>
-                         <hr>
-       </div>
+ 
+{% block content %}
+
+<form action="{{url_for('add_coffe')}}" method="post" class="form-contact">
+<p><label>Имя: </label> <input type="text" name="name" value="Название кофе" requied />
+
+<p><label>ID: </label> <input type="text" name="id" value="3" requied />
+
+<p><label>Описание:</label>
+<p><textarea name="description" rows=7 cols=40 value="Длинное и долгое поле для описания кофе"></textarea>
+
+<p><label>Короткое описание:</label>
+<p><textarea name="short_description" rows=7 cols=40 value="Короткое описания кофе"></textarea>
+
+<p><label>Цена: </label> <input type="text" name="price" value="123" requied />
+
+<p><label>Кол-во капсул: </label> <input type="text" name="value" value="12" requied />
+
+<p><label>G-Code: </label> <input type="text" name="g_code" value="G2 M3" requied />
+
+<p><label>Изображение: </label> <input type="text" name="img_url" value="img3.png" requied />
+
+<p><label>Cсылка: </label> <input type="text" name="link_url" value="coffe_3.html" requied />
+
+<p><input type="submit" value="Добавить" />
+</form>
+
+</body>
+
 {% endblock %}

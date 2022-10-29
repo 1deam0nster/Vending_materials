@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+ 
+{% block content %}
+    <br>
+    <table class="table">
+        <thead>
+            <thead>
+                <tr>
+                  <th><abbr title="ID">ID</abbr></th>
+                  <th><abbr title="Name"></abbr>Name</th>
+                  <th><abbr title="descriptions">descriptions</abbr></th>
+                  <th><abbr title="short_description">short_description</abbr></th>
+                  <th><abbr title="value">value</abbr></th>
+                  <th><abbr title="g-code">g-code</abbr></th>
+                  <th><abbr title="img_url">img_url</abbr></th>
+                  <th><abbr title="link_url">link_url</abbr></th>
+                  <th><abbr title="edit">commands</abbr></th>
+
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                  <th><abbr title="ID">ID</abbr></th>
+                  <th><abbr title="Name"></abbr>Name</th>
+                  <th><abbr title="descriptions">descriptions</abbr></th>
+                  <th><abbr title="short_description">short_description</abbr></th>
+                  <th><abbr title="value">value</abbr></th>
+                  <th><abbr title="g-code">g-code</abbr></th>
+                  <th><abbr title="img_url">img_url</abbr></th>
+                  <th><abbr title="link_url">link_url</abbr></th>
+                  <th><abbr title="edit">commands</abbr></th>
+                </tr>
+            </tfoot>
+            <tbody>
+                {% for n in coffe %}
+                <tr>
+                    <th>{{ n.id }}</th>
+                    <td>{{ n.name }} </td>
+                    <td>{{ n.descriptions }}</td>
+                    <td>{{ n.short_description }}</td>
+                    <td>{{ n.value }} </td>
+                    <td>{{ n.g_code }}</td>
+                    <td>{{ n.img_url }}</td>
+                    <td>{{ n.link_url }}</td>
+                    <td><a class="button is-primary" href="/admin/edit/{{ n.id }}"><span>Редактировать</span></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+{% endblock %}

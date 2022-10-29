@@ -13,9 +13,11 @@ cream_y = False
     
 
 # Роутинг страниц
+@app.route("/index")
 @app.route('/')
 def index():
     obj = read_db()
+    # print( url_for('index') )
     return render_template('index.html', obj = obj)
 
 @app.route('/index2')
@@ -116,6 +118,14 @@ def coffe_2():
 # def coffe_x():
 #     return render_template('coffe_x.html')
 
+@app.route('/coffe_3/', methods=['POST', 'GET'])
+def coffe_3():
+    obj = read_db()
+    if request.method == 'POST':
+        print(request.form)
+    else:
+        return render_template('coffe_3.html', obj = obj)
+
 
 @app.route('/send_coffe_y', methods=['POST'])
 def send_coffe_y():
@@ -126,7 +136,8 @@ def send_coffe_y():
     return json.dumps({'status':'OK','user':user,'pass':password})
 
 
-
+# with app.test_request_context():
+#     print( url_for('index') )
 
 
 if __name__ == '__main__':
