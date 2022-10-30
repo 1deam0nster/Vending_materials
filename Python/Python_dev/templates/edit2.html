@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="post" class="form-contact">
+    <p><label>Имя: </label> <input type="text" name="name" value="{{ request.form['name'] or post['name'] }}" requied />
+
+    <p><label>Описание:</label><input type="text" name="description" rows=7 cols=40 value="{{ descriptions }}"></textarea>
+
+    <p><input type="submit" value="Обновить" />
+</form>
+
+</body>
+
+{% endblock %}

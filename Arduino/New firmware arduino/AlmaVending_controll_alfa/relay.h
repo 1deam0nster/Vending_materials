@@ -7,19 +7,19 @@ void relay(double n, double t){
   
   if (rel == 1)
     {
-      num_rel = 18;
+      num_rel = 14;
     }
   else if (rel == 2)
     {
-      num_rel = 19;
+      num_rel = 15;
     }
   else if (rel == 3)
     {
-      num_rel = 20;
+      num_rel = 16;
     }
   else if (rel == 4)
     {
-      num_rel = 21;
+      num_rel = 17;
     }
   else if (rel == 5)
     {
@@ -47,6 +47,7 @@ void relay(double n, double t){
   digitalWrite(num_rel, LOW);
   delay(del);
   digitalWrite(num_rel, HIGH);
+
 }
 
 void relayfn()

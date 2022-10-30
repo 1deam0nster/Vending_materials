@@ -1,5 +1,5 @@
 # from crypt import methods
-from flask import Flask, url_for, render_template, request, json,  redirect, g
+from flask import Flask, url_for, render_template, request, json,  redirect, g,  abort
 import time, os, subprocess, math
 from serial_commands.commands import connect, open_serial, close, send, read_command, recv
 import sqlite3 
@@ -44,7 +44,14 @@ def get_db():
 def close_db(error):
     if hasattr(g, 'link_db'):
         g.link_db.close()
-    
+
+def get_item(item_id):
+    conn = get_db()
+    post = conn.execute('SELECT * FROM coffe WHERE id = ?', (item_id,)).fetchone()
+    conn.close()
+    if post is None:
+        abort(404)
+    return post
 
 
 
@@ -56,6 +63,14 @@ def index():
     db = get_db()
     dbase = FDataBase(db)
     return render_template('index.html', coffe = dbase.getCoffe())
+
+@app.route("/index3")
+def index3():
+    conn = get_db()
+    getItems = conn.execute('SELECT * FROM coffe').fetchall()
+    conn.close()
+    return render_template('index.html', coffe = getItems)
+
 
 @app.route("/admin", methods=["POST", "GET"])
 def admin():
@@ -74,6 +89,30 @@ def edit_coffe(id_coffe):
     id, name, descriptions, short_description, price, value, g_code, img_url, link_url = dbase.getById(id_coffe)
     return render_template('edit.html', id=id, name=name, descriptions=descriptions, short_description=short_description, price=price, value=value, g_code=g_code, img_url=img_url, link_url=link_url)
 
+
+
+@app.route('/admin/edit2/<int:id_coffe>', methods=('GET', 'POST'))
+def edit2(id_coffe):
+    id_coffe = get_item(id_coffe)
+
+    if request.method == 'POST':
+        title = request.form['name']
+        content = request.form['descriptions']
+
+        if not title:
+            print('Title is required!')
+
+        elif not content:
+            print('Content is required!')
+
+        else:
+            conn = connect_db()
+            conn.execute("UPDATE coffe SET name='{name}', descriptions='{descriptions}' WHERE id = {id_coffe};")
+            conn.commit()
+            conn.close()
+            return redirect(url_for('index'))
+
+    return render_template('edit.html', id_coffe=id_coffe)
 
 # @app.route("/admin/edit/update_coffe", methods=["POST", "GET"])
 # def update_coffe():
