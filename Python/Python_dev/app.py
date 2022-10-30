@@ -1,6 +1,6 @@
 # from crypt import methods
 from flask import Flask, url_for, render_template, request, json,  redirect, g,  abort
-import time, os, subprocess, math
+import time, os, subprocess, sys
 from serial_commands.commands import connect, open_serial, close, send, read_command, recv
 import sqlite3 
 from json_bd.bd import read_db
@@ -12,11 +12,12 @@ DEBUG = True
 SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
 USERNAME = 'admin'
 PASSWORD = '123'
+UPLOAD_FOLDER = '/static'
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.config.from_object(__name__)
 app.config.update(dict(DATABASE=os.path.join(app.root_path,'db/data.db')))
-
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 ### SQL Lite DB functions
 #Connect to db
@@ -141,6 +142,18 @@ def showCoffe(id_coffe):
     name, description = dbase.getSort(id_coffe)
     return render_template('coffe.html', name=name, description=description)
 
+@app.route('/upload')  
+def upload():  
+    return render_template("file_upload_form.html")  
+ 
+@app.route('/success/<int:id_coffe>', methods = ['POST'])  
+def success(id_coffe):  
+    if request.method == 'POST':  
+        print(id_coffe)
+        f = request.files['file']  
+        f.filename = "abc.png" # name of file
+        f.save("static/sort/"+f.filename) 
+        return render_template("success.html", name = f.filename)  
 
 
 
@@ -278,5 +291,6 @@ def pageNotFount(error):
 
 if __name__ == '__main__':
     # app.debug = True
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.run(host='127.0.0.1', debug=True)
 

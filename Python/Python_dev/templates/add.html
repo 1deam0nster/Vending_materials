@@ -2,6 +2,99 @@
  
 {% block content %}
 
+<div class="columns mt-3">
+    <div class="column is-two-thirds">
+
+        <form class="box" action="{{url_for('add_coffe')}}" method="post" class="form-contact">
+
+        <div class="field">
+            <label class="label">Имя:</label>
+            <div class="control">
+              <input class="input" type="text" name="name" value="Название кофе" requied placeholder="Text input">
+            </div>
+        </div>
+
+        <!-- <fieldset disabled> -->
+  
+            <div class="field">
+              <label class="label">ID:</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="id" name="id" value="3" requied >
+              </div>
+            </div>
+        
+        <!-- </fieldset> -->
+
+        <div class="field">
+            <label class="label">Описание:</label>
+            <div class="control">
+              <textarea class="textarea" name="descriptions" value="Длинное и долгое поле для описания кофе" placeholder="Textarea"></textarea>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Короткое писание:</label>
+            <div class="control">
+              <textarea class="textarea" name="short_description" rows=3 value="Короткое описание" placeholder="Textarea"></textarea>
+            </div>
+        </div>
+
+
+        <div class="field is-grouped">
+          <p class="control">
+            <div class="field">
+                <label class="label">Цена:</label>
+                <div class="control">
+                  <input class="input" type="text" name="price" value="120" requied placeholder="120">
+                </div>
+            </div>
+          </p>
+          <p class="control">
+            <div class="field">
+                <label class="label">Кол-во:</label>
+                <div class="control">
+                  <input class="input" type="text" name="value" value="100" requied placeholder="100">
+                </div>
+            </div>
+          </p>
+          <p class="control">
+            <div class="field">
+                <label class="label">G-Code:</label>
+                <div class="control">
+                  <input class="input" type="text" name="g_code" value="G2 X100" requied placeholder="100">
+                </div>
+            </div>
+          </p>
+          <p class="control">
+            <div class="field">
+                <label class="label">URL img:</label>
+                <div class="control">
+                  <input class="input" type="text" name="img_url" value="img3.png" requied >
+                </div>
+            </div>
+          </p>
+          <p class="control">
+            <div class="field">
+                <label class="label">URL link:</label>
+                <div class="control">
+                  <input class="input" type="text" name="link_url" value="coffe/3" requied >
+                </div>
+            </div>
+          </p>
+        </div>
+        <div class="buttons">
+            <button class="button is-success" type="submit" value="Добавить">Добавить</button>
+            <button class="button is-danger">Отмена</button>
+        </div>
+        <!-- <input type="submit" value="Добавить" class="button is-primary"/> -->
+
+        </form>
+
+    </div>
+    <!-- <div class="column">Auto</div>
+    <div class="column">Auto</div> -->
+  </div>
+<!-- 
 <form action="{{url_for('add_coffe')}}" method="post" class="form-contact">
 <p><label>Имя: </label> <input type="text" name="name" value="Название кофе" requied />
 
@@ -24,7 +117,7 @@
 <p><label>Cсылка: </label> <input type="text" name="link_url" value="coffe_3.html" requied />
 
 <p><input type="submit" value="Добавить" />
-</form>
+</form> -->
 
 </body>
 

@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <title>FlaskBlog</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <link type="text/css" href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
 </head>
 <body>
-    <nav class="navbar is-transparent">
+    <nav class="navbar is-light">
         <div class="navbar-brand">
           <a class="navbar-item" href="https://bulma.io">
             <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
@@ -31,18 +32,26 @@
       
           <div class="navbar-end">
             <div class="navbar-item">
-              <div class="field is-grouped">
+              <div class="field is-grouped is-grouped-right">
                 <p class="control">
-                  <a class="bd-tw-button button" href="{{ url_for('admin') }}">
-                    <span>
-                      Назад
+
+                  <a class="button is-small" href="{{ url_for('admin') }}">
+                    <span class="icon is-small">
+                      <i class="fas fa-th-list"></i>                  
                     </span>
+                    <span>Админ панель</span>
                   </a>
+
                 </p>
                 <p class="control">
-                  <a class="button is-primary" href="{{ url_for('add_coffe') }}">
+
+                  <a class="button is-small" href="{{ url_for('add_coffe') }}">
+                    <span clas="icon is-small">
+                      <i class="fas fa-plus-circle"></i>
+                    </span>
                     <span>Добавить</span>
                   </a>
+
                 </p>
               </div>
             </div>

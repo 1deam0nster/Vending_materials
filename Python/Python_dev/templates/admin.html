@@ -2,7 +2,7 @@
  
 {% block content %}
     <br>
-    <table class="table  is-fullwidth">
+    <table class="table box is-fullwidth">
         <thead>
             <thead>
                 <tr>
@@ -17,7 +17,7 @@
                   <th><abbr title="edit">edit</abbr></th>
                 </tr>
             </thead>
-            <tfoot>
+            <!-- <tfoot>
                 <tr>
                   <th><abbr title="ID">ID</abbr></th>
                   <th><abbr title="Name"></abbr>Name</th>
@@ -29,7 +29,7 @@
                   <th><abbr title="link_url">link_url</abbr></th>
                   <th><abbr title="edit">edit</abbr></th>
                 </tr>
-            </tfoot>
+            </tfoot> -->
             <tbody>
                 {% for n in coffe %}
                 <tr>
@@ -43,6 +43,10 @@
                     <td>{{ n.link_url }}</td>
                     <td>
                         <div class="field is-grouped">
+                            <p class="control">
+
+
+                            </p>
                             <p class="control">
                               <a class="button is-small" href="/admin/edit/{{ n.id }}">
                                 Редактировать
