@@ -35,7 +35,7 @@
                 <p class="control">
                   <a class="bd-tw-button button" href="{{ url_for('admin') }}">
                     <span>
-                      Редактировать
+                      Назад
                     </span>
                   </a>
                 </p>
@@ -49,8 +49,11 @@
           </div>
         </div>
       </nav>
-    <div class="content">
+    <div class="container is-fluid">
+      <!-- <div class="content"> -->
         {% block content %} {% endblock %}
+    <!-- </div> -->
     </div>
+
 </body>
 </html>

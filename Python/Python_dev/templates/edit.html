@@ -2,24 +2,24 @@
 
 {% block content %}
 
-<form action="{{ url_for('edit_coffe', id_coffe=id) }}" method="post" class="form-contact">
-    <p><label>Имя: </label> <input type="text" name="name" value="{{ name }}" requied />
+<form method="post" class="form-contact">
+    <p><label>Имя: </label> <input type="text" name="name" value="{{ request.form['name'] or items['name'] }}" requied />
 
-    <p><label>ID: </label> <input type="text" name="id" value="{{ id }}" requied />
+    <p><label>ID: </label> <input type="text" name="id" value="{{ items['id']}}" requied />
 
-    <p><label>Описание:</label><input type="text" name="description" rows=7 cols=40 value="{{ descriptions }}"></textarea>
+    <p><label>Описание:</label><input type="text" name="descriptions" rows=7 cols=40 value="{{ request.form['descriptions'] or items['descriptions'] }}"></textarea>
 
-    <p><label>Короткое описание:</label><input type="text" name="short_description" rows=7 cols=40 value="{{ short_description }}"></textarea>
+    <p><label>Короткое описание:</label><input type="text" name="short_description" rows=7 cols=40 value="{{ request.form['short_description'] or items['short_description'] }}"></textarea>
 
-    <p><label>Цена: </label> <input type="text" name="price" value="{{price}}" requied />
+    <p><label>Цена: </label> <input type="text" name="price" value="{{ request.form['price'] or items['price'] }}" requied />
 
-    <p><label>Кол-во капсул: </label> <input type="text" name="value" value="{{value}}" requied />
+    <p><label>Кол-во капсул: </label> <input type="text" name="value" value="{{ request.form['value'] or items['value'] }}" requied />
 
-    <p><label>G-Code: </label> <input type="text" name="g_code" value="{{g_code}}" requied />
+    <p><label>G-Code: </label> <input type="text" name="g_code" value="{{ request.form['g_code'] or items['g_code'] }}" requied />
 
-    <p><label>Изображение: </label> <input type="text" name="img_url" value="{{img_url}}" requied />
+    <p><label>Изображение: </label> <input type="text" name="img_url" value="{{ request.form['img_url'] or items['img_url'] }}" requied />
 
-    <p><label>Cсылка: </label> <input type="text" name="link_url" value="{{link_url}}" requied />
+    <p><label>Cсылка: </label> <input type="text" name="link_url" value="{{ request.form['link_url'] or items['link_url'] }}" requied />
 
     <p><input type="submit" value="Обновить" />
 </form>

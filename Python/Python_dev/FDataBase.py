@@ -47,13 +47,20 @@ class FDataBase:
  
         return (False, False, False, False, False, False, False, False)
 
-    def updateCoffe(self, id_coffe, name, descriptions, short_description, price, value, g_code, img_url, link_url):
+    def updateRow(self, id, name, descriptions, short_description, price, value, g_code, img_url, link_url):
         try:
-            self.__cur.execute(f"UPDATE coffe SET name='{name}', descriptions='{descriptions}', short_description='{short_description}', price='{price}', value='{value}', g_code='{g_code}', img_url='{img_url}', link_url='{link_url}' WHERE ROWID={id_coffe};")
-            res = self.__cur.fetchone()
-            if res:
-                return res
+            self.__cur.execute("UPDATE coffe SET name = ?, descriptions = ?, short_description = ?, price = ?, value = ?, g_code = ?, img_url = ?, link_url = ? WHERE id = ?", (name, descriptions, short_description, price, value, g_code, img_url, link_url, id))
+            self.__db.commit()
         except sqlite3.Error as e:
-            print("Ошибка получения статьи из БД "+str(e))
- 
-        return (False, False, False, False, False, False, False, False)
+            print("Ошибка добавления статьи в БД "+str(e))
+            return False
+        return True
+
+    def deleteRow(self, id_coffe):
+        try:
+            self.__cur.execute("""DELETE from coffe where id = ?""", (id_coffe,))
+            self.__db.commit()
+        except sqlite3.Error as e:
+            print("Ошибка в БД "+str(e))
+            return False
+        return True

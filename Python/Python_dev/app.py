@@ -45,13 +45,14 @@ def close_db(error):
     if hasattr(g, 'link_db'):
         g.link_db.close()
 
-def get_item(item_id):
-    conn = get_db()
-    post = conn.execute('SELECT * FROM coffe WHERE id = ?', (item_id,)).fetchone()
-    conn.close()
-    if post is None:
-        abort(404)
-    return post
+# def get_item(item_id):
+#     conn = get_db()
+#     #Запрос строки по id
+#     post = conn.execute('SELECT * FROM coffe WHERE id = ?', (item_id,)).fetchone()
+#     conn.close()
+#     if post is None:
+#         abort(404)
+#     return post
 
 
 
@@ -64,6 +65,7 @@ def index():
     dbase = FDataBase(db)
     return render_template('index.html', coffe = dbase.getCoffe())
 
+#вариант вызова
 @app.route("/index3")
 def index3():
     conn = get_db()
@@ -72,7 +74,9 @@ def index3():
     return render_template('index.html', coffe = getItems)
 
 
+#admin routing
 @app.route("/admin", methods=["POST", "GET"])
+@app.route('/admin/')
 def admin():
     db = get_db()
     dbase = FDataBase(db)
@@ -83,45 +87,13 @@ def edit_coffe(id_coffe):
     db = get_db()
     dbase = FDataBase(db)
     if request.method == 'POST':
-        id_coffe = request.form['id']
-        res = dbase.updateCoffe(id_coffe, request.form['name'], request.form['description'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
-        return render_template('admin.html', coffe = dbase.getCoffe())
-    id, name, descriptions, short_description, price, value, g_code, img_url, link_url = dbase.getById(id_coffe)
-    return render_template('edit.html', id=id, name=name, descriptions=descriptions, short_description=short_description, price=price, value=value, g_code=g_code, img_url=img_url, link_url=link_url)
-
-
-
-@app.route('/admin/edit2/<int:id_coffe>', methods=('GET', 'POST'))
-def edit2(id_coffe):
-    id_coffe = get_item(id_coffe)
-
-    if request.method == 'POST':
-        title = request.form['name']
-        content = request.form['descriptions']
-
-        if not title:
-            print('Title is required!')
-
-        elif not content:
-            print('Content is required!')
-
+        res = dbase.updateRow(request.form['id'], request.form['name'], request.form['descriptions'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
+        if not res:
+            print('Ошибка обновления')
         else:
-            conn = connect_db()
-            conn.execute("UPDATE coffe SET name='{name}', descriptions='{descriptions}' WHERE id = {id_coffe};")
-            conn.commit()
-            conn.close()
-            return redirect(url_for('index'))
-
-    return render_template('edit.html', id_coffe=id_coffe)
-
-# @app.route("/admin/edit/update_coffe", methods=["POST", "GET"])
-# def update_coffe():
-#     db = get_db()
-#     dbase = FDataBase(db)
-#     if request.method == 'POST':
-#         id_coffe = request.form['id']
-#         res = dbase.updateCoffe(id_coffe, request.form['name'], request.form['description'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
-#     return render_template('admin.html', coffe = dbase.getCoffe())
+            print('БД обновлена успешно')
+        return redirect(url_for('admin'))
+    return render_template('edit.html', items=dbase.getById(id_coffe))
 
 @app.route('/admin/add_coffe', methods=["POST", "GET"])
 def add_coffe():
@@ -129,8 +101,8 @@ def add_coffe():
     dbase = FDataBase(db)
 
     if request.method == 'POST':
-        if len(request.form['name']) > 4 and len(request.form['description']) > 1:
-            res = dbase.addCoffe(request.form['id'], request.form['name'], request.form['description'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
+        if len(request.form['name']) > 4 and len(request.form['descriptions']) > 1:
+            res = dbase.addCoffe(request.form['id'], request.form['name'], request.form['descriptions'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
             if not res:
                 print('Ошибка добавления статьи')
             else:
@@ -140,25 +112,27 @@ def add_coffe():
 
     return render_template('add.html', coffe = dbase.getCoffe(), title="Добавление сортов кофе")
 
-
-
-
-# @app.route('/add_coffe', methods=["POST", "GET"])
-# def add_coffe():
+# @app.route('/admin/delete/<int:id_coffe>', methods=["POST", "GET"])
+# def delete(id_coffe):
 #     db = get_db()
 #     dbase = FDataBase(db)
+#     items=dbase.getById(id_coffe)
+#     id2 = items['id']
+#     sql_update_query = """DELETE from coffe where id = ?"""
+#     db.execute(sql_update_query, (id2,))
+#     db.commit()
+#     db.close()
 
-#     if request.method == 'POST':
-#         if len(request.form['name']) > 4 and len(request.form['description']) > 1:
-#             res = dbase.addCoffe(request.form['id'], request.form['name'], request.form['description'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
-#             if not res:
-#                 print('Ошибка добавления статьи')
-#             else:
-#                 print('Статья добавлена успешно')
-#         else:
-#             print('Ошибка добавления статьи')
+#     return redirect(url_for('admin'))
 
-#     return render_template('add.html', coffe = dbase.getCoffe(), title="Добавление сортов кофе")
+@app.route('/admin/delete/<int:id_coffe>', methods=["POST", "GET"])
+def delete(id_coffe):
+    db = get_db()
+    dbase = FDataBase(db)
+    dbase.deleteRow(id_coffe)
+    return redirect(url_for('admin'))
+
+
 
 @app.route("/coffe/<int:id_coffe>")
 def showCoffe(id_coffe):
@@ -166,9 +140,6 @@ def showCoffe(id_coffe):
     dbase = FDataBase(db)
     name, description = dbase.getSort(id_coffe)
     return render_template('coffe.html', name=name, description=description)
-
-
-
 
 
 
