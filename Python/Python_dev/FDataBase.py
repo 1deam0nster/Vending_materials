@@ -27,7 +27,7 @@ class FDataBase:
 
     def getSort(self, id_coffe):
         try:
-            self.__cur.execute(f"SELECT name, descriptions FROM coffe WHERE id = {id_coffe} LIMIT 1")
+            self.__cur.execute(f"SELECT name, descriptions, price FROM coffe WHERE id = {id_coffe} LIMIT 1")
             res = self.__cur.fetchone()
             if res:
                 return res

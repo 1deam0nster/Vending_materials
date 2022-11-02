@@ -135,12 +135,25 @@ def delete(id_coffe):
 
 
 
+# @app.route("/coffe/<int:id_coffe>")
+# def showCoffe(id_coffe):
+#     db = get_db()
+#     dbase = FDataBase(db)
+#     name, descriptions, price = dbase.getSort(id_coffe)
+#     return render_template('coffe.html', name=name, descriptions=descriptions, price=price)
+
 @app.route("/coffe/<int:id_coffe>")
 def showCoffe(id_coffe):
     db = get_db()
     dbase = FDataBase(db)
-    name, description = dbase.getSort(id_coffe)
-    return render_template('coffe.html', name=name, description=description)
+    if request.method == 'POST':
+
+        return redirect(url_for('admin'))
+    return render_template('item.html', item=dbase.getById(id_coffe))
+
+
+
+
 
 @app.route('/upload')  
 def upload():  
@@ -154,11 +167,6 @@ def success(id_coffe):
         f.filename = str(id_coffe) + "_img.png" # name of file
         f.save("static/sort/"+f.filename) 
         return render_template("success.html", name = f.filename)  
-
-
-
-
-
 
 
 
