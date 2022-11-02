@@ -15,6 +15,7 @@
 
 //Turrel IR sensor for find zero
 #define turrel_homing A15
+#define turrel_zero_homing A13
 #define ir_cap A14
 
 
@@ -33,6 +34,7 @@ void servofn();
 void relayfn();
 void turrelfn();
 void homing_turrel();
+void zero_homing_turrel();
 
 void drop_cap();
 void check_machine();
@@ -44,19 +46,19 @@ double N;
 double D;
 double T;
 
-#define NUMCOMMANDS 8
+#define NUMCOMMANDS 9
 
 commandscallback commands[NUMCOMMANDS] = {
   {"G0", start_coffe_machine},
   {"C0", drop_cap}, {"C1", check_machine}, {"C2", start_coffe},
-  {"S0", servofn}, {"R0", relayfn}, {"T0", turrelfn}, {"T1", homing_turrel}
+  {"S0", servofn}, {"R0", relayfn}, {"T0", turrelfn}, {"T1", homing_turrel}, {"T2", zero_homing_turrel}
 
 
 
 };
 gcode Commands(NUMCOMMANDS,commands);
 
-
+int pos_turrel;
 int pos_key = 180;
 int pos_cap = 0;
 

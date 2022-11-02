@@ -105,11 +105,11 @@ def add_coffe():
         if len(request.form['name']) > 4 and len(request.form['descriptions']) > 1:
             res = dbase.addCoffe(request.form['id'], request.form['name'], request.form['descriptions'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
             if not res:
-                print('Ошибка добавления статьи')
+                print('Ошибка добавления')
             else:
-                print('Статья добавлена успешно')
+                print('успешно')
         else:
-            print('Ошибка добавления статьи')
+            print('Ошибка добавления')
 
     return render_template('add.html', coffe = dbase.getCoffe(), title="Добавление сортов кофе")
 
@@ -190,6 +190,7 @@ def coffe_1():
             connect()
             print("connect ok")
             open_serial()
+            
             send(b'S0 N7 D90\n')
             send(b'S0 N7 D0\n')
             close()           
@@ -232,10 +233,11 @@ def coffe_2():
             print("connect ok")
             open_serial()
             time.sleep(2)
-            send(b'R0 N1 T1000\n')
-            send(b'S0 N7 D80\n')
+            send(b'T1\n')
+            send(b'C0\n')
+            send(b'C1\n')
             time.sleep(2)
-            send(b'S0 N7 D0\n')
+            send(b'C2\n')
             close()           
             print("send ok")
             

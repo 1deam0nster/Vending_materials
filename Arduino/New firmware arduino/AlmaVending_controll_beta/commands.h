@@ -86,17 +86,19 @@ void check_cap(){
     // можно крутануть турель туда-сюда
     big_servo_close();
     delay(1000);
-    stepper.begin(120, 2);
-    stepper.enable();
-    stepper.rotate(100);
-    stepper.rotate(-100);
-    stepper.rotate(100);
-    stepper.rotate(-100);
-    stepper.rotate(100);
-    stepper.rotate(-100);
-    stepper.begin(120, 1);
-    stepper.disable();
-    delay(1000);
+    Serial.println("Shake turrel");
+
+//    stepper.begin(120, 2);
+//    stepper.enable();
+//    stepper.rotate(100);
+//    stepper.rotate(-100);
+//    stepper.rotate(100);
+//    stepper.rotate(-100);
+//    stepper.rotate(100);
+//    stepper.rotate(-100);
+//    stepper.begin(120, 1);
+//    stepper.disable();
+//    delay(1000);
     big_servo_open();
     capsule_state = ir_cap_check();
     if (capsule_state == true) {
@@ -152,6 +154,6 @@ void check_machine(){
 void start_coffe(){
   pinMode(17, OUTPUT);
   digitalWrite(17, LOW);
-  delay(120000);
+  delay(1.5 * 60 * 1000); //sleep some minute
   digitalWrite(17, HIGH);
 }
