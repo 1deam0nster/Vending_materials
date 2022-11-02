@@ -2,9 +2,9 @@
  
 {% block content %}
     <br>
-    <table class="table box is-fullwidth">
+    <div class="box">
+      <table class="table is-fullwidth">
         <thead>
-            <thead>
                 <tr>
                   <th><abbr title="ID">ID</abbr></th>
                   <th><abbr title="Name"></abbr>Name</th>
@@ -16,21 +16,8 @@
                   <th><abbr title="link_url">link_url</abbr></th>
                   <th><abbr title="edit">edit</abbr></th>
                 </tr>
-            </thead>
-            <!-- <tfoot>
-                <tr>
-                  <th><abbr title="ID">ID</abbr></th>
-                  <th><abbr title="Name"></abbr>Name</th>
-                  <th><abbr title="descriptions">descriptions</abbr></th>
-                  <th><abbr title="short_description">short_description</abbr></th>
-                  <th><abbr title="value">value</abbr></th>
-                  <th><abbr title="g-code">g-code</abbr></th>
-                  <th><abbr title="img_url">img_url</abbr></th>
-                  <th><abbr title="link_url">link_url</abbr></th>
-                  <th><abbr title="edit">edit</abbr></th>
-                </tr>
-            </tfoot> -->
-            <tbody>
+        </thead>
+        <tbody>
                 {% for n in coffe %}
                 <tr>
                     <th>{{ n.id }}</th>
@@ -44,10 +31,6 @@
                     <td>
                         <div class="field is-grouped">
                             <p class="control">
-
-
-                            </p>
-                            <p class="control">
                               <a class="button is-small" href="/admin/edit/{{ n.id }}">
                                 Редактировать
                               </a>
@@ -59,16 +42,11 @@
                             </p>
                           </div>
 
-                        <!-- <a class="button is-link" href="/admin/edit/{{ n.id }}"><span>Редактировать</span></a> -->
-
-                        <!-- <form action="{{ url_for('delete', id_coffe=n['id']) }}" method="POST">
-                            <input class="button is-primary" type="submit" value="Удалить"
-                                    onclick="return confirm('Are you sure you want to delete this post?')">
-                        </form> -->
-
                     </td>
                 </tr>
                 {% endfor %}
-            </tbody>
+        </tbody>
+      </table>
+    </div>
 
 {% endblock %}

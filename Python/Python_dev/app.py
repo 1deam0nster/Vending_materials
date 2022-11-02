@@ -151,7 +151,7 @@ def success(id_coffe):
     if request.method == 'POST':  
         print(id_coffe)
         f = request.files['file']  
-        f.filename = "abc.png" # name of file
+        f.filename = str(id_coffe) + "_img.png" # name of file
         f.save("static/sort/"+f.filename) 
         return render_template("success.html", name = f.filename)  
 
