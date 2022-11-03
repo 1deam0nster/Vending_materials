@@ -10,8 +10,8 @@
 <body>
     <nav class="navbar is-light">
         <div class="navbar-brand">
-          <a class="navbar-item" href="{{ url_for('admin') }}">
-            <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28">
+          <a class="navbar-item" href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='logo.svg')}}" alt="Bulma: a modern CSS framework based on Flexbox" width="248" height="26">
           </a>
           <div class="navbar-burger" data-target="navbarExampleTransparentExample">
             <span></span>
@@ -26,9 +26,9 @@
           </div>
       
           <div class="navbar-end">
-            <a class="navbar-item" href="{{ url_for('index') }}">
+            <!-- <a class="navbar-item" href="{{ url_for('index') }}">
               На главный экран
-            </a>
+            </a> -->
           </div>
         </div>
       </nav>

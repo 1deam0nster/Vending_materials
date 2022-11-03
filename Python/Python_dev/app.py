@@ -151,6 +151,36 @@ def delete(id_coffe):
     return redirect(url_for('admin'))
 
 
+@app.route('/admin/control', methods=["POST", "GET"])
+def control():
+    if request.method == 'POST':
+        if request.form['submit_button'] == 'Home':
+            send_command('T2')
+            return render_template('control.html')
+
+        if request.form['submit_button'] == 'Drop cap':
+            send_command('C0')
+            return render_template('control.html', )
+
+        if request.form['submit_button'] == 'Check':
+            send_command('C1')
+            return render_template('control.html', )
+
+        if request.form['submit_button'] == 'Start':
+            send_command('C2')
+            return render_template('control.html', )
+
+        if request.form['submit_button'] == 'T1':
+            send_command2("T1", request.form['form'])
+            return render_template('control.html', )
+
+        if request.form['submit_button'] == 'S0':
+            send_command3("S0", request.form['degreed'], request.form['number'])
+            return render_template('control.html', )
+
+    elif request.method == 'GET':
+        return render_template('control.html')
+
 
 # @app.route("/coffe/<int:id_coffe>")
 # def showCoffe(id_coffe):
@@ -173,9 +203,7 @@ def showCoffe(id_coffe):
         sugar = request.form.get('list')
         # print(request.form.get('checkbox'))
         # print(request.form.get('list'))
-        bye(cream, sugar, id_coffe, item['g_code'])
-
-
+        bye_command(cream, sugar, id_coffe, item['g_code'])
         return render_template('item_bye.html', item=dbase.getById(id_coffe))
     return render_template('item.html', item=item)
 
@@ -183,12 +211,34 @@ def showCoffe(id_coffe):
 
 
 #   -----------------   g-code functions   -----------------   
-def home_turrel():
+
+def send_command(com):
+    command =  bytes(com, 'utf-8')
     connect()
     time.sleep(1)
     open_serial()
-    command_turrel =  bytes('T0 + I1', 'utf-8')
-    send(b'T2\n')
+    send(command + b'\n')
+    close() 
+
+def send_command2(com, com2):
+    line =  com + ' ' + com2
+    command =  bytes(line, 'utf-8')
+    print(command)
+
+    connect()
+    time.sleep(1)
+    open_serial()
+    send(command + b'\n')
+    close()
+
+def send_command3(com, com2, com3):
+    line =  com + ' ' + com2 + ' ' + com3
+    command =  bytes(line, 'utf-8')
+    print(command)
+    connect()
+    time.sleep(1)
+    open_serial()
+    send(command + b'\n')
     close() 
 
 def sel_turrel(id_coffe):
@@ -199,7 +249,7 @@ def sel_turrel(id_coffe):
     send(command_turrel + b'\n')
     close() 
 
-def bye(cream, sug, id_coffe, g_code):
+def bye_command(cream, sug, id_coffe, g_code):
     print("Сливки:", cream)
     print("Сахар:",type(sug))
     print("ID:",type(id_coffe))
@@ -209,6 +259,7 @@ def bye(cream, sug, id_coffe, g_code):
     sugar = int(0 if sug is None else sug)
     command = bytes(g_code, 'utf-8')
     command_turrel =  bytes('T1 + I%s'%id_coffe, 'utf-8')
+    
     connect()
     time.sleep(1)
     open_serial()
@@ -223,9 +274,12 @@ def bye(cream, sug, id_coffe, g_code):
         send(b'T2\n')
     
     send(command_turrel + b'\n')
-    # send(command + b'\n')
-    time.sleep(5)
+    send(b'C0\n')
+    send(b'C1\n')
+    # send(b'C2\n')      
+    # time.sleep(5)
     send(b'T2\n')
+
     close()  
 
 #   -----------------   end g-code functions   -----------------   
