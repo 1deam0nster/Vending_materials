@@ -24,10 +24,10 @@ void go_to_pos(){
 
 // --------------------- t3 ---------------------
 void go_line_pos(double i) {
-  Serial.println("Pos search----------");
-  Serial.println("Current start position: ");
-  int pos = turrel.currentPosition();
-  Serial.println(pos);
+//  Serial.println("Pos search----------");
+//  Serial.println("Current start position: ");
+//  int pos = turrel.currentPosition();
+//  Serial.println(pos);
   
   int newIValue = i;
   uint32_t distance = 0;
@@ -72,17 +72,18 @@ void go_line_pos(double i) {
     {
       distance = -830;
     }
-  Serial.println("Distance: ");
-  Serial.print(distance);
+//  Serial.println("Distance: ");
+//  Serial.print(distance);
   
   turrel.setMaxSpeed(700);
   turrel.setAcceleration(200);
   turrel.moveTo(distance);
   turrel.runToPosition();
   
-  Serial.println("Current end position: ");
-  pos = turrel.currentPosition();
-  Serial.println(pos);
+//  Serial.println("Current end position: ");
+//  pos = turrel.currentPosition();
+//  Serial.println(pos);
+  Serial.println("Go to position true");
 }
 
 void go_number_turrel(){
@@ -97,9 +98,6 @@ void zero_homing_turrel(){
 
   // Start Homing procedure of Stepper Motor at startup
 
-  Serial.print("Stepper is Homing . . . . . . . . . . . ");
-
-  
   turrel.setMaxSpeed(700);
   turrel.setSpeed(400);
   turrel.setAcceleration(200);
@@ -126,12 +124,14 @@ void zero_homing_turrel(){
   }
 
   turrel.setCurrentPosition(0);
-  Serial.println("Homing Completed");
-  Serial.println("Position: ");
-  int pos = turrel.currentPosition();
-  Serial.println(pos);
+  Serial.println("Homing true");
 }
 
+void get_position(){
+  int pos = turrel.currentPosition();
+  Serial.print("Position: ");
+  Serial.println(pos);
+}
 
 
 // --------------------- no command ---------------------

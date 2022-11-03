@@ -23,6 +23,7 @@ int pos_key = 180;
 void go_to_pos(); 
 void go_number_turrel();
 void zero_homing_turrel();
+void get_position();
 
 //relay, servo
 void servofn();
@@ -42,12 +43,12 @@ double S;
 double I;
 double T;
 
-#define NUMCOMMANDS 9
+#define NUMCOMMANDS 10
 
 commandscallback commands[NUMCOMMANDS] = {
   {"G0", start_coffe_machine},
   {"C0", drop_cap}, {"C1", check_machine}, {"C2", start_coffe},
-  {"T0", go_to_pos}, {"T2", zero_homing_turrel}, {"T1", go_number_turrel},
+  {"T0", go_to_pos}, {"T2", zero_homing_turrel}, {"T1", go_number_turrel}, {"T3", get_position},
   {"S0", servofn}, {"R0", relayfn},
 };
 gcode Commands(NUMCOMMANDS,commands);
@@ -64,7 +65,7 @@ void setup()
   pinMode(turrel_cap_homing, INPUT_PULLUP);
   pinMode(ir_cap, INPUT_PULLUP);
   Serial.begin(9600);
-  Commands.begin("ok"); //responce => ok, rs or !!
+//  Commands.begin("ok"); //responce => ok, rs or !!
 }
 
 void loop() {

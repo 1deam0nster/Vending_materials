@@ -82,11 +82,11 @@ bool ir_cap_check() {
 void check_cap(){
   bool capsule_state = ir_cap_check();
   if (capsule_state == true) {
-    Serial.println("Turrel capsule_state == true, проблема");
+//    Serial.println("Turrel capsule_state == true, проблема");
     // можно крутануть турель туда-сюда
     big_servo_close();
     delay(1000);
-    Serial.println("Shake turrel");
+//    Serial.println("Shake turrel");
 
 //    stepper.begin(120, 2);
 //    stepper.enable();
@@ -102,13 +102,13 @@ void check_cap(){
     big_servo_open();
     capsule_state = ir_cap_check();
     if (capsule_state == true) {
-      Serial.println("Turrel capsule_state == true, проблема возможно нету капсул");
-      Serial.println("Обратное сообщение для разберри");
+//      Serial.println("Turrel capsule_state == true, проблема возможно нету капсул");
+      Serial.println("Cap state false");
       // закрываем
       big_servo_close();
       close_mini_servo();
     } else {
-      Serial.println("Turrel capsule_state == false, капсула появилась");
+      Serial.println("Cap state true");      
       // капсула присутсвует дропаем
       big_servo_drop();
       // закрываем
@@ -116,7 +116,8 @@ void check_cap(){
       close_mini_servo();
     }
   } else {
-    Serial.println("Turrel capsule_state == false, капсула присутсвует");
+//    Serial.println("Turrel capsule_state == false, капсула присутсвует");
+    Serial.println("Cap state true");
     // капсула присутсвует дропаем
     big_servo_drop();
     // закрываем
@@ -148,6 +149,7 @@ void check_machine(){
   digitalWrite(16, LOW);
   delay(2000);
   digitalWrite(16, HIGH);
+  Serial.println("Check machine true");
 }
 
 // -----------------Command C2-------------
@@ -156,4 +158,5 @@ void start_coffe(){
   digitalWrite(17, LOW);
   delay(1.5 * 60 * 1000); //sleep some minute
   digitalWrite(17, HIGH);
+  Serial.println("Start coffee true");
 }

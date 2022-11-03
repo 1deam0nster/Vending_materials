@@ -1,7 +1,7 @@
 # from crypt import methods
 from flask import Flask, url_for, render_template, request, json,  redirect, g,  abort
 import time, os, subprocess, sys
-from serial_commands.commands import connect, open_serial, close, send, read_command, recv
+from serial_commands.commands import connect, open_serial, close, send, read_command, recv, send_command, send_command2, send_command3, sel_turrel, bye_command
 import sqlite3 
 from json_bd.bd import read_db
 from FDataBase import FDataBase
@@ -10,8 +10,6 @@ from FDataBase import FDataBase
 DATABASE = '/db/data.db'
 DEBUG = True
 SECRET_KEY = 'fdgfh78@#5?>gfhf89dx,v06k'
-USERNAME = 'admin'
-PASSWORD = '123'
 UPLOAD_FOLDER = '/static'
 
 app = Flask(__name__, static_folder='static')
@@ -45,16 +43,6 @@ def get_db():
 def close_db(error):
     if hasattr(g, 'link_db'):
         g.link_db.close()
-
-# def get_item(item_id):
-#     conn = get_db()
-#     #Запрос строки по id
-#     post = conn.execute('SELECT * FROM coffe WHERE id = ?', (item_id,)).fetchone()
-#     conn.close()
-#     if post is None:
-#         abort(404)
-#     return post
-
 
 
 
@@ -91,7 +79,6 @@ def index3():
     print(getItems[0][8]) #link_url
     return render_template('index3.html', coffe = getItems)
 
-
 #admin routing
 @app.route("/admin", methods=["POST", "GET"])
 @app.route('/admin/')
@@ -111,7 +98,8 @@ def edit_coffe(id_coffe):
         else:
             print('БД обновлена успешно')
         return redirect(url_for('admin'))
-    return render_template('edit.html', items=dbase.getById(id_coffe))
+    elif request.method == 'GET':
+        return render_template('edit.html', items=dbase.getById(id_coffe))
 
 @app.route('/admin/add_coffe', methods=["POST", "GET"])
 def add_coffe():
@@ -119,29 +107,17 @@ def add_coffe():
     dbase = FDataBase(db)
 
     if request.method == 'POST':
-        if len(request.form['name']) > 4 and len(request.form['descriptions']) > 1:
+        if len(request.form['name']) > 4 and len(request.form['descriptions']) > 15:
             res = dbase.addCoffe(request.form['id'], request.form['name'], request.form['descriptions'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
             if not res:
                 print('Ошибка добавления')
             else:
-                print('успешно')
+                print('Успешно')
         else:
             print('Ошибка добавления')
 
-    return render_template('add.html', coffe = dbase.getCoffe(), title="Добавление сортов кофе")
+    return render_template('add.html', coffe = dbase.getCoffe())
 
-# @app.route('/admin/delete/<int:id_coffe>', methods=["POST", "GET"])
-# def delete(id_coffe):
-#     db = get_db()
-#     dbase = FDataBase(db)
-#     items=dbase.getById(id_coffe)
-#     id2 = items['id']
-#     sql_update_query = """DELETE from coffe where id = ?"""
-#     db.execute(sql_update_query, (id2,))
-#     db.commit()
-#     db.close()
-
-#     return redirect(url_for('admin'))
 
 @app.route('/admin/delete/<int:id_coffe>', methods=["POST", "GET"])
 def delete(id_coffe):
@@ -156,38 +132,23 @@ def control():
     if request.method == 'POST':
         if request.form['submit_button'] == 'Home':
             send_command('T2')
-            return render_template('control.html')
-
         if request.form['submit_button'] == 'Drop cap':
             send_command('C0')
-            return render_template('control.html', )
-
         if request.form['submit_button'] == 'Check':
             send_command('C1')
-            return render_template('control.html', )
-
         if request.form['submit_button'] == 'Start':
             send_command('C2')
-            return render_template('control.html', )
-
         if request.form['submit_button'] == 'T1':
             send_command2("T1", request.form['form'])
-            return render_template('control.html', )
-
         if request.form['submit_button'] == 'S0':
-            send_command3("S0", request.form['degreed'], request.form['number'])
-            return render_template('control.html', )
-
+            send_command3("S0", request.form['degreed'], request.form['number'])        
+        if request.form['submit_button'] == 'Send':
+            send_command(request.form['command'])
+        return redirect(url_for('control'))
     elif request.method == 'GET':
         return render_template('control.html')
 
 
-# @app.route("/coffe/<int:id_coffe>")
-# def showCoffe(id_coffe):
-#     db = get_db()
-#     dbase = FDataBase(db)
-#     name, descriptions, price = dbase.getSort(id_coffe)
-#     return render_template('coffe.html', name=name, descriptions=descriptions, price=price)
 
 @app.route("/coffe/<int:id_coffe>", methods=['POST', 'GET'])
 def showCoffe(id_coffe):
@@ -195,96 +156,17 @@ def showCoffe(id_coffe):
     dbase = FDataBase(db)
     item=dbase.getById(id_coffe)
 
-    #test rotate turrel
-    # sel_turrel(id_coffe)
-
     if request.method == 'POST':
         cream = request.form.get('checkbox')
         sugar = request.form.get('list')
-        # print(request.form.get('checkbox'))
-        # print(request.form.get('list'))
+
+        #Записываем -1 в кол-во
+        dbase.incValue(id_coffe, item['value'] - 1)
+
         bye_command(cream, sugar, id_coffe, item['g_code'])
+
         return render_template('item_bye.html', item=dbase.getById(id_coffe))
     return render_template('item.html', item=item)
-
-
-
-
-#   -----------------   g-code functions   -----------------   
-
-def send_command(com):
-    command =  bytes(com, 'utf-8')
-    connect()
-    time.sleep(1)
-    open_serial()
-    send(command + b'\n')
-    close() 
-
-def send_command2(com, com2):
-    line =  com + ' ' + com2
-    command =  bytes(line, 'utf-8')
-    print(command)
-
-    connect()
-    time.sleep(1)
-    open_serial()
-    send(command + b'\n')
-    close()
-
-def send_command3(com, com2, com3):
-    line =  com + ' ' + com2 + ' ' + com3
-    command =  bytes(line, 'utf-8')
-    print(command)
-    connect()
-    time.sleep(1)
-    open_serial()
-    send(command + b'\n')
-    close() 
-
-def sel_turrel(id_coffe):
-    command_turrel =  bytes('T1 + I%s'%id_coffe, 'utf-8')
-    connect()
-    time.sleep(1)
-    open_serial()
-    send(command_turrel + b'\n')
-    close() 
-
-def bye_command(cream, sug, id_coffe, g_code):
-    print("Сливки:", cream)
-    print("Сахар:",type(sug))
-    print("ID:",type(id_coffe))
-    print("G-code:",g_code)
-
-    cream = int(0 if cream is None else cream)
-    sugar = int(0 if sug is None else sug)
-    command = bytes(g_code, 'utf-8')
-    command_turrel =  bytes('T1 + I%s'%id_coffe, 'utf-8')
-    
-    connect()
-    time.sleep(1)
-    open_serial()
-    if cream == 1:
-        print("Cream g-code")
-        
-    if sugar == 1:
-        print("Sugar g-code 1 value")
-        
-    if sugar == 2:
-        print("Sugar g-code 2 value")
-        send(b'T2\n')
-    
-    send(command_turrel + b'\n')
-    send(b'C0\n')
-    send(b'C1\n')
-    # send(b'C2\n')      
-    # time.sleep(5)
-    send(b'T2\n')
-
-    close()  
-
-#   -----------------   end g-code functions   -----------------   
-    
-    
 
 
 @app.route('/upload')  
@@ -300,13 +182,6 @@ def success(id_coffe):
         f.save("static/sort/"+f.filename) 
         return render_template("success.html", name = f.filename)  
 
-
-
-
-@app.route('/index2')
-def index2():
-    obj = read_db()
-    return render_template('index2.html', obj = obj)
 
 @app.route('/coffe_1/', methods=['POST', 'GET'])
 def coffe_1():
@@ -401,36 +276,11 @@ def coffe_2():
 
     return render_template('coffe_2.html', obj = obj)
 
-# @app.route('/coffe_x/')
-# def coffe_x():
-#     return render_template('coffe_x.html')
 
-@app.route('/coffe_3/', methods=['POST', 'GET'])
-def coffe_3():
-    obj = read_db()
-    if request.method == 'POST':
-        print(request.form)
-        # postlist = request.form.getlist('mycheckbox')
-        # print(postlist)
-        # print(request.args)
-    else:
-        return render_template('coffe_3.html', obj = obj)
-
-
-# @app.route('/send_coffe_y', methods=['POST'])
-# def send_coffe_y():
-#     user =  request.form['username']
-#     password = request.form['password']
-#     print(password)
-#     print(user)
-#     return json.dumps({'status':'OK','user':user,'pass':password})
 
 @app.errorhandler(404)
 def pageNotFount(error):
     return render_template('page404.html', title="Страница не найдена",)
-
-# with app.test_request_context():
-#     print( url_for('index') )
 
 
 

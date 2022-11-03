@@ -24,17 +24,27 @@ class FDataBase:
             return False
  
         return True
-
-    def getSort(self, id_coffe):
+    
+    def incValue(self, id, value):
         try:
-            self.__cur.execute(f"SELECT name, descriptions, price FROM coffe WHERE id = {id_coffe} LIMIT 1")
-            res = self.__cur.fetchone()
-            if res:
-                return res
+            self.__cur.execute("UPDATE coffe SET value=? WHERE id =?", (value, id))
+            self.__db.commit()
         except sqlite3.Error as e:
-            print("Ошибка получения статьи из БД "+str(e))
+            print("Инкременировали "+str(e))
+            return False
  
-        return (False, False)
+        return True
+
+    # def getSort(self, id_coffe):
+    #     try:
+    #         self.__cur.execute(f"SELECT name, descriptions, price FROM coffe WHERE id = {id_coffe} LIMIT 1")
+    #         res = self.__cur.fetchone()
+    #         if res:
+    #             return res
+    #     except sqlite3.Error as e:
+    #         print("Ошибка получения статьи из БД "+str(e))
+ 
+    #     return (False, False)
 
     def getById(self, id_coffe):
         try:

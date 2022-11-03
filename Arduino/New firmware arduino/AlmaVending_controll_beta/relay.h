@@ -38,11 +38,11 @@ void relay(double n, double t){
       num_rel = 0;
     }
   
-  Serial.print("relay = ");
-  Serial.println(num_rel);
-  Serial.print("delayRelay = ");
-  Serial.println(del);
-  Serial.println("-------------");
+//  Serial.print("relay = ");
+//  Serial.println(num_rel);
+//  Serial.print("delayRelay = ");
+//  Serial.println(del);
+//  Serial.println("-------------");
   pinMode(num_rel, OUTPUT);
   digitalWrite(num_rel, LOW);
   delay(del);
@@ -61,11 +61,11 @@ void relayfn()
   if (Commands.availableValue('T')) // ADDED parameter D in S0
   newTValue = Commands.GetValue('T');
 
-  Serial.print("relay = ");
-  Serial.println(newNValue);
-  Serial.print("delayRelay = ");
-  Serial.println(newTValue);
-  Serial.println("-------------");
+//  Serial.print("relay = ");
+//  Serial.println(newNValue);
+//  Serial.print("delayRelay = ");
+//  Serial.println(newTValue);
+//  Serial.println("-------------");
   
   relay(newNValue, newTValue);
   
