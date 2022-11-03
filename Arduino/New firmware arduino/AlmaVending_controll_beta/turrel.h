@@ -100,8 +100,9 @@ void zero_homing_turrel(){
   Serial.print("Stepper is Homing . . . . . . . . . . . ");
 
   
-  turrel.setMaxSpeed(400);
-  turrel.setAcceleration(100);
+  turrel.setMaxSpeed(700);
+  turrel.setSpeed(400);
+  turrel.setAcceleration(200);
 
   initial_homing=-1;
   while (digitalRead(turrel_zero_homing)) {  // Make the Stepper move CCW until the switch is activated
@@ -112,8 +113,9 @@ void zero_homing_turrel(){
   }
   
   turrel.setCurrentPosition(0);  // Set the current position as zero for now
-  turrel.setMaxSpeed(400);
-  turrel.setAcceleration(100);
+  turrel.setMaxSpeed(700);
+  turrel.setSpeed(400);
+  turrel.setAcceleration(200);
   
   initial_homing=1;
   while (!digitalRead(turrel_zero_homing)) { // Make the Stepper move CW until the switch is deactivated

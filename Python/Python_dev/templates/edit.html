@@ -27,14 +27,14 @@
         <div class="field">
             <label class="label">Описание:</label>
             <div class="control">
-              <textarea class="textarea" name="descriptions" value="{{ request.form['descriptions'] or items['descriptions'] }}" placeholder="{{ request.form['descriptions'] or items['descriptions'] }}"></textarea>
+              <textarea class="textarea" name="descriptions" value="{{ request.form['descriptions'] or items['descriptions'] }}" placeholder="{{ request.form['descriptions'] or items['descriptions'] }}">{{ request.form['descriptions'] or items['descriptions'] }}</textarea>
             </div>
         </div>
 
         <div class="field">
             <label class="label">Короткое писание:</label>
             <div class="control">
-              <textarea class="textarea" name="short_description" rows=3 value="{{ request.form['short_description'] or items['short_description'] }}z" placeholder="{{ request.form['short_description'] or items['short_description'] }}"></textarea>
+              <textarea class="textarea" name="short_description" rows=3 value="{{ request.form['short_description'] or items['short_description'] }}" placeholder="{{ request.form['short_description'] or items['short_description'] }}">{{ request.form['short_description'] or items['short_description'] }}</textarea>
             </div>
         </div>
 

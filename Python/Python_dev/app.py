@@ -64,7 +64,14 @@ def close_db(error):
 def index():
     db = get_db()
     dbase = FDataBase(db)
-    return render_template('index.html', coffe = dbase.getCoffe())
+    return render_template('index3.html', coffe = dbase.getCoffe())
+
+# @app.route("/index")
+# @app.route('/')
+# def index():
+#     db = get_db()
+#     dbase = FDataBase(db)
+#     return render_template('index.html', coffe = dbase.getCoffe())
 
 #вариант вызова
 @app.route("/index3")
@@ -72,7 +79,17 @@ def index3():
     conn = get_db()
     getItems = conn.execute('SELECT * FROM coffe').fetchall()
     conn.close()
-    return render_template('index.html', coffe = getItems)
+    
+    print(getItems[0][0]) #id
+    print(getItems[0][1]) #name
+    print(getItems[0][2]) #description
+    print(getItems[0][3]) #short_description
+    print(getItems[0][4]) #price
+    print(getItems[0][5]) #volume
+    print(getItems[0][6]) #g-code
+    print(getItems[0][7]) #img_url
+    print(getItems[0][8]) #link_url
+    return render_template('index3.html', coffe = getItems)
 
 
 #admin routing
@@ -142,17 +159,78 @@ def delete(id_coffe):
 #     name, descriptions, price = dbase.getSort(id_coffe)
 #     return render_template('coffe.html', name=name, descriptions=descriptions, price=price)
 
-@app.route("/coffe/<int:id_coffe>")
+@app.route("/coffe/<int:id_coffe>", methods=['POST', 'GET'])
 def showCoffe(id_coffe):
     db = get_db()
     dbase = FDataBase(db)
+    item=dbase.getById(id_coffe)
+
+    #test rotate turrel
+    # sel_turrel(id_coffe)
+
     if request.method == 'POST':
+        cream = request.form.get('checkbox')
+        sugar = request.form.get('list')
+        # print(request.form.get('checkbox'))
+        # print(request.form.get('list'))
+        bye(cream, sugar, id_coffe, item['g_code'])
 
-        return redirect(url_for('admin'))
-    return render_template('item.html', item=dbase.getById(id_coffe))
+
+        return render_template('item_bye.html', item=dbase.getById(id_coffe))
+    return render_template('item.html', item=item)
 
 
 
+
+#   -----------------   g-code functions   -----------------   
+def home_turrel():
+    connect()
+    time.sleep(1)
+    open_serial()
+    command_turrel =  bytes('T0 + I1', 'utf-8')
+    send(b'T2\n')
+    close() 
+
+def sel_turrel(id_coffe):
+    command_turrel =  bytes('T1 + I%s'%id_coffe, 'utf-8')
+    connect()
+    time.sleep(1)
+    open_serial()
+    send(command_turrel + b'\n')
+    close() 
+
+def bye(cream, sug, id_coffe, g_code):
+    print("Сливки:", cream)
+    print("Сахар:",type(sug))
+    print("ID:",type(id_coffe))
+    print("G-code:",g_code)
+
+    cream = int(0 if cream is None else cream)
+    sugar = int(0 if sug is None else sug)
+    command = bytes(g_code, 'utf-8')
+    command_turrel =  bytes('T1 + I%s'%id_coffe, 'utf-8')
+    connect()
+    time.sleep(1)
+    open_serial()
+    if cream == 1:
+        print("Cream g-code")
+        
+    if sugar == 1:
+        print("Sugar g-code 1 value")
+        
+    if sugar == 2:
+        print("Sugar g-code 2 value")
+        send(b'T2\n')
+    
+    send(command_turrel + b'\n')
+    # send(command + b'\n')
+    time.sleep(5)
+    send(b'T2\n')
+    close()  
+
+#   -----------------   end g-code functions   -----------------   
+    
+    
 
 
 @app.route('/upload')  
@@ -234,6 +312,12 @@ def coffe_2():
             print("Сливки")
         if len(postlist) == 2:
             print("Сливки и сахар")
+            connect()
+            print("connect ok")
+            open_serial()
+            time.sleep(2)
+            send(b'T2\n')
+            close()
         if len(postlist) == 0:
             print("Кофе")
             print("connect")
@@ -241,11 +325,7 @@ def coffe_2():
             print("connect ok")
             open_serial()
             time.sleep(2)
-            send(b'T1\n')
-            send(b'C0\n')
-            send(b'C1\n')
-            time.sleep(2)
-            send(b'C2\n')
+            send(b'T1 I2\n')
             close()           
             print("send ok")
             
@@ -261,8 +341,8 @@ def coffe_2():
 
 
             #Write to json file analitics
-            program = "python test_write.py"
-            process = subprocess.Popen(["python", "test_write.py"])
+            # program = "python test_write.py"
+            # process = subprocess.Popen(["python", "test_write.py"])
         return render_template('pay_2.html')
 
     return render_template('coffe_2.html', obj = obj)
@@ -297,6 +377,10 @@ def pageNotFount(error):
 
 # with app.test_request_context():
 #     print( url_for('index') )
+
+
+
+
 
 
 if __name__ == '__main__':
