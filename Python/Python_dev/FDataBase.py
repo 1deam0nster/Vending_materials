@@ -14,8 +14,9 @@ class FDataBase:
         except:
             print("Ошибка чтения из БД")
         return []
+    
 
-    def addCoffe(self, id, name, descriptions, short_description, price, value, g_code, img_url, link_url, flavor, roasting, grain, country, intensity, brand):
+    def addRow(self, id, name, descriptions, short_description, price, value, g_code, img_url, link_url, flavor, roasting, grain, country, intensity, brand):
         try:
             self.__cur.execute("INSERT INTO coffe VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (
                 id, name, descriptions, short_description, price, value, g_code, img_url, link_url, flavor, roasting, grain, country, intensity, brand))
@@ -73,5 +74,36 @@ class FDataBase:
             self.__db.commit()
         except sqlite3.Error as e:
             print("Ошибка в БД "+str(e))
+            return False
+        return True
+
+
+    def getStuff(self):
+        sql = '''SELECT * FROM stuff'''
+        try:
+            self.__cur.execute(sql)
+            res = self.__cur.fetchall()
+            if res: return res
+        except:
+            print("Ошибка чтения из БД")
+        return []
+
+    def getStuffById(self, id_stuff):
+        try:
+            self.__cur.execute(f"SELECT id, name, price, double_price, value, g_code FROM stuff WHERE id = {id_stuff} LIMIT 1")
+            res = self.__cur.fetchone()
+            if res:
+                return res
+        except sqlite3.Error as e:
+            print("Ошибка получения статьи из БД "+str(e))
+ 
+        return (False, False, False, False, False, False)
+
+    def updateStuff(self, id, name, price, value, g_code, double_price):
+        try:
+            self.__cur.execute("UPDATE stuff SET name = ?, price = ?, value = ?, g_code = ?, double_price = ? WHERE id = ?", (name,  price, value, g_code, double_price, id))
+            self.__db.commit()
+        except sqlite3.Error as e:
+            print("Ошибка добавления статьи в БД "+str(e))
             return False
         return True

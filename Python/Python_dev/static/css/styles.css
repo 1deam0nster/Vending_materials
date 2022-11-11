@@ -133,12 +133,12 @@ body {
     margin-bottom: 16px;
 }
 
-.btn_container{
+.btn_container {
     display: inline-block;
     text-align: center;
 }
 
-.btn_container > .item_value_price{
+.btn_container>.item_value_price {
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 300;
@@ -150,7 +150,7 @@ body {
     margin: -62px;
 }
 
-.btn_container > .price_helper{
+.btn_container>.price_helper {
     font-size: 20px;
     line-height: 30px;
     color: #919191;
@@ -160,7 +160,9 @@ body {
 
 
 
-.sugar > .title, .choco > .title, .cream > .title {
+.sugar>.title,
+.choco>.title,
+.cream>.title {
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 400;
@@ -216,15 +218,16 @@ input[type="radio"]:checked+label>.btn_container>img {
     padding: 9px 0 0 0;
 }
 
-.none{
+.none {
     background: linear-gradient(154.05deg, #404040 1.57%, #2D2D2D 95.98%);
     border-radius: 0px 0px 0px 20px;
 }
 
-.num_1{
-    background: linear-gradient(154.05deg, #3E3E3E 1.57%, #2B2B2B 95.98%);}
+.num_1 {
+    background: linear-gradient(154.05deg, #3E3E3E 1.57%, #2B2B2B 95.98%);
+}
 
-.num_2{
+.num_2 {
     background: linear-gradient(154.05deg, #3E3E3E 1.57%, #2B2B2B 95.98%);
     border-radius: 0px 0px 20px 0px;
 }
@@ -332,3 +335,21 @@ input[type="radio"]:checked+label>.btn_container>img {
     border-radius: 0;
     color: #333333 !important;
 }
+
+
+/* Item Bye page */
+.title_item_bye {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 70px;
+    line-height: 104px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+
+.bye_bg{
+    background: url(/static/byebg.png);
+}
+

@@ -1,52 +1,83 @@
 {% extends 'base.html' %}
- 
+
 {% block content %}
-    <br>
-    <div class="box">
-      <table class="table is-fullwidth">
-        <thead>
-                <tr>
-                  <th><abbr title="ID">ID</abbr></th>
-                  <th><abbr title="Name"></abbr>Name</th>
-                  <!-- <th><abbr title="descriptions">descriptions</abbr></th>
+<br>
+<div class="box">
+  <table class="table is-fullwidth">
+    <thead>
+      <tr>
+        <th><abbr title="ID">ID</abbr></th>
+        <th><abbr title="Name"></abbr>Name</th>
+        <!-- <th><abbr title="descriptions">descriptions</abbr></th>
                   <th><abbr title="short_description">short_description</abbr></th> -->
-                  <th><abbr title="value">value</abbr></th>
-                  <th><abbr title="g-code">g-code</abbr></th>
-                  <th><abbr title="img_url">img_url</abbr></th>
-                  <th><abbr title="link_url">link_url</abbr></th>
-                  <th><abbr title="edit">edit</abbr></th>
-                </tr>
-        </thead>
-        <tbody>
-                {% for n in coffe %}
-                <tr>
-                    <th>{{ n.id }}</th>
-                    <td>{{ n.name }} </td>
-                    <!-- <td>{{ n.descriptions }}</td>
+        <th><abbr title="value">value</abbr></th>
+        <th><abbr title="g-code">g-code</abbr></th>
+        <th><abbr title="img_url">img_url</abbr></th>
+        <th><abbr title="link_url">link_url</abbr></th>
+        <th><abbr title="edit">edit</abbr></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for n in coffe %}
+      <tr>
+        <th>{{ n.id }}</th>
+        <td>{{ n.name }} </td>
+        <!-- <td>{{ n.descriptions }}</td>
                     <td>{{ n.short_description }}</td> -->
-                    <td>{{ n.value }} </td>
-                    <td>{{ n.g_code }}</td>
-                    <td>{{ n.img_url }}</td>
-                    <td>{{ n.link_url }}</td>
-                    <td>
-                        <div class="field is-grouped">
-                            <p class="control">
-                              <a class="button is-small" href="/admin/edit/{{ n.id }}">
-                                Редактировать
-                              </a>
-                            </p>
-                            <p class="control">
-                                <form action="{{ url_for('delete', id_coffe=n['id']) }}" method="POST">
-                                    <button class="button is-danger is-outlined is-small" type="submit">Удалить</button>
-                                </form>
-                            </p>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-        </tbody>
-      </table>
+        <td>{{ n.value }} </td>
+        <td>{{ n.g_code }}</td>
+        <td>{{ n.img_url }}</td>
+        <td>{{ n.link_url }}</td>
+        <td>
+          <div class="field is-grouped">
+            <p class="control">
+              <a class="button is-small" href="/admin/edit/{{ n.id }}">
+                Редактировать
+              </a>
+            </p>
+            <p class="control">
+            <form action="{{ url_for('delete', id_coffe=n['id']) }}" method="POST">
+              <button class="button is-danger is-outlined is-small" type="submit">Удалить</button>
+            </form>
+            </p>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+<div class="columns">
+  {% for n in stuff %}
+  <div class="column">
+    <div class="card">
+      <header class="card-header">
+        <p class="card-header-title">
+          {{ n.name }} 
+        </p>
+      </header>
+      <div class="card-content">
+        <div class="content">
+          <p><strong>ID:</strong> {{ n.id }}</p>
+          <p><strong>Имя:</strong>{{ n.name }} </p>
+          <p><strong>Кол-во:</strong>{{ n.value }} </p>
+          <p><strong>G-Code:</strong>{{ n.g_code }}</p>
+          <p><strong>Цена за 1:</strong>{{ n.price }}</p>
+          <p><strong>Цена за 2:</strong>{{ n.double_price }}</p>
+        </div>
+      </div>
+      <footer class="card-footer">
+        <a href="/admin/edit_stuff/{{ n.id }}" class="card-footer-item">Редактировать</a>
+      </footer>
     </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+
 
 
 {% endblock %}

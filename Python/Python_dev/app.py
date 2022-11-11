@@ -1,9 +1,9 @@
 # from crypt import methods
-from flask import Flask, url_for, render_template, request, json,  redirect, g,  abort
+from flask import Flask, url_for, render_template, request,  redirect, g,  abort
 import time, os, subprocess, sys
 from serial_commands.commands import connect, open_serial, close, send, read_command, recv, send_command, send_command2, send_command3, sel_turrel, bye_command
 import sqlite3 
-from json_bd.bd import read_db
+# from json_bd.bd import read_db
 from FDataBase import FDataBase
 
 # Configuration
@@ -52,7 +52,7 @@ def close_db(error):
 def index():
     db = get_db()
     dbase = FDataBase(db)
-    return render_template('index3.html', coffe = dbase.getCoffe())
+    return render_template('index.html', coffe = dbase.getCoffe())
 
 # @app.route("/index")
 # @app.route('/')
@@ -91,7 +91,21 @@ def index3():
 def admin():
     db = get_db()
     dbase = FDataBase(db)
-    return render_template('admin.html', coffe = dbase.getCoffe())
+    return render_template('admin.html', coffe = dbase.getCoffe(), stuff = dbase.getStuff())
+
+@app.route("/admin/edit_stuff/<int:id_stuff>", methods=["POST", "GET"])
+def edit_stuff(id_stuff):
+    db = get_db()
+    dbase = FDataBase(db)
+    if request.method == 'POST':
+        res = dbase.updateStuff(id_stuff, request.form['name'], request.form['price'], request.form['value'], request.form['g_code'], request.form['double_price'])
+        if not res:
+            print('Ошибка обновления')
+        else:
+            print('БД обновлена успешно')
+        return redirect(url_for('admin'))
+    elif request.method == 'GET':
+        return render_template('edit_stuff.html', items=dbase.getStuffById(id_stuff))
 
 @app.route("/admin/edit/<int:id_coffe>", methods=["POST", "GET"])
 def edit_coffe(id_coffe):
@@ -114,7 +128,7 @@ def add_coffe():
 
     if request.method == 'POST':
         if len(request.form['name']) > 4 and len(request.form['descriptions']) > 15:
-            res = dbase.addCoffe(request.form['id'], request.form['name'], request.form['descriptions'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'], request.form['flavor'], request.form['roasting'], request.form['grain'], request.form['country'], request.form['intensity'], request.form['brand'])
+            res = dbase.addRow(request.form['id'], request.form['name'], request.form['descriptions'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'], request.form['flavor'], request.form['roasting'], request.form['grain'], request.form['country'], request.form['intensity'], request.form['brand'])
             if not res:
                 print('Ошибка добавления res')
             else:
@@ -132,6 +146,18 @@ def delete(id_coffe):
     dbase.deleteRow(id_coffe)
     return redirect(url_for('admin'))
 
+@app.route('/upload')  
+def upload():  
+    return render_template("file_upload_form.html")  
+ 
+@app.route('/success/<int:id_coffe>', methods = ['POST'])  
+def success(id_coffe):  
+    if request.method == 'POST':  
+        print(id_coffe)
+        f = request.files['file']  
+        f.filename = str(id_coffe) + "_img.png" # name of file
+        f.save("static/sort/"+f.filename) 
+        return render_template("success.html", name = f.filename)  
 
 @app.route('/admin/control', methods=["POST", "GET"])
 def control():
@@ -169,136 +195,26 @@ def showCoffe(id_coffe):
         print(request.form.get('sugar'))
         print(request.form.get('cream'))
         print(request.form.get('choco'))
-        
+        amount = request.form.get('item')
+        cream = request.form.get('cream')
+        sugar = request.form.get('sugar')
+        choco = request.form.get('choco')
+        price = item['price']
         #Записываем -1 в кол-во
         dbase.incValue(id_coffe, item['value'] - 1)
-
-        # bye_command(cream, sugar, id_coffe, item['g_code'])
-
+        bye_command(amount, price, cream, sugar, choco, id_coffe, item['g_code'])
+        print("Ends")
         return render_template('item_bye.html', item=dbase.getById(id_coffe))
     return render_template('item.html', item=item)
-
-
-@app.route('/upload')  
-def upload():  
-    return render_template("file_upload_form.html")  
- 
-@app.route('/success/<int:id_coffe>', methods = ['POST'])  
-def success(id_coffe):  
-    if request.method == 'POST':  
-        print(id_coffe)
-        f = request.files['file']  
-        f.filename = str(id_coffe) + "_img.png" # name of file
-        f.save("static/sort/"+f.filename) 
-        return render_template("success.html", name = f.filename)  
-
-
-@app.route('/coffe_1/', methods=['POST', 'GET'])
-def coffe_1():
-    obj = read_db()
-    # coffe_1 = obj
-    if request.method == 'POST':
-        #print(request.form.getlist('mycheckbox'))
-        postlist = request.form.getlist('mycheckbox')
-        print(postlist)
-        print(request.args)
-
-        if '2' in postlist and len(postlist) == 1:
-            print("Сахар")
-        if '1' in postlist and len(postlist) == 1:
-            print("Сливки")
-        if len(postlist) == 2:
-            print("Сливки и сахар")
-        if len(postlist) == 0:
-            print("Кофе")
-            print("connect")
-            connect()
-            print("connect ok")
-            open_serial()
-            
-            send(b'S0 N7 D90\n')
-            send(b'S0 N7 D0\n')
-            close()           
-            print("send ok")
-            
-            # Рабочий снипет
-            # program = "python aqsi.py"
-            # process = subprocess.Popen(["python", "aqsi.py --amount=12"])
-
-            # Второй вариант
-            # output = os.system('python aqsi.py --amount=24')
-            # if output == str(0):
-            #     print("Транзакция не прошла")
-            # if output == 1:
-            #     print("Транзакция прошла")
-
-        return render_template('pay_1.html')
-
-    return render_template('coffe_1.html', obj = obj)
-
-@app.route('/coffe_2/', methods=['POST', 'GET'])
-def coffe_2():
-    obj = read_db()
-    if request.method == 'POST':
-        #print(request.form.getlist('mycheckbox'))
-        postlist = request.form.getlist('mycheckbox')
-        print(postlist)
-        print(request.args)
-
-        if '2' in postlist and len(postlist) == 1:
-            print("Сахар")
-        if '1' in postlist and len(postlist) == 1:
-            print("Сливки")
-        if len(postlist) == 2:
-            print("Сливки и сахар")
-            connect()
-            print("connect ok")
-            open_serial()
-            time.sleep(2)
-            send(b'T2\n')
-            close()
-        if len(postlist) == 0:
-            print("Кофе")
-            print("connect")
-            connect()
-            print("connect ok")
-            open_serial()
-            time.sleep(2)
-            send(b'T1 I2\n')
-            close()           
-            print("send ok")
-            
-            #AQSI Terminal start pay
-            # program = "python aqsi.py"
-            # process = subprocess.Popen(["python", "aqsi.py --amount=12"])
-            #----------
-            # output = os.system('python aqsi.py --amount=24')
-            # if output == str(0):
-            #     print("Транзакция не прошла")
-            # if output == 1:
-            #     print("Транзакция прошла")
-
-
-            #Write to json file analitics
-            # program = "python test_write.py"
-            # process = subprocess.Popen(["python", "test_write.py"])
-        return render_template('pay_2.html')
-
-    return render_template('coffe_2.html', obj = obj)
-
-
 
 @app.errorhandler(404)
 def pageNotFount(error):
     return render_template('page404.html', title="Страница не найдена",)
 
 
-
-
-
-
 if __name__ == '__main__':
     # app.debug = True
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    app.run(host='192.168.1.36', debug=True)
+    app.run(host='127.0.0.1', debug=True)
+    # app.run(host='192.168.1.36', debug=True)
 

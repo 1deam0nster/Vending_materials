@@ -1,6 +1,5 @@
 import serial
-import time
-
+import time, os, subprocess
 def connect():
     global ser
     # ser = serial.Serial('/dev/ttyACM0', 9600, timeout=5, writeTimeout=5)
@@ -74,47 +73,84 @@ def sel_turrel(id_coffe):
             close()
             return False 
 
-def bye_command(cream, sug, id_coffe, g_code):
+# bye_command(amount, price, cream, sugar, choco, id_coffe, item['g_code'])
+
+def bye_command(amount, price, cream, sug, choc, id_coffe, g_code):
+    print("Порция:", amount)
+    print("Цена:", price)
     print("Сливки:", cream)
-    print("Сахар:",type(sug))
-    print("ID:",type(id_coffe))
+    print("Шоколад:", choc)
+    print("Сахар:", sug)
+    print("ID:", id_coffe)
     print("G-code:",g_code)
 
-    cream = int(0 if cream is None else cream)
-    sugar = int(0 if sug is None else sug)
+    # cream = int(0 if cream is None else cream)
+    # sug = int(0 if sug is None else sug)
     command = bytes(g_code, 'utf-8')
     command_turrel =  bytes('T1 + I%s'%id_coffe, 'utf-8')
     
-    connect()
-    time.sleep(1)
-    open_serial()
+    # connect()
+    # time.sleep(1)
+    # open_serial()
+    if amount == 1:
+        print("Single portion")
+        aqsi(price)
+ 
+    if amount == 2:
+        print("Double portion")
+
     if cream == 1:
+        print("Cream g-code ")
+    if cream == 2:
         print("Cream g-code")
         
-    if sugar == 1:
+    if sug == 1:
         print("Sugar g-code 1 value")
         
-    if sugar == 2:
+    if sug == 2:
         print("Sugar g-code 2 value")
-        send(b'T2\n')
     
-    send(command_turrel + b'\n')
+    # send(command_turrel + b'\n')
 
-    send(b'C0\n')
-    while True:
-        data = recv()
-        print(data)
-        if data == b'Cap state true\r\n':
-            print("true")
-            send(b'C1\n')
-            send(b'C2\n')
-            send(b'T2\n')
-            close()
-            break
-        if data == b'Cap state false\r\n':
-            print("false")
-            send(b'T2\n')
-            close()
-            break 
+    # send(b'C0\n')
+    # while True:
+    #     data = recv()
+    #     print(data)
+    #     if data == b'Cap state true\r\n':
+    #         print("true")
+    #         send(b'C1\n')
+    #         send(b'C2\n')
+    #         send(b'T2\n')
+    #         close()
+    #         break
+    #     if data == b'Cap state false\r\n':
+    #         print("false")
+    #         send(b'T2\n')
+    #         close()
+    #         break 
 
 #   -----------------   end g-code functions   -----------------   
+
+
+
+def aqsi(price):
+    program = "python aqsi.py"
+    process = subprocess.Popen(["python", "aqsi.py --amount=%p", price])
+    # output = os.system('python aqsi.py --amount=12')
+    # if output == str(0):
+    #     print("Транзакция не прошла")
+    #     return False
+    # if output == 1:
+    #     print("Транзакция прошла")
+    #     return True
+
+#AQSI Terminal start pay
+# program = "python aqsi.py"
+# process = subprocess.Popen(["python", "aqsi.py --amount=12"])
+#----------
+# output = os.system('python aqsi.py --amount=24')
+# if output == str(0):
+#     print("Транзакция не прошла")
+# if output == 1:
+#     print("Транзакция прошла")
+#     print("Транзакция прошла")

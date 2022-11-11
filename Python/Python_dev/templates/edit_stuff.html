@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="columns mt-3">
+    <div class="column is-two-thirds">
+
+        <form class="box" method="post" class="form-contact">
+
+        <div class="field">
+            <label class="label">Имя:</label>
+            <div class="control">
+              <input class="input" type="text" name="name" value="{{ request.form['name'] or items['name'] }}" requied placeholder="{{ request.form['name'] or items['name'] }}">
+            </div>
+        </div>
+
+  
+        
+
+        <div class="field is-grouped">
+          <p class="controll">
+          <div class="field">
+            <label class="label">ID:</label>
+            <div class="control">
+              <input class="input" type="text" placeholder="id" name="id" value="{{ items['id']}}" requied >
+            </div>
+          </div>
+          </p>
+
+          
+          <p class="control">
+            <div class="field">
+                <label class="label">Цена за 1:</label>
+                <div class="control">
+                  <input class="input" type="text" name="price" value="{{ request.form['price'] or items['price'] }}" requied placeholder="{{ request.form['price'] or items['price'] }}">
+                </div>
+            </div>
+          </p>
+          <p class="control">
+            <div class="field">
+                <label class="label">Цена за 2:</label>
+                <div class="control">
+                  <input class="input" type="text" name="double_price" value="{{ request.form['double_price'] or items['double_price'] }}" requied placeholder="{{ request.form['double_price'] or items['double_price'] }}">
+                </div>
+            </div>
+          </p>
+          
+        </div>
+
+
+        <div class="field is-grouped">
+
+          <p class="control">
+            <div class="field">
+                <label class="label">Кол-во:</label>
+                <div class="control">
+                  <input class="input" type="text" name="value" value="{{ request.form['value'] or items['value'] }}" requied placeholder="100">
+                </div>
+            </div>
+          </p>
+          <p class="control">
+            <div class="field">
+                <label class="label">G-Code:</label>
+                <div class="control">
+                  <input class="input" type="text" name="g_code" value="{{ request.form['g_code'] or items['g_code'] }}" requied placeholder="100">
+                </div>
+            </div>
+          </p>
+          
+        </div>
+        <div class="buttons">
+            <button class="button is-success" type="submit" value="Добавить">Изменить</button>
+            <button class="button is-danger" type="reset" href="{{ url_for('admin') }}">Отмена</button>
+        </div>
+        <!-- <input type="submit" value="Добавить" class="button is-primary"/> -->
+
+        </form>
+
+    </div>
+    <!-- <div class="column">Auto</div> -->
+  </div>
+
+
+
+
+<!-- <form method="post" class="form-contact">
+    <p><label>Имя: </label> <input type="text" name="name" value="{{ request.form['name'] or items['name'] }}" requied />
+
+    <p><label>ID: </label> <input type="text" name="id" value="{{ items['id']}}" requied />
+
+    <p><label>Описание:</label><input type="text" name="descriptions" rows=7 cols=40 value="{{ request.form['descriptions'] or items['descriptions'] }}"></textarea>
+
+    <p><label>Короткое описание:</label><input type="text" name="short_description" rows=7 cols=40 value="{{ request.form['short_description'] or items['short_description'] }}"></textarea>
+
+    <p><label>Цена: </label> <input type="text" name="price" value="{{ request.form['price'] or items['price'] }}" requied />
+
+    <p><label>Кол-во капсул: </label> <input type="text" name="value" value="{{ request.form['value'] or items['value'] }}" requied />
+
+    <p><label>G-Code: </label> <input type="text" name="g_code" value="{{ request.form['g_code'] or items['g_code'] }}" requied />
+
+    <p><label>Изображение: </label> <input type="text" name="img_url" value="{{ request.form['img_url'] or items['img_url'] }}" requied />
+
+    <p><label>Cсылка: </label> <input type="text" name="link_url" value="{{ request.form['link_url'] or items['link_url'] }}" requied />
+
+    <p><input type="submit" value="Обновить" />
+</form> -->
+
+</body>
+
+{% endblock %}

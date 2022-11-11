@@ -2,16 +2,23 @@
 
 {% block content %}
 
-    <section class="hero">
-        <!-- <div class="hero-body">
-          <p class="title">
-            Совершение покупки
-          </p>
-          <p class="subtitle">
-            какой-то текст
-          </p>
-        </div> -->
-        <img src="{{ url_for('static', filename='bye_bg.png' )}}">
-    </section>
+<section class="hero bye_bg">
+  <section class="hero is-fullheight is-transparent">
+    <div class="hero-body is-justify-content-center	">
+      <p class="title title_item_bye">
+        Пожалуйста, Следуйте<br>инструкции на терминале
+      </p>
+    </div>
+  </section>
+  <!-- <img src="{{ url_for('static', filename='bye_bg.png' )}}"> -->
+  <script type="text/javascript">
 
-{% endblock %}
+    function Redirect() {
+      window.location = "http://127.0.0.1:5000/";
+    }
+
+    document.write("Таймер на фронте 5 сек.");
+    setTimeout('Redirect()', 5000);
+
+  </script>
+  {% endblock %}
