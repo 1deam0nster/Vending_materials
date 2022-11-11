@@ -1,3 +1,42 @@
+void big_servo_prepare(){
+  //----Запуск капсулы
+  myservo.attach(7);
+  for (pos_cap = 75; pos_cap >= 0; pos_cap -= 1) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
+    delay(30);                       // waits 15ms for the servo to reach the position
+  }
+  myservo.detach();
+}
+
+void big_servo_default(){
+  //----Запуск капсулы
+  myservo.attach(7);
+  for (pos_cap = 0; pos_cap <= 75; pos_cap += 1) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
+    delay(30);                       // waits 15ms for the servo to reach the position
+  }
+  myservo.detach();
+}
+
+void big_servo_drop2(){
+  //----Запуск капсулы
+  myservo.attach(7);
+  for (pos_cap = 75; pos_cap <= 179; pos_cap += 1) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
+    delay(30);                       // waits 15ms for the servo to reach the position
+  }
+  myservo.detach();
+}
+
+void big_servo_home(){
+  myservo.attach(7);
+  for (pos_cap = 179; pos_cap >= 75; pos_cap -= 1) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
+    delay(20);                       // waits 15ms for the servo to reach the position
+  }
+  myservo.detach();
+}
+
 // Открытие, среднее положение и закрытие большой сервы
 void big_servo_open(){
   //----Запуск капсулы
@@ -131,13 +170,25 @@ void check_cap(){
 // -----------------Command C0-------------
 void drop_cap()
 {
-  //----Открыть затвор
+//  //----Открыть затвор
+//  open_mini_servo();
+//  delay(500);
+//  big_servo_open();
+//  //----Проверка капсулы
+//  delay(500);
+//  check_cap();
+  big_servo_prepare();
   open_mini_servo();
   delay(500);
-  big_servo_open();
-  //----Проверка капсулы
+  big_servo_default();
   delay(500);
-  check_cap();
+  big_servo_drop2();
+  delay(500);
+  big_servo_home();
+  big_servo_prepare();
+  delay(500);
+  close_mini_servo();
+  big_servo_default();
 }
 
 

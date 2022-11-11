@@ -89,9 +89,10 @@ def bye_command(amount, price, cream, sug, choc, id_coffe, g_code):
     command = bytes(g_code, 'utf-8')
     command_turrel =  bytes('T1 + I%s'%id_coffe, 'utf-8')
     
-    # connect()
-    # time.sleep(1)
-    # open_serial()
+    connect()
+    time.sleep(1)
+    open_serial()
+
     if amount == 1:
         print("Single portion")
         aqsi(price)
@@ -110,24 +111,24 @@ def bye_command(amount, price, cream, sug, choc, id_coffe, g_code):
     if sug == 2:
         print("Sugar g-code 2 value")
     
-    # send(command_turrel + b'\n')
-
-    # send(b'C0\n')
-    # while True:
-    #     data = recv()
-    #     print(data)
-    #     if data == b'Cap state true\r\n':
-    #         print("true")
-    #         send(b'C1\n')
-    #         send(b'C2\n')
-    #         send(b'T2\n')
-    #         close()
-    #         break
-    #     if data == b'Cap state false\r\n':
-    #         print("false")
-    #         send(b'T2\n')
-    #         close()
-    #         break 
+    send(command_turrel + b'\n')
+    # sel_turrel(id_coffe)
+    send(b'C0\n')
+    while True:
+        data = recv()
+        print(data)
+        if data == b'Cap state true\r\n':
+            print("true")
+            send(b'C1\n')
+            send(b'C2\n')
+            send(b'T2\n')
+            close()
+            break
+        if data == b'Cap state false\r\n':
+            print("false")
+            send(b'T2\n')
+            close()
+            break 
 
 #   -----------------   end g-code functions   -----------------   
 
