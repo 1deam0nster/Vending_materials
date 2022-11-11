@@ -77,6 +77,12 @@ def index3():
     print(getItems[0][6]) #g-code
     print(getItems[0][7]) #img_url
     print(getItems[0][8]) #link_url
+    print(getItems[0][9]) #flavor
+    print(getItems[0][10]) #roasting
+    print(getItems[0][11]) #grain
+    print(getItems[0][12]) #country
+    print(getItems[0][13]) #intensity
+    print(getItems[0][14]) #brand
     return render_template('index3.html', coffe = getItems)
 
 #admin routing
@@ -92,7 +98,7 @@ def edit_coffe(id_coffe):
     db = get_db()
     dbase = FDataBase(db)
     if request.method == 'POST':
-        res = dbase.updateRow(request.form['id'], request.form['name'], request.form['descriptions'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
+        res = dbase.updateRow(request.form['id'], request.form['name'], request.form['descriptions'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'], request.form['flavor'], request.form['roasting'], request.form['grain'], request.form['country'], request.form['intensity'], request.form['brand'])
         if not res:
             print('Ошибка обновления')
         else:
@@ -108,9 +114,9 @@ def add_coffe():
 
     if request.method == 'POST':
         if len(request.form['name']) > 4 and len(request.form['descriptions']) > 15:
-            res = dbase.addCoffe(request.form['id'], request.form['name'], request.form['descriptions'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'])
+            res = dbase.addCoffe(request.form['id'], request.form['name'], request.form['descriptions'], request.form['short_description'], request.form['price'], request.form['value'], request.form['g_code'], request.form['img_url'], request.form['link_url'], request.form['flavor'], request.form['roasting'], request.form['grain'], request.form['country'], request.form['intensity'], request.form['brand'])
             if not res:
-                print('Ошибка добавления')
+                print('Ошибка добавления res')
             else:
                 print('Успешно')
         else:
@@ -157,13 +163,17 @@ def showCoffe(id_coffe):
     item=dbase.getById(id_coffe)
 
     if request.method == 'POST':
-        cream = request.form.get('checkbox')
-        sugar = request.form.get('list')
-
+        # cream = request.form.get('checkbox')
+        # sugar = request.form.get('list')
+        print(request.form.get('item'))
+        print(request.form.get('sugar'))
+        print(request.form.get('cream'))
+        print(request.form.get('choco'))
+        
         #Записываем -1 в кол-во
         dbase.incValue(id_coffe, item['value'] - 1)
 
-        bye_command(cream, sugar, id_coffe, item['g_code'])
+        # bye_command(cream, sugar, id_coffe, item['g_code'])
 
         return render_template('item_bye.html', item=dbase.getById(id_coffe))
     return render_template('item.html', item=item)
@@ -290,5 +300,5 @@ def pageNotFount(error):
 if __name__ == '__main__':
     # app.debug = True
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    app.run(host='127.0.0.1', debug=True)
+    app.run(host='192.168.1.36', debug=True)
 

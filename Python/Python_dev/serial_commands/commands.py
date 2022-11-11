@@ -43,7 +43,6 @@ def send_command2(com, com2):
     line =  com + ' ' + com2
     command =  bytes(line, 'utf-8')
     print(command)
-
     connect()
     time.sleep(1)
     open_serial()

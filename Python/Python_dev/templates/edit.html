@@ -37,7 +37,58 @@
               <textarea class="textarea" name="short_description" rows=3 value="{{ request.form['short_description'] or items['short_description'] }}" placeholder="{{ request.form['short_description'] or items['short_description'] }}">{{ request.form['short_description'] or items['short_description'] }}</textarea>
             </div>
         </div>
-
+        <div class="field is-grouped">
+          <p class="control">
+            <div class="field">
+                <label class="label">Вкус:</label>
+                <div class="control">
+                  <input class="input" type="text" name="flavor" value="{{ request.form['flavor'] or items['flavor'] }}" requied placeholder="{{ request.form['flavor'] or items['flavor'] }}">
+                </div>
+            </div>
+          </p>
+          <p class="control">
+            <div class="field">
+                <label class="label">Обжарка:</label>
+                <div class="control">
+                  <input class="input" type="text" name="roasting" value="{{ request.form['roasting'] or items['roasting'] }}" requied placeholder="{{ request.form['roasting'] or items['roasting'] }}">
+                </div>
+            </div>
+          </p>
+          <p class="control">
+            <div class="field">
+                <label class="label">Зерна:</label>
+                <div class="control">
+                  <input class="input" type="text" name="grain" value="{{ request.form['grain'] or items['grain'] }}" requied placeholder="{{ request.form['grain'] or items['grain'] }}">
+                </div>
+            </div>
+          </p>
+        </div>
+        <div class="field is-grouped">
+          <p class="control">
+            <div class="field">
+                <label class="label">Страна:</label>
+                <div class="control">
+                  <input class="input" type="text" name="country" value="{{ request.form['country'] or items['country'] }}" requied placeholder="{{ request.form['country'] or items['country'] }}">
+                </div>
+            </div>
+          </p>
+          <p class="control">
+            <div class="field">
+                <label class="label">Интенсивность:</label>
+                <div class="control">
+                  <input class="input" type="text" name="intensity" value="{{ request.form['intensity'] or items['intensity'] }}" requied placeholder="{{ request.form['intensity'] or items['intensity'] }}" >
+                </div>
+            </div>
+          </p>
+          <p class="control">
+            <div class="field">
+                <label class="label">Фирма:</label>
+                <div class="control">
+                  <input class="input" type="text" name="brand" value="{{ request.form['brand'] or items['brand'] }}" requied placeholder="{{ request.form['brand'] or items['brand'] }}" >
+                </div>
+            </div>
+          </p>
+        </div>
 
         <div class="field is-grouped">
           <p class="control">

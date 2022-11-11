@@ -8,61 +8,47 @@
 </head>
 <body> -->
 
-{% extends 'base.html' %}
- 
+{% extends 'head.html' %}
+
 {% block content %}
-  <div class="columns m-3">
-    {% for n in range(0, 5) %}
-    <div class="column">
-      <a href="{{ coffe[n][8] }}">
-        <div class="card">
-            <div class="card-image is-align-items-center">
-              <h2 class="title is-3 mt-5 has-text-centered">{{ coffe[n][1] }}</h2>
-              <figure class="image">
-                <img src="{{ url_for('static', filename=coffe[n][7] )}}" alt="Placeholder image">
-              </figure>
-            </div>
-            <div class="card-content has-text-centered">
-              <div class="media">
-                <div class="media-content">
-                  <p class="title is-5">{{ coffe[n][4] }} руб.</p>
-                </div>
-              </div>
-              <div class="content">
-                {{ coffe[n][3] }}
-              </div>
-            </div>
-          </div>
-       </a>
-    </div>
-    {% endfor %}
-  </div>
+<div class="main_grid">
+  {% for n in coffe %}
+  <a href="{{ n.link_url }}">
+    <div class="card card_bg">
 
-  <div class="columns m-3">
-    {% for n in range(5, 10) %}
-    <div class="column">
-      <a href="{{ coffe[n][8] }}">
-        <div class="card">
-            <div class="card-image is-align-items-center">
-              <h2 class="title is-3 mt-5 has-text-centered">{{ coffe[n][1] }}</h2>
-              <figure class="image">
-                <img src="{{ url_for('static', filename=coffe[n][7] )}}" alt="Placeholder image">
-              </figure>
-            </div>
-            <div class="card-content has-text-centered">
-              <div class="media">
-                <div class="media-content">
-                  <p class="title is-5">{{ coffe[n][4] }} руб.</p>
-                </div>
-              </div>
-              <div class="content">
-                {{ coffe[n][3] }}
-              </div>
-            </div>
-          </div>
-       </a>
-    </div>
-    {% endfor %}
-  </div>
+      <div class="card-image">
+        <figure class="image">
+          <img src="{{ url_for('static', filename=n.img_url )}}" alt="Placeholder image">
+        </figure>
+        <h2 class="card_title">{{ n.name }}</h2>
+      </div>
 
+      <div class="card-content has-text-white">
+        <div class="level item mb-0">
+          <div class="level-left">
+            <p class="level-item item_name">Вкус: <strong></strong></p>
+          </div>
+          <div class="level-right">
+            <p class="level-item">{{ n.flavor }}</p>
+          </div>
+        </div>
+        <div class="level item mb-0">
+          <div class="level-left">
+            <p class="level-item item_name">Интенсивность: <strong></strong></p>
+          </div>
+          <div class="level-right">
+            <p class="level-item">{{ n.intensity }}</p>
+          </div>
+        </div>
+      </div>
+      <hr class="card_line">
+      <div class="card-content price">
+        <!-- <div class="price"> -->
+          {{ n.price }} &#8381; <p class="price_helper"> / 50 мл</p>
+        <!-- </div> -->
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
 {% endblock %}

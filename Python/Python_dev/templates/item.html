@@ -2,7 +2,7 @@
 
 
 {% block content %}
-    <div class="columns m-2">
+<!-- <div class="columns m-2">
         <div class="column">
             <div class="card">
                 <div class="card-image is-align-items-center">
@@ -45,6 +45,237 @@
   
                 </form>
         </div>
-    </div>
+    </div> -->
+<div class="item_grid">
+  <div class="item_form_area">
 
+    <div class="item_value">
+      <div class="title">Какую порцию приготовить?</div>
+      <div class="item_value_container">
+        
+          <input type="radio" id="radiobtn1" name="item" class="input-hidden" value="1" form="data" onClick="run(1)" checked/>
+          <label for="radiobtn1">
+            <div class="btn_container">
+              <img src="{{ url_for('static', filename='radio-1.png' )}}" style="width:369px; border-radius:20px;" />
+              <div id="single_price" class="item_value_price">{{ item['price'] }} &#8381; <b class="price_helper"> / 50 мл</b></div>
+            </div>
+          </label>
+
+          <input type="radio" id="radiobtn2" name="item" class="input-hidden" value="2" form="data" onClick="run(2)" />
+          <label for="radiobtn2">
+            <div class="btn_container">
+              <img src="{{ url_for('static', filename='radio-2.png' )}}" style="width:369px; border-radius:20px;" />
+              <div id="double_price" class="item_value_price">{{ item['price'] * 2 }} &#8381; <b class="price_helper"> / 50 мл</b></div>
+            </div>
+          </label>
+      </div>
+
+    </div>
+    <div class="item_stuff">
+      <div class="sugar">
+        <div class="title">Сахар</div>
+        <img src="{{ url_for('static', filename='sugar.png' )}}">
+        <div class="item_radio_buttons_container">
+
+          <label class="label_radio">
+            <input type="radio" name="sugar" value="0" form="data" checked>
+            <div class="radio_bg none">
+              <p>Нет</p>
+            </div>
+            </input>
+          </label>
+
+          <label class="label_radio">
+            <input type="radio" name="sugar" value="1" form="data">
+            <div class="radio_bg num_1">
+              <p>1</p>
+            </div>
+            </input>
+          </label>
+
+          <label class="label_radio">
+            <input type="radio" name="sugar" value="2" form="data">
+            <div class="radio_bg num_2">
+              <p>2</p>
+            </div>
+            </input>
+          </label>
+
+        </div>
+      </div>
+      <div class="cream">
+        <div class="title">Сливки</div>
+
+        <img src="{{ url_for('static', filename='sugar.png' )}}">
+        <div class="item_radio_buttons_container">
+
+          <label class="label_radio">
+            <input type="radio" name="cream" form="data" value="0" checked>
+            <div class="radio_bg none">
+              <p>Нет</p>
+            </div>
+            </input>
+          </label>
+
+          <label class="label_radio">
+            <input type="radio" name="cream" form="data" value="1">
+            <div class="radio_bg num_1">
+              <p>1</p>
+            </div>
+            </input>
+          </label>
+
+          <label class="label_radio">
+            <input type="radio" name="cream" form="data" value="2">
+            <div class="radio_bg num_2">
+              <p>2</p>
+            </div>
+            </input>
+          </label>
+
+        </div>
+      </div>
+      <div class="choco">
+        <div class="title">Шоколатье</div>
+        <img src="{{ url_for('static', filename='sugar.png' )}}">
+        <div class="item_radio_buttons_container">
+
+          <label class="label_radio">
+            <input type="radio" name="choco" form="data" value="0" checked>
+            <div class="radio_bg none">
+              <p>Нет</p>
+            </div>
+            </input>
+          </label>
+
+          <label class="label_radio">
+            <input type="radio" name="choco" form="data" value="1" >
+            <div class="radio_bg num_1">
+              <p>1</p>
+            </div>
+            </input>
+          </label>
+
+          <label class="label_radio">
+            <input type="radio" name="choco" form="data" value="2">
+            <div class="radio_bg num_2">
+              <p>2</p>
+            </div>
+            </input>
+          </label>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="item_content_area">
+    <figure class="is-flex is-justify-content-center">
+      <img src="{{ url_for('static', filename=item['img_url'] )}}" width="544" height="365">
+    </figure>
+    <div class="content first">
+      <h1 class="item_title">{{ item['name'] }}</h1>
+      <p class="item_description">{{ item['descriptions'] }}</p>
+    </div>
+    <div class="content second">
+      <div class="list_info">
+        <img src="{{ url_for('static', filename='intansity.png' )}}">
+        <div class="level item mb-0">
+          <div class="level-left">
+            <p class="level-item item_name">Вкус:</p>
+          </div>
+          <div class="level-right">
+            <p class="level-item">{{ item['flavor'] }}</p>
+          </div>
+        </div>
+        <div class="level item mb-0">
+          <div class="level-left">
+            <p class="level-item item_name">Обжарка:</p>
+          </div>
+          <div class="level-right">
+            <p class="level-item">{{ item['roasting'] }}</p>
+          </div>
+        </div>
+        <div class="level item mb-0">
+          <div class="level-left">
+            <p class="level-item item_name">Зерна:</p>
+          </div>
+          <div class="level-right">
+            <p class="level-item">{{ item['grain'] }}</p>
+          </div>
+        </div>
+        <div class="level item mb-0">
+          <div class="level-left">
+            <p class="level-item item_name">Страна:</p>
+          </div>
+          <div class="level-right">
+            <p class="level-item">{{ item['country'] }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="item_price">
+        К оплате: <p class="item_price_value" id="price">{{ item['price'] }} &#8381;</p>
+      </div>
+    </div>
+    <button class="button_bye_item button is-fullwidth" type="submit" form="data">Перейти к оплате</button>
+    <form name="alm" style="display: none;" id="data" method="POST" action="{{ url_for('showCoffe', id_coffe=item['id']) }}"></form>
+
+  </div>
+  <script>
+    let form = document.forms[0];
+    let item = form.elements.item;
+    // console.log(item[1]);
+
+    
+    // price.outerHTML = '<p>Новый элемент</p>';
+
+    if (document.getElementById('radiobtn2').checked) {
+      rate_value = document.getElementById('radiobtn2').value;
+      console.log(rate_value);
+      content('price', price * 2)
+    };
+
+    if (document.getElementById('radiobtn1').checked) {
+      rate_value = document.getElementById('radiobtn1').value;
+      console.log(rate_value);
+      content('price', price)
+    };
+
+    let price = document.getElementById('price');
+    content('price', );
+    function run(radio_value) {
+      if (radio_value == 1){
+        let price = document.getElementById('single_price');
+        let pr_val = price.innerText;
+        let result = pr_val.slice(0, 5);
+        console.log(result)
+        content('price', result);
+      } if (radio_value == 2) {
+        let price = document.getElementById('double_price');
+        let pr_val = price.innerText;
+        let result = pr_val.slice(0, 5);
+        console.log(result)
+        content('price', result);
+      }
+    };
+
+    function content(idSelector, value) {
+      document.getElementById(idSelector).innerHTML = value;
+    }
+
+    // content('price',"36666");
+
+    // function changeDivContent(btn) {
+    //   content.innerHTML = btn.value
+    // }
+    // получаем форму
+    // let form = document.forms[0]; // <form name="my"> element
+  
+    // // получаем элемент
+    // let sugar = form.elements.sugar; // <input name="one"> element
+    // let sugar = form.elements.sugar; // <input name="one"> element
+
+    // console.log(price); // 1
+  </script>
+</div>
 {% endblock %}

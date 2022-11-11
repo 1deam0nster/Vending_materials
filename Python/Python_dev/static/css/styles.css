@@ -1,6 +1,334 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400&family=Oswald:wght@200;300;400&display=swap');
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+}
+
 .crop-height {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow-x: hidden;
+}
+
+
+.bg {
+    background-color: #262626;
+}
+
+.card_title {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 47px;
+    text-transform: uppercase;
+    color: #efbe49;
+    margin: 0 0 0 0.8em;
+}
+
+.card_bg {
+    background: linear-gradient(154.05deg, #404040 1.57%, #2D2D2D 95.98%);
+    border-radius: 25px;
+}
+
+.card-content {
+    padding: 10px 1.5rem 10px 1.5rem;
+}
+
+/* .card_price{
+
+} */
+.price {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 150%;
+    /* identical to box height, or 48px */
+    text-transform: uppercase;
+    color: #FFFFFF;
+    padding: 14px 0 14px 0;
+}
+
+.price_helper {
+    font-family: 'Oswald';
+    font-weight: 300;
+    font-style: normal;
+    line-height: 150%;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #919191;
+    padding-bottom: 4px;
+}
+
+.item_name {
+    color: #858585;
+}
+
+.item {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+}
+
+.card_line {
+    background-color: #404040;
+    border: none;
+    display: block;
+    height: 1px;
+    margin: 0;
+}
+
+.main_grid {
+    padding: 5vh 24px 0 24px;
+    display: grid;
+    column-gap: 30px;
+    row-gap: 30px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    /* grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); */
+    grid-template-rows: 1fr 1fr;
+    align-content: center;
+}
+
+
+/* item card coffe */
+.item_grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    color: #FFFFFF;
+    height: calc(100vh - 52px);
+
+}
+
+.item_form_area {
+    color: #FFFFFF;
+    margin: 138px 100px 0 100px;
+
+}
+
+.item_value_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.item_value>.title {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 47px;
+    color: #FFFFFF;
+    margin-bottom: 16px;
+}
+
+.btn_container{
+    display: inline-block;
+    text-align: center;
+}
+
+.btn_container > .item_value_price{
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 47px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    display: block;
+    margin: -62px;
+}
+
+.btn_container > .price_helper{
+    font-size: 20px;
+    line-height: 30px;
+    color: #919191;
+    display: block;
+    margin: -62px;
+}
+
+
+
+.sugar > .title, .choco > .title, .cream > .title {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 47px;
+    color: #FFFFFF;
+    margin-bottom: 16px;
+}
+
+/* Radio buttons styling for caps value row */
+.input-hidden {
+    position: absolute;
+    left: -9999px;
+}
+
+/* input[type="radio"]:checked + label > img {
+    border: 1px solid #efbe49;
+  } */
+
+input[type="radio"]+label>.btn_container>img {
+    transition: 500ms all;
+}
+
+input[type="radio"]:checked+label>.btn_container>img {
+    border: 2px solid #efbe49;
+}
+
+/* Radio buttons styling for stuff row */
+.label_radio>input {
+    display: none;
+}
+
+.label_radio input:checked+.radio_bg {
+    /* background: linear-gradient(154.05deg, #404040 1.57%, #2D2D2D 95.98%);
+    border-radius: 0px 0px 0px 20px; */
+
+    background: linear-gradient(126.75deg, #F8CA5C 4.06%, #D8A01B 89.64%);
+    box-shadow: inset 2px 2px 10px rgba(96, 63, 22, 0.2);
+}
+
+.radio_bg {
+    width: 77px;
+    height: 55px;
+    position: relative;
+    text-align: center;
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 24px;
+    line-height: 36px;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 9px 0 0 0;
+}
+
+.none{
+    background: linear-gradient(154.05deg, #404040 1.57%, #2D2D2D 95.98%);
+    border-radius: 0px 0px 0px 20px;
+}
+
+.num_1{
+    background: linear-gradient(154.05deg, #3E3E3E 1.57%, #2B2B2B 95.98%);}
+
+.num_2{
+    background: linear-gradient(154.05deg, #3E3E3E 1.57%, #2B2B2B 95.98%);
+    border-radius: 0px 0px 20px 0px;
+}
+
+
+
+
+
+.item_stuff {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: flex-start;
+    padding-top: 4em;
+}
+
+.sugar .cream .choco {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.item_radio_buttons_container {
+    display: flex;
+    margin: -5px 0 0 0;
+}
+
+
+
+.item_content_area {
+    background: linear-gradient(154.05deg, #404040 1.57%, #2D2D2D 95.98%);
+    /* padding: 0 100px 0 100px; */
+    display: flex;
+    flex-direction: column;
+    align-content: flex-start;
+    justify-content: space-between;
+}
+
+.item_title {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 59px;
+    text-transform: uppercase;
+    color: #EFBE49 !important;
+}
+
+.item_description {
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 25px;
+    color: #E8E8E8;
+    font-style: normal;
+}
+
+.first {
+    margin: 0 100px 0 100px;
+}
+
+.second {
+    margin: 0 100px 0 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.item_price {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 47px;
+    display: flex;
+    align-items: flex-end;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.8)
+}
+
+.item_price_value {
+    font-size: 80px;
+    line-height: 119px;
+    display: flex;
+    align-items: flex-end;
+    text-align: right;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 1);
+    margin: 0px 0 -14px 0;
+}
+
+.button_bye_item {
+    font-family: 'Oswald';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 74px;
+
+    /* width: 940px; */
+    height: 134px;
+    left: 0px;
+    top: 0px;
+    background-color: #EFBE49 !important;
+    border: none;
+    border-radius: 0;
+    color: #333333 !important;
 }

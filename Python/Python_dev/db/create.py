@@ -12,5 +12,11 @@ with sq.connect("data.db") as con:
         value INTEGER NOT NULL,
         g_code TEXT NOT NULL,
         img_url TEXT NOT NULL,
-        link_url TEXT NOT NULL
+        link_url TEXT NOT NULL,
+        flavor TEXT NOT NULL,
+        roasting TEXT NOT NULL,
+        grain TEXT NOT NULL,
+        country TEXT NOT NULL,
+        intensity TEXT NOT NULL,
+        brand TEXT NOT NULL
         )""")
