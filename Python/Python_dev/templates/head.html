@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Almavending App</title>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pressure/2.1.2/pressure.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
 </head>
-<body class="bg">
+<body class="bg" id="app">
     <nav class="navbar is-dark">
         <div class="navbar-brand">
           <a class="navbar-item" href="{{ url_for('index') }}">
@@ -22,7 +23,7 @@
       
         <div id="navbarExampleTransparentExample" class="navbar-menu">
           <div class="navbar-start">
-
+            {{ message }}
           </div>
       
           <div class="navbar-end">
@@ -46,3 +47,5 @@
 
 </body>
 </html>
+
+

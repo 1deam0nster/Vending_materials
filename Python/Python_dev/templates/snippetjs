@@ -1,0 +1,163 @@
+    function check() {
+      var getCreamValue = document.querySelector('input[name="cream"]:checked');
+      if (getCreamValue != null) {
+        alert(getCreamValue.value);
+      };
+      var getCoffeValue = document.querySelector('input[name="item"]:checked');
+      if (getCreamValue != null) {
+        alert(getCoffeValue.value);
+      };
+    }
+
+
+    // var state = document.querySelector('#price');
+    // var radioButtons = document.querySelectorAll('input[name="cream"]');
+    //     state.addEventListener("click", () => {
+    //         let state_cream;
+    //         for (const radioButton of radioButtons) {
+    //             if (radioButton.checked) {
+    //                 state_cream = radioButton.value;
+    //                 break;
+    //             }
+    //         }
+    //         console.log(state_cream)
+    //         // show the output:
+    //         // output.innerText = state_cream ? `Selected ${state_cream}` : `You haven't selected any size`;
+    //     });
+
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/umbrellajs"></script>
+  <script>
+    // get single price
+    price = u(document.getElementById('single_price'));
+    console.log(price.text());  
+
+    choko = u(document.getElementsByClassName('title_choco_price'))
+    console.log(choko.text()); 
+
+    cream = u(document.getElementsByClassName('title_cream_price'))
+    console.log(cream.text());
+
+    // get val to change glob price
+    glob_price = u(document.getElementById('price'));
+    console.log(glob_price.text()); 
+
+
+    u(document.getElementById('radiobtn1')).on('click', function(){
+      price = u(document.getElementById('single_price'));
+      var single_price = price.text().replace(' ₽  / 50 мл', '');
+      console.log(single_price);
+      cap_price(single_price);
+    });
+
+    u(document.getElementById('radiobtn2')).on('click', function(){
+      price = u(document.getElementById('double_price'));
+      var double_price = price.text().replace(' ₽  / 50 мл', '');
+      console.log(double_price);
+      cap_price(double_price);
+    });
+
+
+    u(document.getElementById('cream_none')).on('click', function(){
+      var cream_none = 0;
+      console.log(cream_none);
+      cream_price(cream_none);
+    });
+
+    u(document.getElementById('cream_1')).on('click', function(){
+      cream = u(document.getElementsByClassName('title_cream_price'))
+      var cream_single_price = cream.text().slice(2);
+      console.log(cream_single_price);
+      cream_price(cream_single_price);
+    });
+
+    u(document.getElementById('cream_2')).on('click', function(){
+      cream = u(document.getElementsByClassName('title_cream_price'))
+      var cream_double_price = cream.text().slice(2);
+      console.log(cream_double_price * 2);
+      cream_price(cream_double_price * 2);
+    });
+
+    function cream_price(cream){
+      var cream_price = cream;
+      console.log(cream_price);
+    }
+
+    function test(){
+
+      var checked = document.getElementById('cream_none');
+      console.log(checked.find('[checked]'));
+
+    }
+    function cap_price(price, cream){
+      const cream_state = document.querySelectorAll('input[name="cream"]');
+      var cap_price = price;
+      console.log(cap_price);
+    };
+
+
+
+  </script> -->
+  <!-- <script>
+    let form = document.forms[0];
+    let item = form.elements.item;
+
+
+    if (document.getElementById('radiobtn2').checked) {
+      rate_value = document.getElementById('radiobtn2').value;
+      console.log(rate_value);
+      content('price', price * 2)
+    };
+
+    if (document.getElementById('radiobtn1').checked) {
+      rate_value = document.getElementById('radiobtn1').value;
+      console.log(rate_value);
+      content('price', price)
+    };
+
+    let price = document.getElementById('price');
+    content('price', );
+    function run(radio_value) {
+      if (radio_value == 1){
+        let price = document.getElementById('single_price');
+        let pr_val = price.innerText;
+        let result = pr_val.slice(0, 5);
+        console.log(result)
+        content('price', result);
+      } if (radio_value == 2) {
+        let price = document.getElementById('double_price');
+        let pr_val = price.innerText;
+        let result = pr_val.slice(0, 5);
+        console.log(result)
+        content('price', result);
+      }
+    };
+
+    function content(idSelector, value) {
+      document.getElementById(idSelector).innerHTML = value;
+    } -->
+
+
+
+
+
+
+  <!-- // console.log(item[1]);
+
+    
+    // price.outerHTML = '<p>Новый элемент</p>';
+
+    // content('price',"36666");
+
+    // function changeDivContent(btn) {
+    //   content.innerHTML = btn.value
+    // }
+    // получаем форму
+    // let form = document.forms[0]; // <form name="my"> element
+  
+    // // получаем элемент
+    // let sugar = form.elements.sugar; // <input name="one"> element
+    // let sugar = form.elements.sugar; // <input name="one"> element
+
+    // console.log(price); // 1
+  // </script> -->

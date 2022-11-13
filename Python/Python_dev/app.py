@@ -187,25 +187,34 @@ def showCoffe(id_coffe):
     db = get_db()
     dbase = FDataBase(db)
     item=dbase.getById(id_coffe)
+    sugar=dbase.getStuffById(1)
+    cream=dbase.getStuffById(2)
+    choco=dbase.getStuffById(3)
 
     if request.method == 'POST':
         # cream = request.form.get('checkbox')
         # sugar = request.form.get('list')
-        print(request.form.get('item'))
-        print(request.form.get('sugar'))
-        print(request.form.get('cream'))
-        print(request.form.get('choco'))
+        print(request.form)
+        # print(request.form.get('item'))
+        # print(request.form.get('sugar'))
+        # print(request.form.get('cream'))
+        # print(request.form.get('choco'))
         amount = request.form.get('item')
         cream = request.form.get('cream')
         sugar = request.form.get('sugar')
         choco = request.form.get('choco')
         price = item['price']
-        #Записываем -1 в кол-во
-        dbase.incValue(id_coffe, item['value'] - 1)
-        bye_command(amount, price, cream, sugar, choco, id_coffe, item['g_code'])
-        print("Ends")
+        total_price = request.form.get('total_price')
+
+        #Записываем -1 или -2 в кол-во
+        if amount == 1:
+            dbase.incValue(id_coffe, item['value'] - 1)
+        if amount == 2:
+            dbase.incValue(id_coffe, item['value'] - 2)
+        
+        bye_command(amount, total_price, cream, sugar, choco, id_coffe, item['g_code'])
         return render_template('item_bye.html', item=dbase.getById(id_coffe))
-    return render_template('item.html', item=item)
+    return render_template('item.html', item=item, choco=choco, sugar=sugar, cream=cream  )
 
 @app.errorhandler(404)
 def pageNotFount(error):
@@ -215,6 +224,6 @@ def pageNotFount(error):
 if __name__ == '__main__':
     # app.debug = True
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    app.run(host='127.0.0.1', debug=True)
-    # app.run(host='192.168.1.36', debug=True)
+    # app.run(host='127.0.0.1', debug=True)
+    app.run(host='192.168.1.36', debug=True)
 
