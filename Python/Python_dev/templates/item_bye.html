@@ -1,6 +1,7 @@
 {% extends 'head.html' %}
 
 {% block content %}
+
 <section class="hero bye_bg">
   <section class="hero is-fullheight is-transparent">
     <div class="hero-body is-justify-content-center	">
@@ -14,6 +15,7 @@
   <script src="https://cdn.rawgit.com/kimmobrunfeldt/progressbar.js/0.5.6/dist/progressbar.js"></script>
   <script type="text/javascript">
 
+
     // function Redirect() {
     //   window.location = "http://127.0.0.1:5000/";
     // }
@@ -22,22 +24,22 @@
     // setTimeout('Redirect()', 5000);
 
 
-    var bar = new ProgressBar.Line(container, {
-      strokeWidth: 4,
-      easing: 'easeInOut',
-      duration: 120000,
-      color: '#FFEA82',
-      strokeWidth: 1,
-      trailColor: '#eee',
-      trailWidth: 1,
-      svgStyle: { width: '100%', height: '100%' },
-      from: { color: '#efbe49' },
-      to: { color: '#bb3800' },
-      step: (state, bar) => {
-        bar.path.setAttribute('stroke', state.color);
-      }
-    });
+    // var bar = new ProgressBar.Line(container, {
+    //   strokeWidth: 4,
+    //   easing: 'easeInOut',
+    //   duration: 120000,
+    //   color: '#FFEA82',
+    //   strokeWidth: 1,
+    //   trailColor: '#eee',
+    //   trailWidth: 1,
+    //   svgStyle: { width: '100%', height: '100%' },
+    //   from: { color: '#efbe49' },
+    //   to: { color: '#bb3800' },
+    //   step: (state, bar) => {
+    //     bar.path.setAttribute('stroke', state.color);
+    //   }
+    // });
 
-    bar.animate(1.0);  // Number from 0.0 to 1.0
+    // bar.animate(1.0);  
   </script>
   {% endblock %}

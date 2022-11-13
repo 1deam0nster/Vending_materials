@@ -212,7 +212,7 @@ def showCoffe(id_coffe):
         if amount == 2:
             dbase.incValue(id_coffe, item['value'] - 2)
         
-        bye_command(amount, total_price, cream, sugar, choco, id_coffe, item['g_code'])
+        # bye_command(amount, total_price, cream, sugar, choco, id_coffe, item['g_code'])
         return render_template('item_bye.html', item=dbase.getById(id_coffe))
     return render_template('item.html', item=item, choco=choco, sugar=sugar, cream=cream  )
 
@@ -224,6 +224,6 @@ def pageNotFount(error):
 if __name__ == '__main__':
     # app.debug = True
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    # app.run(host='127.0.0.1', debug=True)
-    app.run(host='192.168.1.36', debug=True)
+    app.run(host='127.0.0.1', debug=True)
+    # app.run(host='192.168.1.36', debug=True)
 
