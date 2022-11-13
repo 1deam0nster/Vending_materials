@@ -1,10 +1,11 @@
 # from crypt import methods
 from flask import Flask, url_for, render_template, request,  redirect, g,  abort
-import time, os, subprocess, sys
+import os, sqlite3 
 from serial_commands.commands import connect, open_serial, close, send, read_command, recv, send_command, send_command2, send_command3, sel_turrel, bye_command
-import sqlite3 
+
 # from json_bd.bd import read_db
 from FDataBase import FDataBase
+from api.api import api_bp
 
 # Configuration
 DATABASE = '/db/data.db'
@@ -16,6 +17,11 @@ app = Flask(__name__, static_folder='static')
 app.config.from_object(__name__)
 app.config.update(dict(DATABASE=os.path.join(app.root_path,'db/data.db')))
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
+
+app.register_blueprint(api_bp, url_prefix='/api/')
+
+
+
 
 ### SQL Lite DB functions
 #Connect to db
@@ -224,6 +230,6 @@ def pageNotFount(error):
 if __name__ == '__main__':
     # app.debug = True
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    app.run(host='127.0.0.1', debug=True)
-    # app.run(host='192.168.1.36', debug=True)
+    # app.run(host='127.0.0.1', debug=True)
+    app.run(host='192.168.1.36', debug=True)
 
