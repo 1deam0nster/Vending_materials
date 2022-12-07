@@ -1,3 +1,4 @@
+
 // -----------------Command R0-------------
 
 void relay(double n, double t){
@@ -5,38 +6,49 @@ void relay(double n, double t){
   uint32_t del = t;
   uint32_t num_rel;
   
-  if (rel == 1)
-    {
-      num_rel = 14;
-    }
-  else if (rel == 2)
-    {
-      num_rel = 15;
-    }
-  else if (rel == 3)
-    {
-      num_rel = 16;
-    }
-  else if (rel == 4)
-    {
-      num_rel = 17;
-    }
-  else if (rel == 5)
-    {
-      num_rel = 31;
-    }
-  else if (rel == 6)
-    {
-      num_rel = 2;
-    }
-  else if (rel == 7)
-    {
-      num_rel = 1;
-    }
-  else if (rel == 8)
-    {
-      num_rel = 0;
-    }
+  switch (rel) {
+    case 1: num_rel = 14; break;  // выбираем это
+    case 2: num_rel = 15; break;
+    case 3: num_rel = 16; break;
+    case 4: num_rel = 41; break;
+    case 5: num_rel = 41; break;
+    case 6: num_rel = 41; break;
+    case 7: num_rel = 41; break;
+    case 8: num_rel = 41; break;
+  }
+
+  // if (rel == 1)
+  //   {
+  //     num_rel = 14;
+  //   }
+  // else if (rel == 2)
+  //   {
+  //     num_rel = 15;
+  //   }
+  // else if (rel == 3)
+  //   {
+  //     num_rel = 16;
+  //   }
+  // else if (rel == 4)
+  //   {
+  //     num_rel = 41;
+  //   }
+  // else if (rel == 5)
+  //   {
+  //     num_rel = 31;
+  //   }
+  // else if (rel == 6)
+  //   {
+  //     num_rel = 2;
+  //   }
+  // else if (rel == 7)
+  //   {
+  //     num_rel = 1;
+  //   }
+  // else if (rel == 8)
+  //   {
+  //     num_rel = 0;
+  //   }
   
 //  Serial.print("relay = ");
 //  Serial.println(num_rel);

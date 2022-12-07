@@ -34,7 +34,7 @@ Servo servo_sug;
 //------Подключение концевиков------
 #define stop_x 20
 #define stop_y 34
-#define stop_z 33
+#define stop_z 18
 
 #define home_switch_z 22 // концевик для Z
 #define home_switch_e 21 //концевик для E

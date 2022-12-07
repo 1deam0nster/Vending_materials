@@ -17,6 +17,7 @@ void servo_degrid(double n, double d)
 }
 
 void servofn() {
+  void servo_test();
 
   double newNValue = N;
   if (Commands.availableValue('N')) // ADDED parameter D in S0

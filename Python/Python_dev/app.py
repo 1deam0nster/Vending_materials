@@ -230,6 +230,6 @@ def pageNotFount(error):
 if __name__ == '__main__':
     # app.debug = True
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    # app.run(host='127.0.0.1', debug=True)
-    app.run(host='192.168.1.36', debug=True)
+    app.run(host='127.0.0.1', debug=True)
+    #app.run(host='192.168.1.36', debug=True)
 
