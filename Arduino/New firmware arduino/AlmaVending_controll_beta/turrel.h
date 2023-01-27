@@ -3,10 +3,13 @@ void turrel_rotate(double d, double s, double a) {
   int dist = d;
   int accel = a;
   int spd = s;
+  turrel.disableOutputs();
   turrel.setMaxSpeed(spd);
   turrel.setAcceleration(accel);
   turrel.moveTo(dist);
   turrel.runToPosition();
+  turrel.enableOutputs();
+  
 }
 
 void go_to_pos() {
@@ -34,51 +37,31 @@ void go_line_pos(double i) {
 
   switch (newIValue) {
     case 1: distance = 0; break;  // выбираем это
-    case 2: distance = 820; break;
-    case 3: distance = 1650; break;
-    case 4: distance = 2470; break;
-    case 5: distance = 3270; break;
-    case 6: distance = -3300; break;
-    case 7: distance = -3300; break;
-    case 8: distance = -2500; break;
-    case 9: distance = -1670; break;
-    case 10: distance = -830; break;
+    case 2: distance = 850; break;
+    case 3: distance = 1700; break;
+    case 4: distance = 2550; break;
+    case 5: distance = 3340; break;
+    case 6: distance = -4100; break;
+    case 7: distance = -3330; break;
+    case 8: distance = -2530; break;
+    case 9: distance = -1700; break;
+    case 10: distance = -850; break;
   }
 
-
-  // if (newIValue == 1) {
-  //   distance = 0;
-  // } else if (newIValue == 2) {
-  //   distance = 820;
-  // } else if (newIValue == 3) {
-  //   distance = 1650;
-  // } else if (newIValue == 4) {
-  //   distance = 2470;
-  // } else if (newIValue == 5) {
-  //   distance = 3270;
-  // } else if (newIValue == 6) {
-  //   distance = 4120;
-  // } else if (newIValue == 7) {
-  //   distance = -3300;
-  // } else if (newIValue == 8) {
-  //   distance = -2500;
-  // } else if (newIValue == 9) {
-  //   distance = -1670;
-  // } else if (newIValue == 10) {
-  //   distance = -830;
-  // }
   //  Serial.println("Distance: ");
   //  Serial.print(distance);
-
+  turrel.disableOutputs();
   turrel.setMaxSpeed(700);
   turrel.setAcceleration(200);
   turrel.moveTo(distance);
   turrel.runToPosition();
+  turrel.enableOutputs();
   Serial.println("Current end position: ");
   turrelCurrentPosition = turrel.currentPosition();
   Serial.println(turrelCurrentPosition);
   Serial.println(F("Go to position true"));
   SET_DATA(turrelCurrentPosition);
+  
 }
 
 void go_number_turrel() {
@@ -91,9 +74,8 @@ void go_number_turrel() {
 // --------------------- t2 ---------------------
 void zero_homing_turrel() {
 
-
-  turrel.setMaxSpeed(1000);
-  turrel.setSpeed(600);
+  turrel.disableOutputs();
+  turrel.setMaxSpeed(600);
   turrel.setAcceleration(500);
 
   long initial_homing = -1;
@@ -105,8 +87,7 @@ void zero_homing_turrel() {
   }
 
   turrel.setCurrentPosition(0);  // Set the current position as zero for now
-  turrel.setMaxSpeed(1000);
-  turrel.setSpeed(600);
+  turrel.setMaxSpeed(600);
   turrel.setAcceleration(500);
 
   initial_homing = 1;
@@ -116,16 +97,13 @@ void zero_homing_turrel() {
     initial_homing++;  // Decrease by 1 for next move if needed
     delay(5);
   }
+  turrel.enableOutputs();
 
   turrel.setCurrentPosition(0);
   Serial.println(F("Homing true"));
   turrelCurrentPosition = 0;
   SET_DATA(turrelCurrentPosition);
 
-  //  myOLED.clrScr();                                   // Чистим экран.
-  //  myOLED.print( "Турель в нулевой позиции"    , 0, 0);    // Выводим текст начиная с 0 столбца 0 строки.
-  //  myOLED.print( turrelCurrentPosition , 0, 2);    // Выводим текст по центру 2 строки.
-  //  delay(3000);
 }
 
 void get_position() {
@@ -138,8 +116,52 @@ void get_position() {
   void display_print();
 }
 
+//----------------------------------------------------------------------------------
+//   Функция для прокручивания турели стаканчиков
+//----------------------------------------------------------------------------------
+void turrelFunction() {
+
+  if (digitalRead(turrel_micro_switch) == LOW || digitalRead(turrel_pos) == HIGH) {
+    motor_val = 1;
+  } else {
+    motor_val = 2;
+  }
+
+  switch (motor_val) {
+    case 1:
+      digitalWrite(RELAY_TURREL, LOW);
+      break;
+    case 2:
+      digitalWrite(RELAY_TURREL, HIGH);
+      break;
+  }
+}
+
+//----------------------------------------------------------------------------------
+//   Функция для выдачи стаканчика
+//----------------------------------------------------------------------------------
 
 
+void cup_fn() {
+  digitalWrite(RELAY_CUP, LOW);
+  delay(1000);
+  int buttonState = digitalRead(cup_splitter);
+  do {
+    digitalWrite(RELAY_CUP, LOW);
+    buttonState = digitalRead(cup_splitter);
+    //Serial.println(buttonState);
+    DEBUG(buttonState);
+  } while (buttonState == true);
+  delayMicroseconds(7000);
+  digitalWrite(RELAY_CUP, HIGH);
+  return;
+}
+
+void cup() {
+  digitalWrite(RELAY_CUP, LOW);
+  delay(7000);
+  cup_fn();
+}
 
 // --------------------- no command ---------------------
 //Для перемещения удобного()

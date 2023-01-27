@@ -1,11 +1,12 @@
 # from crypt import methods
 from flask import Flask, url_for, render_template, request,  redirect, g,  abort
 import os, sqlite3 
-from serial_commands.commands import connect, open_serial, close, send, read_command, recv, send_command, send_command2, send_command3, sel_turrel, bye_command
-
+#from serial_commands.commands import connect, open_serial, close, send, read_command, recv, send_command, send_command2, send_command3, sel_turrel, bye_command, aqsi, start_gcode
 # from json_bd.bd import read_db
 from FDataBase import FDataBase
 from api.api import api_bp
+from serial_commands.commands2 import arduino, bye_command, start_gcode
+
 
 # Configuration
 DATABASE = '/db/data.db'
@@ -196,35 +197,74 @@ def showCoffe(id_coffe):
     sugar=dbase.getStuffById(1)
     cream=dbase.getStuffById(2)
     choco=dbase.getStuffById(3)
-
-    if request.method == 'POST':
+    #if request.method == 'POST':
         # cream = request.form.get('checkbox')
         # sugar = request.form.get('list')
-        print(request.form)
+        # print(request.form)
         # print(request.form.get('item'))
         # print(request.form.get('sugar'))
         # print(request.form.get('cream'))
         # print(request.form.get('choco'))
-        amount = request.form.get('item')
-        cream = request.form.get('cream')
-        sugar = request.form.get('sugar')
-        choco = request.form.get('choco')
-        price = item['price']
-        total_price = request.form.get('total_price')
+        # amount = request.form.get('item')
+        # cream = request.form.get('cream')
+        # sugar = request.form.get('sugar')
+        # choco = request.form.get('choco')
+        # price = item['price']
+        # total_price = request.form.get('total_price')
 
-        #Записываем -1 или -2 в кол-во
-        if amount == 1:
-            dbase.incValue(id_coffe, item['value'] - 1)
-        if amount == 2:
-            dbase.incValue(id_coffe, item['value'] - 2)
-        
-        # bye_command(amount, total_price, cream, sugar, choco, id_coffe, item['g_code'])
-        return render_template('item_bye.html', item=dbase.getById(id_coffe))
+        #Перенести к окончанию покупки
+        #Записываем -1 или -2 в кол-во 
+        # if amount == 1:
+        #     dbase.incValue(id_coffe, item['value'] - 1)
+        # if amount == 2:
+        #     dbase.incValue(id_coffe, item['value'] - 2)
+
+        # item = GetCofe(amount, total_price, cream, sugar, choco, id_coffe, item['g_code'])
+        # item.open()        
+        # item.send(b'T2\n')
+        # checking_aqsi = item.aqsi(total_price)
+        # if checking_aqsi == True:
+        #     print("bye_command == True")
+        #     return redirect(url_for('control'))
+        # if checking_aqsi == False:
+        #     print("bye_command == False")
+        #     redirect(url_for('item_bye(3)'))
+        #     return redirect(url_for('login'))
+        #return redirect(url_for('item_bye', id_coffe=3))
+
     return render_template('item.html', item=item, choco=choco, sugar=sugar, cream=cream  )
+
+
+@app.route("/coffe/bye/<int:id_coffe>", methods=['POST', 'GET'])
+def item_bye(id_coffe):
+    cofe_amount = request.args.get('amount')
+    cream = request.args.get('cream')
+    sugar = request.args.get('sugar')
+    choco = request.args.get('choco')
+    total_price = request.args.get('total_price')
+    print("Cofe_amount:", cofe_amount, "Total price:", total_price, " Cream:", cream, " Sugar:", sugar, " Choco:", choco)
+
+    resp_bye_command = bye_command(cofe_amount, total_price, cream, sugar, choco, id_coffe)
+    if resp_bye_command == True:
+        print("bye_command == True")
+        start_gcode(cofe_amount, cream, sugar, choco, id_coffe)
+        return redirect(url_for('good_bye')) 
+    if resp_bye_command == False:
+        print("bye_command == False")
+        return redirect(url_for('bad_bye'))    
+    return render_template('item_bye.html')
+
+@app.route("/coffe/good_bye")
+def good_bye():
+    return render_template('good_bye.html')
+
+@app.route("/coffe/bad_bye")
+def bad_bye():
+    return render_template('bad_bye.html')
 
 @app.errorhandler(404)
 def pageNotFount(error):
-    return render_template('page404.html', title="Страница не найдена",)
+    return render_template('page404.html')
 
 
 if __name__ == '__main__':

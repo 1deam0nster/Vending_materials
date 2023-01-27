@@ -1,175 +1,3 @@
-void big_servo_prepare(){
-  //----Запуск капсулы
-  myservo.attach(turrel_cap_servo);
-  for (pos_cap = 75; pos_cap >= 0; pos_cap -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-    delay(30);                       // waits 15ms for the servo to reach the position
-  }
-  myservo.detach();
-}
-
-void big_servo_default(){
-  //----Запуск капсулы
-  myservo.attach(turrel_cap_servo);
-  for (pos_cap = 0; pos_cap <= 75; pos_cap += 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-    delay(30);                       // waits 15ms for the servo to reach the position
-  }
-  myservo.detach();
-}
-
-void big_servo_drop2(){
-  //----Запуск капсулы
-  myservo.attach(turrel_cap_servo);
-  for (pos_cap = 75; pos_cap <= 179; pos_cap += 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-    delay(30);                       // waits 15ms for the servo to reach the position
-  }
-  myservo.detach();
-}
-
-void big_servo_home(){
-  myservo.attach(turrel_cap_servo);
-  for (pos_cap = 179; pos_cap >= 75; pos_cap -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-    delay(20);                       // waits 15ms for the servo to reach the position
-  }
-  myservo.detach();
-}
-
-// Открытие, среднее положение и закрытие большой сервы
-void big_servo_open(){
-  //----Запуск капсулы
-  myservo.attach(turrel_cap_servo);
-  for (pos_cap = 0; pos_cap <= 80; pos_cap += 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-    delay(30);                       // waits 15ms for the servo to reach the position
-  }
-  myservo.detach();
-}
-
-void big_servo_drop(){
-  //----Среднее положение для проверки капсулы
-  myservo.attach(turrel_cap_servo);
-  for (pos_cap = 80; pos_cap <= 180; pos_cap += 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-    delay(35);                       // waits 15ms for the servo to reach the position
-  }
-  myservo.detach();
-}
-
-
-void big_servo_close(){
-  //----Закрытое положение, турель может двигаться
-  myservo.attach(turrel_cap_servo);
-  for (pos_cap = 180; pos_cap >= 0; pos_cap -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
-  myservo.detach();
-}
-
-
-// Открытие и закрытие затвора
-void open_mini_servo(){
-    //----Открыть затвор
-  myservo.attach(turrel_cap_servo_mini);
-  for (pos_key = 90; pos_key >= 0; pos_key -= 1) { // goes from 180 degrees to 0 degrees
-    myservo.write(pos_key);              // tell servo to go to position in variable 'pos'
-    delay(5);                       // waits 15ms for the servo to reach the position
-  }
-  myservo.detach();
-}
-
-void close_mini_servo(){
-  //----Закрыть затвор
-  myservo.attach(turrel_cap_servo_mini);
-  for (pos_key = 0; pos_key <= 90; pos_key += 1) { // goes from 0 degrees to 180 degrees
-    // in steps of 1 degree
-    myservo.write(pos_key);              // tell servo to go to position in variable 'pos'
-    delay(15);                       // waits 15ms for the servo to reach the position
-  }
-  myservo.detach();
-}
-
-
-//void drop_cap() {
-//
-//  int pos_cap = 0;
-//  int pos_key = 180;
-//  #define TIMER 500
-//  uint32_t tmr1;
-//
-//  myservo.attach(turrel_cap_servo);
-//  for (pos_cap = 75; pos_cap >= 0; pos_cap -= 1) { // goes from 180 degrees to 0 degrees
-//    myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-//    delay(30);                       // waits 15ms for the servo to reach the position
-//  }
-//  myservo.detach();
-//
-//  myservo.attach(turrel_cap_servo_mini);
-//  for (pos_key = 90; pos_key >= 0; pos_key -= 1) { // goes from 180 degrees to 0 degrees
-//    myservo.write(pos_key);              // tell servo to go to position in variable 'pos'
-//    delay(5);                       // waits 15ms for the servo to reach the position
-//  }
-//  myservo.detach();
-//  myservo.attach(turrel_cap_servo);
-//
-//  if (millis() - tmr1 >= TIMER) {  // ищем разницу
-//    tmr1 = millis();                   // сброс таймера
-//    for (pos_cap = 0; pos_cap <= 75; pos_cap += 1) { // goes from 180 degrees to 0 degrees
-//      myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-//      delay(30);                       // waits 15ms for the servo to reach the position
-//    }
-//  }
-//
-//  if (millis() - tmr1 >= TIMER) {  // ищем разницу
-//    tmr1 = millis();                   // сброс таймера
-//    for (pos_cap = 75; pos_cap <= 179; pos_cap += 1) { // goes from 180 degrees to 0 degrees
-//      myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-//      delay(30);                       // waits 15ms for the servo to reach the position
-//    }
-//  }
-//
-//  if (millis() - tmr1 >= TIMER) {  // ищем разницу
-//    tmr1 = millis();                   // сброс таймера
-//    for (pos_cap = 179; pos_cap >= 75; pos_cap -= 1) { // goes from 180 degrees to 0 degrees
-//      myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-//      delay(20);                       // waits 15ms for the servo to reach the position
-//    }
-//
-//    for (pos_cap = 75; pos_cap >= 0; pos_cap -= 1) { // goes from 180 degrees to 0 degrees
-//      myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-//      delay(30);                       // waits 15ms for the servo to reach the position
-//    }
-//  }
-//
-//  if (millis() - tmr1 >= TIMER) {  // ищем разницу
-//    tmr1 = millis();                   // сброс таймера
-//    myservo.detach();
-//
-//    myservo.attach(turrel_cap_servo_mini);
-//    for (pos_key = 0; pos_key <= 90; pos_key += 1) { // goes from 0 degrees to 180 degrees
-//      // in steps of 1 degree
-//      myservo.write(pos_key);              // tell servo to go to position in variable 'pos'
-//      delay(15);                       // waits 15ms for the servo to reach the position
-//    }
-//    myservo.detach();
-//
-//    myservo.attach(turrel_cap_servo);
-//    for (pos_cap = 0; pos_cap <= 75; pos_cap += 1) { // goes from 180 degrees to 0 degrees
-//      myservo.write(pos_cap);              // tell servo to go to position in variable 'pos'
-//      delay(30);                       // waits 15ms for the servo to reach the position
-//    }
-//    myservo.detach();
-//  }
-//
-//}
-
-
-
-
-//// Проверки капсулы
 //bool ir_cap_check() {
 //  bool check_1 = false;
 //  bool check_2 = false;
@@ -194,7 +22,7 @@ void close_mini_servo(){
 //void check_cap() {
 //  bool capsule_state = ir_cap_check();
 //  if (capsule_state == true) {
-//    //    Serial.println("Turrel capsule_state == true, проблема");
+//    Serial.println("Turrel capsule_state == true, проблема");
 //    // можно крутануть турель туда-сюда
 //    big_servo_close();
 //    delay(1000);
@@ -215,7 +43,7 @@ void close_mini_servo(){
 //      close_mini_servo();
 //    }
 //  } else {
-//    //    Serial.println("Turrel capsule_state == false, капсула присутсвует");
+//    Serial.println("Turrel capsule_state == false, капсула присутсвует");
 //    Serial.println(F("Cap state true"));
 //    // капсула присутсвует дропаем
 //    big_servo_drop();
@@ -226,22 +54,98 @@ void close_mini_servo(){
 //}
 
 
+void cap_check(){
+//    return digitalRead(ir_cream);
+  bool check = digitalRead(ir_cap);
+  bool check_state;
+  DEBUG(cream_check_value);
+  cream_check_value += 1;
+  switch (check) {
+    case 0: 
+      check_state = 0;
+      Serial.println("Cream OK"); 
+      break; 
+    case 1: 
+      check_state = 1; 
+      switch (cream_check_value) {
+        case 0: Serial.println("Cream FALSE"); cream_drop(); break;
+        case 1: Serial.println("Cream FALSE"); cream_drop(); break;
+        case 2: Serial.println("Cream FALSE"); cream_drop(); break;
+        case 3: Serial.println("ALL FALSE");  cream_check_value = 0; break;
+      }
+  }
+}
+
+// Открытие и закрытие затвора
+void open_mini_servo(){
+    //----Открыть затвор
+  myservo.attach(turrel_cap_servo_mini);
+  for (pos_key = 90; pos_key >= 0; pos_key -= 1) { // goes from 180 degrees to 0 degrees
+    myservo.write(pos_key);              // tell servo to go to position in variable 'pos'
+    delay(5);                       // waits 15ms for the servo to reach the position
+  }
+  myservo.detach();
+}
+
+void close_mini_servo(){
+  //----Закрыть затвор
+  myservo.attach(turrel_cap_servo_mini);
+  for (pos_key = 0; pos_key <= 90; pos_key += 1) { // goes from 0 degrees to 180 degrees
+    // in steps of 1 degree
+    myservo.write(pos_key);              // tell servo to go to position in variable 'pos'
+    delay(15);                       // waits 15ms for the servo to reach the position
+  }
+  myservo.detach();
+}
+
 
 // -----------------Command C0-------------
 void drop_cap()
 {
-  big_servo_prepare();
+  //приподнимаем капсулы 
+  for (big_pos_cap = 1800; big_pos_cap <= 2500; big_pos_cap += 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(5);                       
+  }
+
+  //открывваем мини серву
   open_mini_servo();
-  delay(500);
-  big_servo_default();
-  delay(500);
-  big_servo_drop2();
-  delay(500);
-  big_servo_home();
-  big_servo_prepare();
-  delay(500);
+  
+  //положение для загрузки капсулы
+  for (big_pos_cap = 2500; big_pos_cap >= 1800; big_pos_cap -= 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(5);                       
+  }
+  
+  //забираем капсулу и идем в позицию проверки
+  for (big_pos_cap = 1800; big_pos_cap >= 1200; big_pos_cap -= 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(10);                       
+  }
+
+  //код для проверки капсулы
+  
+  
+  //сброс капсулы
+  for (big_pos_cap = 1200; big_pos_cap >= 500; big_pos_cap -= 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(5);                       
+  }
+  
+  //возврат в обычное положение
+  for (big_pos_cap = 500; big_pos_cap <= 2500; big_pos_cap += 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(2);                       
+  }
+  
   close_mini_servo();
-  big_servo_default();
+
+  //положение для прокручивания турели и загрузки капсулы
+  for (big_pos_cap = 2500; big_pos_cap >= 1800; big_pos_cap -= 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(5);                       
+  }
+
 }
 
 
@@ -249,19 +153,68 @@ void drop_cap()
 
 // -----------------Command C1-------------
 void check_machine() {
-  pinMode(16, OUTPUT);
-  digitalWrite(16, LOW);
+  pinMode(cofe_machine_check_button_pin, OUTPUT);
+  digitalWrite(cofe_machine_check_button_pin, LOW);
   delay(2000);
-  digitalWrite(16, HIGH);
+  digitalWrite(cofe_machine_check_button_pin, HIGH);
   Serial.println(F("Check machine true"));
   void display_print();
 }
 
 // -----------------Command C2-------------
 void start_coffe() {
-  pinMode(17, OUTPUT);
-  digitalWrite(17, LOW);
-  delay(1.5 * 60 * 1000); //sleep some minute
-  digitalWrite(17, HIGH);
-  Serial.println(F("Start coffee true"));
+  pinMode(coffe_machine_start_pin, OUTPUT);
+  digitalWrite(coffe_machine_start_pin, LOW);
+  //delay(1.5 * 60 * 1000); //sleep some minute
+  delay(10000);
+  do {
+    // 1 - можно загружать
+    // 0 - наливает кофе
+    machine_sensor = digitalRead(cofe_machine_ir);
+    Serial.println("Сенсор == 1");
+    digitalWrite(coffe_machine_start_pin, LOW);
+  } while (machine_sensor == 1);
+  delay(7000);
+  digitalWrite(coffe_machine_start_pin, HIGH);
+  Serial.println(F("End coffe works"));
+}
+// -----------------Command C4-------------
+void choco_check() {
+  if (digitalRead(choco_ir_control) == 0) {
+    Serial.println("Choco OK");
+  } else {
+    Serial.println("Choco False");
+  }
+}
+
+// -----------------Command C5-------------
+void sugar_check() {
+  if (digitalRead(sugar_ir_control) == 0) {
+    Serial.println("Sugar OK");
+  } else {
+    Serial.println("Sugar False");
+  } 
+}
+
+// -----------------Command P0-------------
+void sugar_command() {
+  sugar.attach(sugar_servo);
+  delay(1000);
+  sugar.write(80);
+  delay(1000);
+  sugar.write(180);
+  delay(1000);
+  sugar.write(80);
+  sugar.detach();
+}
+// -----------------Command P1-------------
+void chocolate_command() {
+  chocolate.attach(choco_servo);
+  delay(100);
+  chocolate.write(180);
+  delay(1000);
+  chocolate.write(70);
+  delay(1000);
+  chocolate.write(180);
+  chocolate.detach();
 }

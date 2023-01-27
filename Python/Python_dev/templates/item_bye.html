@@ -5,10 +5,20 @@
 <section class="hero bye_bg">
   <section class="hero is-fullheight is-transparent">
     <div class="hero-body is-justify-content-center	">
-      <div id="container"></div>
-      <p class="title title_item_bye">
+
+        <div class="modal-content">
+          <div class="modal_row">
+            <img class="img_card fadeInLeft" src="{{ url_for('static', filename='card.png' ) }}">
+            <img class="term" src="{{ url_for('static', filename='terminal.png' )}}" alt="Placeholder image">
+          </div>
+          <p class="title title_item_bye_modal">
+            Пожалуйста, Следуйте<br>инструкции на терминале
+          </p>
+        </div>
+
+      <!-- <p class="title title_item_bye">
         Пожалуйста, Следуйте<br>инструкции на терминале
-      </p>
+      </p> -->
     </div>
   </section>
   <!-- <img src="{{ url_for('static', filename='bye_bg.png' )}}"> -->

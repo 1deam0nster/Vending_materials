@@ -5,7 +5,7 @@ import click
 import json
 
 #Служебная информация
-ADDRESS = '192.168.1.122'
+ADDRESS = '192.168.1.40'
 PORT = 4455
 BUFFER_SIZE = 4
 file_path_tr = 'transaction.json'
@@ -59,10 +59,14 @@ def send(command, file_path):
                 # print(response)
                 if re.search(r'\bdeclined\b', str(response)):
                     #print("Транзакция не прошла")
-                    print(0)
+                    #print(0)
+                    #socket.close()
+                    return False
+                    #break
                 if re.search(r'\bapproved\b', str(response)):
                     #print("Транзакция прошла")
                     print(1)
+                    break
             else:
                 print("Нет данных")
                 socket.close()

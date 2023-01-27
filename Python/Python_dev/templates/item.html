@@ -36,7 +36,7 @@
         <div class="item_radio_buttons_container">
 
           <label class="label_radio">
-            <input type="radio" name="sugar" value="0" form="data" checked>
+            <input type="radio" name="sugar" value="0" form="data" onchange="check()" checked>
             <div class="radio_bg none">
               <p>Нет</p>
             </div>
@@ -44,7 +44,7 @@
           </label>
 
           <label class="label_radio">
-            <input type="radio" name="sugar" value="1" form="data">
+            <input type="radio" name="sugar" value="1" form="data" onchange="check()">
             <div class="radio_bg num_1">
               <p>1</p>
             </div>
@@ -52,7 +52,7 @@
           </label>
 
           <label class="label_radio">
-            <input type="radio" name="sugar" value="2" form="data">
+            <input type="radio" name="sugar" value="2" form="data" onchange="check()">
             <div class="radio_bg num_2">
               <p>2</p>
             </div>
@@ -181,24 +181,23 @@
 
 
     <!-- Trigger/Open The Modal -->
-    <button id="myBtn">Open Modal</button>
+    <button id="myBtn" style="display: none;">Open Modal</button>
 
     <!-- The Modal -->
     <div id="myModal" class="modal">
       <div class="modal-background"></div>
-      <!-- Modal content -->
+
       <div class="modal-content box">
         <div class="modal_row">
-          <img class="img_card fadeInLeft" src="{{ url_for('static', filename=" card.png" )}}">
-          <img class="term" src="{{ url_for('static', filename=" terminal.png" )}}" alt="Placeholder image">
+          <img class="img_card fadeInLeft" src="{{ url_for('static', filename='card.png' ) }}">
+          <img class="term" src="{{ url_for('static', filename='terminal.png' )}}" alt="Placeholder image">
         </div>
         <p class="title title_item_bye_modal">
           Пожалуйста, Следуйте<br>инструкции на терминале
         </p>
-        <!-- <p class="is-6">Some text in the Modal.</p> -->
       </div>
 
-      <button class="modal-close is-large" aria-label="close">&times;</button>
+      <button class="modal-close is-large" aria-label="close">&times;</button> 
 
     </div>
 
@@ -208,13 +207,13 @@
       <input id="total_price" name="total_price" form="data" type="hidden" value="some data">
       <div id="coffe_id">{{ item['id'] }}</div>
     </div>
-    <form name="alm" style="display: none;" id="data" method="POST"></form>
+    <form name="alm" style="display: none;" id="data" method="POST" ></form>
     <!-- action="{{ url_for('showCoffe', id_coffe=item['id']) }}" -->
     <!-- CСлужебные тэги -->
 
   </div>
 </div>
 
-<script defer src="{{ url_for('static', filename='javascript/script.js') }}""></script>
+<script defer src="{{ url_for('static', filename='javascript/script.js') }}"></script>
 
 {% endblock %}

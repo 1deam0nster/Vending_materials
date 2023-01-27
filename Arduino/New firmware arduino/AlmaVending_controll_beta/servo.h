@@ -7,7 +7,8 @@ void servo_degrid(double n, double d)
   myservo.attach(serv_number);
 
   //----Открыть клешню
-  myservo.write(deg);
+  //myservo.write(deg);
+  myservo.writeMicroseconds(deg);
   delay(1000);
 
   //-----Отключаем сервоприводы

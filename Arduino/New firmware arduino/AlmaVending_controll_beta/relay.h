@@ -11,10 +11,10 @@ void relay(double n, double t){
     case 2: num_rel = 15; break;
     case 3: num_rel = 16; break;
     case 4: num_rel = 41; break;
-    case 5: num_rel = 41; break;
-    case 6: num_rel = 41; break;
-    case 7: num_rel = 41; break;
-    case 8: num_rel = 41; break;
+    case 5: num_rel = 22; break;
+    case 6: num_rel = 25; break;
+    case 7: num_rel = 50; break;
+    case 8: num_rel = 51; break;
   }
 
   // if (rel == 1)
