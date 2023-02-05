@@ -1,80 +1,3 @@
-//bool ir_cap_check() {
-//  bool check_1 = false;
-//  bool check_2 = false;
-//  bool check_3 = false;
-//  bool val = false;
-//  delay(50);
-//  check_1 = digitalRead(ir_cap);
-//  delay(100);
-//  check_2 = digitalRead(ir_cap);
-//  delay(100);
-//  check_3 = digitalRead(ir_cap);
-//  delay(50);
-//  if (check_1 == true | check_2 == true | check_3 == true) {
-//    val = true;
-//    return (val);
-//  } else {
-//    val = false;
-//    return (val);
-//  }
-//}
-//
-//void check_cap() {
-//  bool capsule_state = ir_cap_check();
-//  if (capsule_state == true) {
-//    Serial.println("Turrel capsule_state == true, проблема");
-//    // можно крутануть турель туда-сюда
-//    big_servo_close();
-//    delay(1000);
-//    big_servo_open();
-//    capsule_state = ir_cap_check();
-//    if (capsule_state == true) {
-//      //      Serial.println("Turrel capsule_state == true, проблема возможно нету капсул");
-//      Serial.println(F("Cap state false"));
-//      // закрываем
-//      big_servo_close();
-//      close_mini_servo();
-//    } else {
-//      Serial.println(F("Cap state true"));
-//      // капсула присутсвует дропаем
-//      big_servo_drop();
-//      // закрываем
-//      big_servo_close();
-//      close_mini_servo();
-//    }
-//  } else {
-//    Serial.println("Turrel capsule_state == false, капсула присутсвует");
-//    Serial.println(F("Cap state true"));
-//    // капсула присутсвует дропаем
-//    big_servo_drop();
-//    // закрываем
-//    big_servo_close();
-//    close_mini_servo();
-//  }
-//}
-
-
-void cap_check(){
-//    return digitalRead(ir_cream);
-  bool check = digitalRead(ir_cap);
-  bool check_state;
-  DEBUG(cream_check_value);
-  cream_check_value += 1;
-  switch (check) {
-    case 0: 
-      check_state = 0;
-      Serial.println("Cream OK"); 
-      break; 
-    case 1: 
-      check_state = 1; 
-      switch (cream_check_value) {
-        case 0: Serial.println("Cream FALSE"); cream_drop(); break;
-        case 1: Serial.println("Cream FALSE"); cream_drop(); break;
-        case 2: Serial.println("Cream FALSE"); cream_drop(); break;
-        case 3: Serial.println("ALL FALSE");  cream_check_value = 0; break;
-      }
-  }
-}
 
 // Открытие и закрытие затвора
 void open_mini_servo(){
@@ -99,33 +22,30 @@ void close_mini_servo(){
 }
 
 
-// -----------------Command C0-------------
-void drop_cap()
-{
-  //приподнимаем капсулы 
-  for (big_pos_cap = 1800; big_pos_cap <= 2500; big_pos_cap += 1) {
+//-----------------Проверка-------------
+void shake_cap_turrel(){
+  //возврат в обычное положение для прокручивания турели
+  for (big_pos_cap = 500; big_pos_cap <= 1800; big_pos_cap += 1) {
     cap_drop.writeMicroseconds(big_pos_cap);              
-    delay(5);                       
+    delay(2);                       
   }
-
-  //открывваем мини серву
-  open_mini_servo();
-  
-  //положение для загрузки капсулы
-  for (big_pos_cap = 2500; big_pos_cap >= 1800; big_pos_cap -= 1) {
-    cap_drop.writeMicroseconds(big_pos_cap);              
-    delay(5);                       
-  }
-  
-  //забираем капсулу и идем в позицию проверки
+  turrelCurrentPosition = turrel.currentPosition();
+  turrel_rotate(turrelCurrentPosition + 50, 1000, 1000);
+  delay(100);
+  turrel_rotate(turrelCurrentPosition - 50, 1000, 1000);
+  delay(100);
+  turrel_rotate(turrelCurrentPosition + 50, 1000, 1000);
+  delay(100);
+  turrel_rotate(turrelCurrentPosition - 50, 1000, 1000);
   for (big_pos_cap = 1800; big_pos_cap >= 1200; big_pos_cap -= 1) {
     cap_drop.writeMicroseconds(big_pos_cap);              
     delay(10);                       
   }
+  cap_check();
+}
 
-  //код для проверки капсулы
-  
-  
+void good_state_drop(){
+  Serial.println("начало сброса"); 
   //сброс капсулы
   for (big_pos_cap = 1200; big_pos_cap >= 500; big_pos_cap -= 1) {
     cap_drop.writeMicroseconds(big_pos_cap);              
@@ -145,7 +65,75 @@ void drop_cap()
     cap_drop.writeMicroseconds(big_pos_cap);              
     delay(5);                       
   }
+}
 
+void false_state_drop(){
+  //возврат в обычное положение
+  for (big_pos_cap = 1200; big_pos_cap <= 2500; big_pos_cap += 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(2);                       
+  }
+  
+  close_mini_servo();
+
+  //положение для прокручивания турели и загрузки капсулы
+  for (big_pos_cap = 2500; big_pos_cap >= 1800; big_pos_cap -= 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(5);                       
+  }
+  Serial.println("Очередь не выпадает");
+}
+
+void cap_check(){
+  bool check = digitalRead(ir_cap);
+  bool check_state;
+  DEBUG(cap_check_value);
+  cap_check_value += 1;
+  switch (check) {
+    case 0: 
+      check_state = 0;
+      Serial.println("Cap OK"); 
+      good_state_drop();
+      break; 
+    case 1: 
+      check_state = 1; 
+      switch (cap_check_value) {
+        case 0: Serial.println("Cap FALSE"); shake_cap_turrel(); break;
+        case 1: Serial.println("Cap FALSE"); shake_cap_turrel(); break;
+        case 2: Serial.println("Cap FALSE"); shake_cap_turrel(); break;
+        case 3: Serial.println("ALL FALSE"); cap_check_value = 0; false_state_drop(); break;
+      }
+  }
+}
+
+// -----------------Command C0-------------
+void drop_cap()
+{
+  //приподнимаем капсулы 
+  for (big_pos_cap = 1800; big_pos_cap <= 2500; big_pos_cap += 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(5);                       
+  }
+
+  //открывваем мини серву
+  open_mini_servo();
+  
+  //положение для загрузки капсулы
+  for (big_pos_cap = 2500; big_pos_cap >= 1800; big_pos_cap -= 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(5);                       
+  }
+
+  Serial.println("забираем капсулу и идем в позицию проверки"); 
+  //забираем капсулу и идем в позицию проверки
+  for (big_pos_cap = 1800; big_pos_cap >= 1200; big_pos_cap -= 1) {
+    cap_drop.writeMicroseconds(big_pos_cap);              
+    delay(10);                       
+  }
+
+  //код для проверки капсулы
+  Serial.println("код для проверки капсулы"); 
+  cap_check();
 }
 
 

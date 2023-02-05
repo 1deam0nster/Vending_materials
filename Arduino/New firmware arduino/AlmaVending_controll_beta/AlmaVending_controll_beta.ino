@@ -33,11 +33,12 @@
 int cream_turrel_number = 1;
 
 // ---- Манипулятор ---
-#define step_manipul 32
-#define dir_manipul 31
+#define step_manipul 37
+#define dir_manipul 43
+#define servo_manipul 3
 
 // ---- Команды ---
-#define NUMCOMMANDS 21
+#define NUMCOMMANDS 27
 
 //-----Для выдачи стаканчиков -----
 #define RELAY_CUP 22
@@ -92,6 +93,7 @@ int turrelCurrentPosition;
 //bool calibrating = false;
 
 int cream_check_value = 0;
+int cap_check_value = 0;
 bool machine_sensor;
 
 //---turrel---
@@ -108,9 +110,11 @@ void zero_homing_turrel_cream();
 void get_position_cream();
 void cream_drop();
 void cream_check();
+void cream_servo_test();
 
 //---cup turrel---
 void turrelFunction();
+void cap_check();
 
 //---relay, servo---
 void servofn();
@@ -129,6 +133,15 @@ void cream_check();
 void sugar_check();
 void cream_restart_eeprom_position();
 
+//---manipulaator---
+void go_to_pos_man();
+void go_man_stepper();
+void up_man();
+void servo_man();
+//void get_position();
+void to_win_man();
+void to_machine_man();
+
 //---commands variable---
 double N;
 double D;
@@ -144,7 +157,8 @@ commandscallback commands[NUMCOMMANDS] = {
   {"C0", drop_cap}, {"C1", check_machine}, {"C2", start_coffe}, {"C3", cup_fn}, {"C4", choco_check}, {"C5", sugar_check},
   {"P0", sugar_command}, {"P1", chocolate_command},
   {"T0", go_to_pos}, {"T1", go_number_turrel}, {"T2", zero_homing_turrel}, {"T3", get_position},
-  {"M0", go_to_pos_cream}, {"M1", go_number_turrel_cream}, {"M2", zero_homing_turrel_cream}, {"M3", get_position_cream}, {"M4", cream_drop}, {"M5", cream_restart_eeprom_position},
+  {"M0", go_to_pos_cream}, {"M1", go_number_turrel_cream}, {"M2", zero_homing_turrel_cream}, {"M3", get_position_cream}, {"M4", cream_drop}, {"M5", cream_restart_eeprom_position}, {"M6", cream_servo_test},
+  {"F0", go_to_pos_man}, {"F1", up_man}, {"F2", servo_man}, {"F3", to_win_man}, {"F3", to_machine_man},
   {"S0", servofn}, {"R0", relayfn},
 };
 
@@ -157,6 +171,7 @@ Servo cap_drop;
 Servo myservo;
 Servo sugar;
 Servo chocolate;
+Servo manipulator;
 //Servo cream;
 gcode Commands(NUMCOMMANDS, commands);
 
@@ -193,6 +208,8 @@ void setup()
 //  turrel_drop.attach(turrel_cap_servo);
   cap_drop.attach(turrel_cap_servo);
   cap_drop.writeMicroseconds(1800);
+
+  manipulator.attach(servo_manipul);
   
 //  #ifdef DEBUG_ENABLE
     Serial.begin(9600);
@@ -224,3 +241,4 @@ void loop() {
 #include "general_commands.h"
 #include "servo.h"
 #include "relay.h"
+#include "manipulator.h"

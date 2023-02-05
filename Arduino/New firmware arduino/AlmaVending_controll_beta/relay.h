@@ -9,7 +9,7 @@ void relay(double n, double t){
   switch (rel) {
     case 1: num_rel = 14; break;  // выбираем это
     case 2: num_rel = 15; break;
-    case 3: num_rel = 16; break;
+    case 3: num_rel = 52; break;
     case 4: num_rel = 41; break;
     case 5: num_rel = 22; break;
     case 6: num_rel = 25; break;

@@ -181,3 +181,18 @@ void cream_check(){
       }
   }
 }
+
+
+// --------------------- M6 ---------------------
+void cream_servo_test(){
+  myservo.attach(cream_servo);
+  delay(2000);
+  myservo.write(110);
+  delay(2000);
+  myservo.write(0);
+  delay(2000);
+  cream_check();
+  myservo.write(110);
+  delay(1000);
+  myservo.detach();
+}
